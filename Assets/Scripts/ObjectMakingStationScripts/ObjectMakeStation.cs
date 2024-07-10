@@ -21,10 +21,17 @@ public class ObjectMakeStation : MonoBehaviour{
     //timer to set the total objects made
     private float ObjectMakeTimer;
 
+    //int to see how many things it can hold
+    private int MaxObjectHold;
+    private int ObjectHoldCurrently;
+
     private void Start() {
         
         isOutputModelSpawned = false;
         ObjectMakeTimer = 0f;
+        MaxObjectHold = 1;
+        ObjectHoldCurrently = 0;
+
 
         Player.Instance.OnNonInteractableObjectClick += Player_OnNonInteractableObjectClick;
         TradeStation.Instance.OnObjectMakeChange += TradeStation_OnObjectMakeChange;
@@ -60,28 +67,37 @@ public class ObjectMakeStation : MonoBehaviour{
     }
 
     private void Update() {
-        ObjectMakeTimer += Time.deltaTime;
+        if (ObjectHoldCurrently < MaxObjectHold) {
+            //if it can hold more objects
+            
+            ObjectMakeTimer += Time.deltaTime;
 
-        if(ObjectMakeTimer > ObjectMakeSO.TimeToChange) {
-            OnObjectMade?.Invoke(this, EventArgs.Empty);
+            if (ObjectMakeTimer > ObjectMakeSO.TimeToChange) {
+                OnObjectMade?.Invoke(this, EventArgs.Empty);
 
-            if (!isOutputModelSpawned) {
-                //there is not a model spawned yet
+                ObjectHoldCurrently++;
 
-                //spawn model
-                Instantiate(ObjectMakeSO.OutputModel,OutputModelSpawnPosition);
-                isOutputModelSpawned = true;
+
+                if (!isOutputModelSpawned) {
+                    //there is not a model spawned yet
+
+                    //spawn model
+                    Instantiate(ObjectMakeSO.OutputModel, OutputModelSpawnPosition);
+                    isOutputModelSpawned = true;
+                }
+
+                ObjectMakeTimer = 0f;
             }
-
-            ObjectMakeTimer = 0f;
         }
     }
 
 
     private void DestroyOutputModels() {
         //check if there are spwaned objects at the table
-        if (OutputModelSpawnPosition.childCount > 0) {
+        if (ObjectHoldCurrently > 0) {
             //there are some output models on the making station
+
+            ObjectHoldCurrently = 0;
 
             //Destroy all the children
             foreach (Transform child in OutputModelSpawnPosition.transform) {

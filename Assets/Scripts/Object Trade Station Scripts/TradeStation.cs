@@ -39,6 +39,8 @@ public class TradeStation : MonoBehaviour{
 
     private void ObjectMakeStation_OnObjectMade(object sender, System.EventArgs e) {
         TotalObjectsMade++;
+
+        Debug.Log(TotalObjectsMade);
     }
 
     private void Player_OnTradeStationClick(object sender, System.EventArgs e) {
