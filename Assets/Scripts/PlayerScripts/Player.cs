@@ -37,4 +37,8 @@ public class Player : MonoBehaviour{
             OnNonInteractableObjectClick?.Invoke(this, EventArgs.Empty);
         }
     }
+
+    private void OnDestroy() {
+        InputManager.Instance.OnClickOrTouch -= InputManager_OnClickOrTouch;
+    }
 }

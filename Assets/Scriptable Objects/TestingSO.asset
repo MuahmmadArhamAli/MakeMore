@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ed06155180aba14ab62a53183309d59, type: 3}
   m_Name: TestingSO
   m_EditorClassIdentifier: 
-  InputModel: {fileID: 0}
-  OutputModel: {fileID: 0}
+  InputModel: {fileID: 6444212690284633782, guid: 7384312c238c13c4dbb177631de716f1, type: 3}
+  OutputModel: {fileID: 4772200537733145417, guid: a184f57f1f91fd5438901de2aae6579e, type: 3}
   TimeToChange: 1
   Value: 5
