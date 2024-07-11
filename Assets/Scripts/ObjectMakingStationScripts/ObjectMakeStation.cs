@@ -12,11 +12,14 @@ public class ObjectMakeStation : MonoBehaviour{
     [SerializeField] private Transform InputModelSpawnPosition;
     [SerializeField] private Transform OutputModelSpawnPosition;
 
-    //bool to see if an output model has already been spawned
-    private bool isOutputModelSpawned;
-
     //variable forsetting the ObjectMakeSO
     [SerializeField] private ModelChangeResultSO ObjectMakeSO;
+
+    //refernce of upgrade
+    [SerializeField] private MakeStationUpgrade makeStationUpgrade;
+
+    //bool to see if an output model has already been spawned
+    private bool isOutputModelSpawned;
 
     //timer to set the total objects made
     private float ObjectMakeTimer;
@@ -25,20 +28,30 @@ public class ObjectMakeStation : MonoBehaviour{
     private int MaxObjectHold;
     private int ObjectHoldCurrently;
 
+    //Timer increase multiplier
+    private float TimerIncreaseMultiplier;
+
     private void Start() {
         
         isOutputModelSpawned = false;
         ObjectMakeTimer = 0f;
         MaxObjectHold = 4;
         ObjectHoldCurrently = 0;
+        TimerIncreaseMultiplier = 1f;
 
         SpawnInputModel();
 
         Player.Instance.OnNonInteractableObjectClick += Player_OnNonInteractableObjectClick;
         
         TradeStation.Instance.OnTrade += TradeStation_OnTrade;
-        
+
+        makeStationUpgrade.OnUpgraded += MakeStationUpgrade_OnUpgraded;
     }
+
+    private void MakeStationUpgrade_OnUpgraded(object sender, EventArgs e) {
+        TimerIncreaseMultiplier += .2f;
+    }
+
     private void TradeStation_OnTrade(object sender, EventArgs e) {
         DestroyOutputModels();
     }
@@ -52,7 +65,7 @@ public class ObjectMakeStation : MonoBehaviour{
         if (ObjectHoldCurrently < MaxObjectHold && ObjectMakeSO != null) {
             //if it can hold more objects
             
-            ObjectMakeTimer += Time.deltaTime;
+            ObjectMakeTimer += Time.deltaTime * TimerIncreaseMultiplier;
 
             if (ObjectMakeTimer > ObjectMakeSO.TimeToChange) {
                 OnObjectMade?.Invoke(this, EventArgs.Empty);

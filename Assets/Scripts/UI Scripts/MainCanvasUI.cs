@@ -1,10 +1,36 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MainCanvasUI : MonoBehaviour{
+    //Singleton pattern
+    public static MainCanvasUI Instance { get; private set; }
+    
     [SerializeField] private TextMeshProUGUI MoneyText;
+
+    //Upgrade button
+    [SerializeField] private Button GoToUpgradeButton;
+    [SerializeField] private Button GoToNormalGameplayButton;
+
+
+    //event for make stations to show upgrade 
+    public event EventHandler OnGoToUpgradeClick;
+    public event EventHandler OnGoToNormalGameplayClick;
+
+    private void Awake() {
+        Instance = this;
+
+        GoToUpgradeButton.onClick.AddListener(() => {
+            OnGoToUpgradeClick?.Invoke(this, EventArgs.Empty); 
+        });
+
+        GoToNormalGameplayButton.onClick.AddListener(() => {
+            OnGoToNormalGameplayClick?.Invoke(this, EventArgs.Empty);
+        });
+    }
 
     private void Start() {
         NormalMoney.Instance.OnMoneyChanged += NormalMoney_OnMoneyChanged;

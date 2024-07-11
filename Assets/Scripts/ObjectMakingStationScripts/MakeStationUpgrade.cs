@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -12,6 +13,10 @@ public class MakeStationUpgrade : MonoBehaviour{
 
     [SerializeField] private Button UpgradeButton;
     [SerializeField] private TextMeshProUGUI UpgradeCostText;
+
+    //event for telling MakeStation to increase its speed
+    public event EventHandler OnUpgraded;
+
 
     //variables for upgrade cost etc
     private float UpgradeCost;
@@ -29,6 +34,8 @@ public class MakeStationUpgrade : MonoBehaviour{
                 Mathf.CeilToInt(UpgradeCost);
 
                 UpdateVisual();
+
+                OnUpgraded?.Invoke(this, EventArgs.Empty);
             }
         });    
     }
@@ -37,10 +44,33 @@ public class MakeStationUpgrade : MonoBehaviour{
         UpgradeCost = 100f;
         CostMultiplier = 1.5f;
 
+        Hide();
+
         UpdateVisual();
+
+
+        MainCanvasUI.Instance.OnGoToUpgradeClick += MainCanvas_OnGoToUpgradeClick;
+        MainCanvasUI.Instance.OnGoToNormalGameplayClick += MainCanvas_OnGoToNormalGameplayClick; ;
     }
+
+    private void MainCanvas_OnGoToNormalGameplayClick(object sender, System.EventArgs e) {
+        Hide();
+    }
+
+    private void MainCanvas_OnGoToUpgradeClick(object sender, System.EventArgs e) {
+        Show();
+    }
+
 
     private void UpdateVisual() {
         UpgradeCostText.text = "+" + UpgradeCost;
+    }
+
+    private void Show() {
+        gameObject.SetActive(true);
+    }
+
+    private void Hide() {
+        gameObject.SetActive(false);
     }
 }
