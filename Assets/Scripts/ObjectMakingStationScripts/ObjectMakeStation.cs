@@ -16,7 +16,7 @@ public class ObjectMakeStation : MonoBehaviour{
     private bool isOutputModelSpawned;
 
     //variable forsetting the ObjectMakeSO
-    private ModelChangeResultSO ObjectMakeSO;
+    [SerializeField] private ModelChangeResultSO ObjectMakeSO;
 
     //timer to set the total objects made
     private float ObjectMakeTimer;
@@ -29,45 +29,27 @@ public class ObjectMakeStation : MonoBehaviour{
         
         isOutputModelSpawned = false;
         ObjectMakeTimer = 0f;
-        MaxObjectHold = 1;
+        MaxObjectHold = 4;
         ObjectHoldCurrently = 0;
 
+        SpawnInputModel();
 
         Player.Instance.OnNonInteractableObjectClick += Player_OnNonInteractableObjectClick;
-        TradeStation.Instance.OnObjectMakeChange += TradeStation_OnObjectMakeChange;
+        
         TradeStation.Instance.OnTrade += TradeStation_OnTrade;
-
+        
     }
-
     private void TradeStation_OnTrade(object sender, EventArgs e) {
         DestroyOutputModels();
     }
 
-    private void TradeStation_OnObjectMakeChange(object sender, TradeStation.OnObjectMakeChangeEventArgs e) {
-        ObjectMakeSO = e.newInput;
-
-        DestroyOutputModels();
-
-        //check if there are models on inputPosition and if so destroy all of them
-        if(InputModelSpawnPosition.childCount > 0) {
-            foreach(Transform child in InputModelSpawnPosition.transform) {
-                Destroy(child.gameObject);
-            }
-        }
-
-        //spawn the new model 
-        Instantiate(ObjectMakeSO.InputModel,InputModelSpawnPosition);
-        
-        //reset timer
-        ObjectMakeTimer = 0f;
-    }
 
     private void Player_OnNonInteractableObjectClick(object sender, EventArgs e) {
         ObjectMakeTimer += 0.5f;
     }
 
     private void Update() {
-        if (ObjectHoldCurrently < MaxObjectHold) {
+        if (ObjectHoldCurrently < MaxObjectHold && ObjectMakeSO != null) {
             //if it can hold more objects
             
             ObjectMakeTimer += Time.deltaTime;
@@ -107,10 +89,20 @@ public class ObjectMakeStation : MonoBehaviour{
 
         isOutputModelSpawned = false;
     }
+    private void SpawnInputModel() {
+        //check if there are models on inputPosition and if so destroy all of them
+        if (InputModelSpawnPosition.childCount > 0) {
+            foreach (Transform child in InputModelSpawnPosition.transform) {
+                Destroy(child.gameObject);
+            }
+        }
+
+        //spawn the new model 
+        Instantiate(ObjectMakeSO.InputModel, InputModelSpawnPosition);
+    }
 
     private void OnDestroy() {
         Player.Instance.OnNonInteractableObjectClick -= Player_OnNonInteractableObjectClick;
-        TradeStation.Instance.OnObjectMakeChange -= TradeStation_OnObjectMakeChange;
         TradeStation.Instance.OnTrade -= TradeStation_OnTrade;
     }
 

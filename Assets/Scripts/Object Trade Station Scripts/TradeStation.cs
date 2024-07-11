@@ -10,16 +10,15 @@ public class TradeStation : MonoBehaviour{
     //reference for the ObjectMakeSO
     [SerializeField] private ModelChangeResultSO CurrentObject;
 
-    //event to send the woekers the object that is being made
-    public class OnObjectMakeChangeEventArgs : EventArgs { public ModelChangeResultSO newInput; }
-    public event EventHandler<OnObjectMakeChangeEventArgs> OnObjectMakeChange;
-
     //event to say to making station to delete all output models
     public event EventHandler OnTrade;
 
+    //event for sending the money script to increase or decerease money
+    public class OnTradeForMoneyEventArgs : EventArgs { public float money; }
+    public event EventHandler<OnTradeForMoneyEventArgs> OnTradeForMoney;
+
     //integer to see how many objects have been made
     private int TotalObjectsMade;
-    private int Money;
 
     private void Awake() {
         //set instance
@@ -28,24 +27,19 @@ public class TradeStation : MonoBehaviour{
 
     private void Start() {
         TotalObjectsMade = 0;
-        Money = 0;
 
         Player.Instance.OnTradeStationClick += Player_OnTradeStationClick;
         ObjectMakeStation.OnObjectMade += ObjectMakeStation_OnObjectMade;
 
-        //send ObjectChange Event
-        OnObjectMakeChange?.Invoke(this,new OnObjectMakeChangeEventArgs { newInput = CurrentObject });
     }
 
     private void ObjectMakeStation_OnObjectMade(object sender, System.EventArgs e) {
         TotalObjectsMade++;
 
-        Debug.Log(TotalObjectsMade);
     }
 
     private void Player_OnTradeStationClick(object sender, System.EventArgs e) {
-        Money += (TotalObjectsMade * CurrentObject.Value);
-
+        OnTradeForMoney?.Invoke(this, new OnTradeForMoneyEventArgs { money = TotalObjectsMade * CurrentObject.Value });        
         OnTrade?.Invoke(this, EventArgs.Empty);
 
         TotalObjectsMade = 0;
