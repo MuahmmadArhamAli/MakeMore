@@ -15,7 +15,6 @@ public class MainCanvasUI : MonoBehaviour{
     [SerializeField] private Button GoToUpgradeButton;
     [SerializeField] private Button GoToNormalGameplayButton;
 
-
     //event for make stations to show upgrade 
     public event EventHandler OnGoToUpgradeClick;
     public event EventHandler OnGoToNormalGameplayClick;

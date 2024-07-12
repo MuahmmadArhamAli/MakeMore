@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TradeStation : MonoBehaviour{
     //singleton pattern
@@ -17,18 +18,28 @@ public class TradeStation : MonoBehaviour{
     public class OnTradeForMoneyEventArgs : EventArgs { public float money; }
     public event EventHandler<OnTradeForMoneyEventArgs> OnTradeForMoney;
 
+    // Button for trading
+    [SerializeField] private Button TradeButton;
+
     //integer to see how many objects have been made
     private int TotalObjectsMade;
 
     private void Awake() {
         //set instance
         Instance = this;
+
+        TradeButton.onClick.AddListener(() => {
+            OnTrade?.Invoke(this, EventArgs.Empty);
+            OnTradeForMoney?.Invoke(this,new OnTradeForMoneyEventArgs { money = TotalObjectsMade * CurrentObject.Value});
+
+            TotalObjectsMade = 0;
+        });
+
     }
 
     private void Start() {
         TotalObjectsMade = 0;
 
-        Player.Instance.OnTradeStationClick += Player_OnTradeStationClick;
         ObjectMakeStation.OnObjectMade += ObjectMakeStation_OnObjectMade;
 
     }
@@ -38,16 +49,8 @@ public class TradeStation : MonoBehaviour{
 
     }
 
-    private void Player_OnTradeStationClick(object sender, System.EventArgs e) {
-        OnTradeForMoney?.Invoke(this, new OnTradeForMoneyEventArgs { money = TotalObjectsMade * CurrentObject.Value });        
-        OnTrade?.Invoke(this, EventArgs.Empty);
-
-        TotalObjectsMade = 0;
-    }
 
     private void OnDestroy() {
-        Player.Instance.OnTradeStationClick -= Player_OnTradeStationClick;
         ObjectMakeStation.OnObjectMade -= ObjectMakeStation_OnObjectMade;
-
     }
 }

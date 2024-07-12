@@ -30,6 +30,7 @@ public class ObjectMakeStation : MonoBehaviour{
 
     //Timer increase multiplier
     private float TimerIncreaseMultiplier;
+    private float OnClickTimerInceaseMultiplier;
 
     private void Start() {
         
@@ -58,7 +59,7 @@ public class ObjectMakeStation : MonoBehaviour{
 
 
     private void Player_OnNonInteractableObjectClick(object sender, EventArgs e) {
-        ObjectMakeTimer += 0.5f;
+        ObjectMakeTimer += 0.2f * OnClickTimerInceaseMultiplier;
     }
 
     private void Update() {
