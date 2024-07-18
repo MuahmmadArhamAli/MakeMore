@@ -25,8 +25,8 @@ public class AddNewStation : MonoBehaviour{
     private bool isMakeStationSpawned;
 
     //price of adding
-    private static float PriceOfAdding;
-    private static float CostMultiplier;
+    private static float CostMultiplier = 1f;
+    private static float PriceOfAdding = 200 * CostMultiplier;
 
     //static event to updatevisual on any change
     private static event EventHandler OnPriceChanged;
@@ -61,8 +61,6 @@ public class AddNewStation : MonoBehaviour{
     }
 
     private void Start() {
-        CostMultiplier = 1f;
-        PriceOfAdding = 200 * CostMultiplier;
 
         UpdateVisual();
         HideCanvas();

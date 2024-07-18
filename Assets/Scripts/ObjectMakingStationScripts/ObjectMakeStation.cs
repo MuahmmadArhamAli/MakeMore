@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
+using TMPro;
 using UnityEngine;
 
 public class ObjectMakeStation : MonoBehaviour{
@@ -14,6 +15,8 @@ public class ObjectMakeStation : MonoBehaviour{
 
     [SerializeField] private GameObject NormalObject;
 
+    //text for showing how many objects there are
+    [SerializeField] private TextMeshProUGUI ObjectsHoldText;
 
     //variable forsetting the ObjectMakeSO
     private ModelChangeResultSO ObjectMakeSO;
@@ -31,21 +34,21 @@ public class ObjectMakeStation : MonoBehaviour{
     private float ObjectMakeTimer;
 
     //int to see how many things it can hold
-    private static int MaxObjectHold;
+    private static int MaxObjectHold = 4;
     private int ObjectHoldCurrently;
 
     //Timer increase multiplier
     private float TimerIncreaseMultiplier;
-    private static float OnClickTimerInceaseMultiplier;
+    private static float OnClickTimerInceaseMultiplier = 1f;
 
     private void Start() {
-        
+
         isOutputModelSpawned = false;
         ObjectMakeTimer = 0f;
-        MaxObjectHold = 4;
         ObjectHoldCurrently = 0;
         TimerIncreaseMultiplier = 1f;
-        OnClickTimerInceaseMultiplier = 1f;
+
+        ObjectsHoldText.text = ObjectHoldCurrently.ToString();
 
         Player.Instance.OnNonInteractableObjectClick += Player_OnNonInteractableObjectClick;
         
@@ -56,9 +59,15 @@ public class ObjectMakeStation : MonoBehaviour{
         MainCanvasUI.Instance.OnGoToUpgradeClick += MainCanvasUI_OnGoToUpgradeClick;
         MainCanvasUI.Instance.OnGoToNormalGameplayClick += MainCanvasUI_OnGoToNormalGameplayClick;
 
+        MaxHoldObjectUpgrade.Instance.OnMaxHoldUpgrade += MaxHoldUpgrade_OnMaxHoldUpgrade;
+
         ObjectMakeSO = TradeStation.Instance.GetCurrentWorkinObject();
 
         SpawnNewInputModel();
+    }
+
+    private void MaxHoldUpgrade_OnMaxHoldUpgrade(object sender, EventArgs e) {
+        MaxObjectHold += 2;
     }
 
     private void MainCanvasUI_OnGoToNormalGameplayClick(object sender, EventArgs e) {
@@ -94,6 +103,7 @@ public class ObjectMakeStation : MonoBehaviour{
 
                 ObjectHoldCurrently++;
 
+                UpdateVisual();
 
                 if (!isOutputModelSpawned) {
                     //there is not a model spawned yet
@@ -116,6 +126,8 @@ public class ObjectMakeStation : MonoBehaviour{
             //there are some output models on the making station
 
             ObjectHoldCurrently = 0;
+
+            UpdateVisual();
 
             //set active to false
             outputModel.SetActive(false);
@@ -156,4 +168,7 @@ public class ObjectMakeStation : MonoBehaviour{
         NormalObject.SetActive(false);
     }
 
+    private void UpdateVisual() {
+        ObjectsHoldText.text = ObjectHoldCurrently.ToString();
+    }
 }

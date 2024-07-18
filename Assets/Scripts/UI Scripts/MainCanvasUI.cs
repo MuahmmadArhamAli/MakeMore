@@ -10,31 +10,53 @@ public class MainCanvasUI : MonoBehaviour{
     public static MainCanvasUI Instance { get; private set; }
     
     [SerializeField] private TextMeshProUGUI MoneyText;
+    [SerializeField] private TextMeshProUGUI CashText;
 
     //Upgrade button
     [SerializeField] private Button GoToUpgradeButton;
     [SerializeField] private Button GoToNormalGameplayButton;
+    [SerializeField] private Button UpgradeHoldLimitButton;
 
     //event for make stations to show upgrade 
     public event EventHandler OnGoToUpgradeClick;
     public event EventHandler OnGoToNormalGameplayClick;
+    public event EventHandler OnMaxHoldLimitUpgradeClick;
+
+    private bool isFirstUpdate;
 
     private void Awake() {
         Instance = this;
 
         GoToUpgradeButton.onClick.AddListener(() => {
-            OnGoToUpgradeClick?.Invoke(this, EventArgs.Empty); 
+            OnGoToUpgradeClick?.Invoke(this, EventArgs.Empty);
+            ShowUpgradeButtons();
         });
 
         GoToNormalGameplayButton.onClick.AddListener(() => {
             OnGoToNormalGameplayClick?.Invoke(this, EventArgs.Empty);
+            HideUpgradeButtons();
         });
+
+        UpgradeHoldLimitButton.onClick.AddListener(() => {
+            OnMaxHoldLimitUpgradeClick?.Invoke(this, EventArgs.Empty);
+        });
+
     }
 
     private void Start() {
-        NormalMoney.Instance.OnMoneyChanged += NormalMoney_OnMoneyChanged;
+        isFirstUpdate = true;
 
-        MoneyText.text = "Money: " + NormalMoney.Instance.GetMoney().ToString();
+        HideUpgradeButtons();
+
+        NormalMoney.Instance.OnMoneyChanged += NormalMoney_OnMoneyChanged;
+        CashMoney.Instance.OnCashChanged += CashMoney_OnCashChanged;
+
+        MoneyText.text = "Money: " + NormalMoney.Instance.GetMoney();
+        CashText.text = "Cash: " + CashMoney.Instance.GetMoney();
+    }
+
+    private void CashMoney_OnCashChanged(object sender, CashMoney.OnCashChangedEventArgs e) {
+        CashText.text = "Cash: " + CashMoney.Instance.GetMoney();
     }
 
     private void NormalMoney_OnMoneyChanged(object sender, NormalMoney.OnMoneyChangedEventArgs e) {
@@ -44,5 +66,20 @@ public class MainCanvasUI : MonoBehaviour{
 
     private void OnDestroy() {
         NormalMoney.Instance.OnMoneyChanged -= NormalMoney_OnMoneyChanged;
+    }
+
+    private void HideUpgradeButtons() {
+        UpgradeHoldLimitButton.gameObject.SetActive(false);
+    }
+    private void ShowUpgradeButtons() {
+        UpgradeHoldLimitButton.gameObject.SetActive(true);
+    }
+
+    private void Update() {
+        if (isFirstUpdate) {
+            OnGoToNormalGameplayClick?.Invoke(this,EventArgs.Empty);
+
+            isFirstUpdate = false;
+        }
     }
 }
