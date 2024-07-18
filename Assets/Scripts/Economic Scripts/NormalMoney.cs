@@ -15,11 +15,11 @@ public class NormalMoney : MonoBehaviour,IMoney{
 
     private void Awake() {
         Instance = this;
+
+        MoneyAmount = 200f;
     }
 
     private void Start() {
-        MoneyAmount = 0f;
-
         TradeStation.Instance.OnTradeForMoney += TradeStation_OnTradeForMoney;
     }
 

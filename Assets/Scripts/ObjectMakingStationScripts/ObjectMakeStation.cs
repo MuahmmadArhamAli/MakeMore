@@ -12,12 +12,18 @@ public class ObjectMakeStation : MonoBehaviour{
     [SerializeField] private Transform InputModelSpawnPosition;
     [SerializeField] private Transform OutputModelSpawnPosition;
 
+    [SerializeField] private GameObject NormalObject;
+
+
     //variable forsetting the ObjectMakeSO
-    [SerializeField] private ModelChangeResultSO ObjectMakeSO;
+    private ModelChangeResultSO ObjectMakeSO;
 
     //refernce of upgrade
     [SerializeField] private MakeStationUpgrade makeStationUpgrade;
 
+    //reference of the outputmodel gameobject
+    private GameObject outputModel;
+    
     //bool to see if an output model has already been spawned
     private bool isOutputModelSpawned;
 
@@ -25,12 +31,12 @@ public class ObjectMakeStation : MonoBehaviour{
     private float ObjectMakeTimer;
 
     //int to see how many things it can hold
-    private int MaxObjectHold;
+    private static int MaxObjectHold;
     private int ObjectHoldCurrently;
 
     //Timer increase multiplier
     private float TimerIncreaseMultiplier;
-    private float OnClickTimerInceaseMultiplier;
+    private static float OnClickTimerInceaseMultiplier;
 
     private void Start() {
         
@@ -39,14 +45,28 @@ public class ObjectMakeStation : MonoBehaviour{
         MaxObjectHold = 4;
         ObjectHoldCurrently = 0;
         TimerIncreaseMultiplier = 1f;
-
-        SpawnInputModel();
+        OnClickTimerInceaseMultiplier = 1f;
 
         Player.Instance.OnNonInteractableObjectClick += Player_OnNonInteractableObjectClick;
         
         TradeStation.Instance.OnTrade += TradeStation_OnTrade;
 
         makeStationUpgrade.OnUpgraded += MakeStationUpgrade_OnUpgraded;
+
+        MainCanvasUI.Instance.OnGoToUpgradeClick += MainCanvasUI_OnGoToUpgradeClick;
+        MainCanvasUI.Instance.OnGoToNormalGameplayClick += MainCanvasUI_OnGoToNormalGameplayClick;
+
+        ObjectMakeSO = TradeStation.Instance.GetCurrentWorkinObject();
+
+        SpawnNewInputModel();
+    }
+
+    private void MainCanvasUI_OnGoToNormalGameplayClick(object sender, EventArgs e) {
+        NormalObject.SetActive(true);
+    }
+
+    private void MainCanvasUI_OnGoToUpgradeClick(object sender, EventArgs e) {
+        NormalObject.SetActive(false);
     }
 
     private void MakeStationUpgrade_OnUpgraded(object sender, EventArgs e) {
@@ -59,6 +79,7 @@ public class ObjectMakeStation : MonoBehaviour{
 
 
     private void Player_OnNonInteractableObjectClick(object sender, EventArgs e) {
+        
         ObjectMakeTimer += 0.2f * OnClickTimerInceaseMultiplier;
     }
 
@@ -78,7 +99,8 @@ public class ObjectMakeStation : MonoBehaviour{
                     //there is not a model spawned yet
 
                     //spawn model
-                    Instantiate(ObjectMakeSO.OutputModel, OutputModelSpawnPosition);
+                    outputModel.SetActive(true);
+
                     isOutputModelSpawned = true;
                 }
 
@@ -95,29 +117,43 @@ public class ObjectMakeStation : MonoBehaviour{
 
             ObjectHoldCurrently = 0;
 
-            //Destroy all the children
-            foreach (Transform child in OutputModelSpawnPosition.transform) {
-                Destroy(child.gameObject);
-            }
+            //set active to false
+            outputModel.SetActive(false);
         }
 
         isOutputModelSpawned = false;
     }
-    private void SpawnInputModel() {
+    private void SpawnNewInputModel() {
         //check if there are models on inputPosition and if so destroy all of them
-        if (InputModelSpawnPosition.childCount > 0) {
-            foreach (Transform child in InputModelSpawnPosition.transform) {
-                Destroy(child.gameObject);
-            }
+        foreach (Transform child in InputModelSpawnPosition.transform) {
+            Destroy(child.gameObject);
         }
+        foreach (Transform child in OutputModelSpawnPosition.transform) {
+            Destroy(child.gameObject);
+        }
+
+        outputModel = null;
 
         //spawn the new model 
         Instantiate(ObjectMakeSO.InputModel, InputModelSpawnPosition);
+        outputModel = Instantiate(ObjectMakeSO.OutputModel,OutputModelSpawnPosition);
+
+        outputModel.SetActive(false);
     }
 
     private void OnDestroy() {
         Player.Instance.OnNonInteractableObjectClick -= Player_OnNonInteractableObjectClick;
         TradeStation.Instance.OnTrade -= TradeStation_OnTrade;
+    }
+
+    public void SetCurrentWorkingObject() {
+        ObjectMakeSO = TradeStation.Instance.GetCurrentWorkinObject();
+
+        SpawnNewInputModel();
+    }
+
+    public void HideNormalObject() {
+        NormalObject.SetActive(false);
     }
 
 }

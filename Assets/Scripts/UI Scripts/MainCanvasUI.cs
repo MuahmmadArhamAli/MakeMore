@@ -33,6 +33,8 @@ public class MainCanvasUI : MonoBehaviour{
 
     private void Start() {
         NormalMoney.Instance.OnMoneyChanged += NormalMoney_OnMoneyChanged;
+
+        MoneyText.text = "Money: " + NormalMoney.Instance.GetMoney().ToString();
     }
 
     private void NormalMoney_OnMoneyChanged(object sender, NormalMoney.OnMoneyChangedEventArgs e) {

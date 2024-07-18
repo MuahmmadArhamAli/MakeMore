@@ -10,6 +10,9 @@ public class Player : MonoBehaviour{
     //event for all Making Stations to reduce Time
     public event EventHandler OnNonInteractableObjectClick;
 
+    //event to send the trade station 
+    public event EventHandler OnTradeStationClick;
+
     public static Player Instance { get; private set; }
 
     private void Awake() {
@@ -21,7 +24,20 @@ public class Player : MonoBehaviour{
     }
 
     private void InputManager_OnClickOrTouch(object sender, System.EventArgs e) {
-        OnNonInteractableObjectClick?.Invoke(this, EventArgs.Empty);
+        //get the raycasthit
+        var rayCastHit = Physics2D.GetRayIntersection(lookCamera.ScreenPointToRay(InputManager.Instance.GetTapPosition()));
+
+        if (rayCastHit) {
+            //player hit something
+            if (rayCastHit.transform.TryGetComponent(out TradeStation tradeStation)) {
+                //the player hit the trade station
+
+                OnTradeStationClick?.Invoke(this,EventArgs.Empty);
+            }
+        }
+        else {
+            OnNonInteractableObjectClick?.Invoke(this, EventArgs.Empty);
+        }
     }
 
     private void OnDestroy() {

@@ -12,6 +12,9 @@ public class MakeStationUpgrade : MonoBehaviour{
     [SerializeField] private Button UpgradeButton;
     [SerializeField] private TextMeshProUGUI UpgradeCostText;
 
+    //reference of makeStation
+    [SerializeField] private ObjectMakeStation makeStation;
+
     //event for telling MakeStation to increase its speed
     public event EventHandler OnUpgraded;
 
@@ -19,7 +22,6 @@ public class MakeStationUpgrade : MonoBehaviour{
     //variables for upgrade cost etc
     private float UpgradeCost;
     private float CostMultiplier;
-
 
     private void OnEnable() {
         UpgradeButton.onClick.AddListener(() => {
@@ -37,18 +39,17 @@ public class MakeStationUpgrade : MonoBehaviour{
     }
 
     private void Start() {
+
         MoneyInterface = NormalMoney.Instance;
 
         UpgradeCost = 100f;
         CostMultiplier = 1.5f;
 
-        Hide();
-
         UpdateVisual();
 
-
         MainCanvasUI.Instance.OnGoToUpgradeClick += MainCanvas_OnGoToUpgradeClick;
-        MainCanvasUI.Instance.OnGoToNormalGameplayClick += MainCanvas_OnGoToNormalGameplayClick; ;
+        MainCanvasUI.Instance.OnGoToNormalGameplayClick += MainCanvas_OnGoToNormalGameplayClick;
+
     }
 
     private void MainCanvas_OnGoToNormalGameplayClick(object sender, System.EventArgs e) {
@@ -58,7 +59,6 @@ public class MakeStationUpgrade : MonoBehaviour{
     private void MainCanvas_OnGoToUpgradeClick(object sender, System.EventArgs e) {
         Show();
     }
-
 
     private void UpdateVisual() {
         UpgradeCostText.text = "+" + UpgradeCost;
