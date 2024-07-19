@@ -39,6 +39,11 @@ public class TradeStation : MonoBehaviour{
         Player.Instance.OnTradeStationClick += Player_OnTradeStationClick;
         MainCanvasUI.Instance.OnGoToUpgradeClick += MianCanvasUI_OnGoToUpgradeClick;
         MainCanvasUI.Instance.OnGoToNormalGameplayClick += MainCanvasUI_OnGoToNormalGameplayClick;
+        MainCanvasUI.Instance.OnTasksButtonClick += MainCanvas_OnTasksButtonClick;
+    }
+
+    private void MainCanvas_OnTasksButtonClick(object sender, EventArgs e) {
+        HideHitbox();
     }
 
     private void MainCanvasUI_OnGoToNormalGameplayClick(object sender, EventArgs e) {

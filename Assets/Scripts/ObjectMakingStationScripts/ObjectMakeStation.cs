@@ -9,6 +9,8 @@ public class ObjectMakeStation : MonoBehaviour{
     //static event for sending TradeStation to increase Total Numbers
     public static event EventHandler OnObjectMade;
 
+    public static event EventHandler OnUpgrade;
+
     //reference for Instantiating positions
     [SerializeField] private Transform InputModelSpawnPosition;
     [SerializeField] private Transform OutputModelSpawnPosition;
@@ -58,12 +60,17 @@ public class ObjectMakeStation : MonoBehaviour{
 
         MainCanvasUI.Instance.OnGoToUpgradeClick += MainCanvasUI_OnGoToUpgradeClick;
         MainCanvasUI.Instance.OnGoToNormalGameplayClick += MainCanvasUI_OnGoToNormalGameplayClick;
+        MainCanvasUI.Instance.OnTasksButtonClick += MainCanvas_OnTasksButtonClick;
 
         MaxHoldObjectUpgrade.Instance.OnMaxHoldUpgrade += MaxHoldUpgrade_OnMaxHoldUpgrade;
 
         ObjectMakeSO = TradeStation.Instance.GetCurrentWorkinObject();
 
         SpawnNewInputModel();
+    }
+
+    private void MainCanvas_OnTasksButtonClick(object sender, EventArgs e) {
+        NormalObject.SetActive(false);
     }
 
     private void MaxHoldUpgrade_OnMaxHoldUpgrade(object sender, EventArgs e) {
@@ -80,6 +87,8 @@ public class ObjectMakeStation : MonoBehaviour{
 
     private void MakeStationUpgrade_OnUpgraded(object sender, EventArgs e) {
         TimerIncreaseMultiplier += .2f;
+
+        OnUpgrade?.Invoke(this,EventArgs.Empty);
     }
 
     private void TradeStation_OnTrade(object sender, EventArgs e) {

@@ -15,12 +15,17 @@ public class MainCanvasUI : MonoBehaviour{
     //Upgrade button
     [SerializeField] private Button GoToUpgradeButton;
     [SerializeField] private Button GoToNormalGameplayButton;
+    [SerializeField] private Button TasksButton;
+
+
     [SerializeField] private Button UpgradeHoldLimitButton;
+
 
     //event for make stations to show upgrade 
     public event EventHandler OnGoToUpgradeClick;
     public event EventHandler OnGoToNormalGameplayClick;
     public event EventHandler OnMaxHoldLimitUpgradeClick;
+    public event EventHandler OnTasksButtonClick;
 
     private bool isFirstUpdate;
 
@@ -39,6 +44,9 @@ public class MainCanvasUI : MonoBehaviour{
 
         UpgradeHoldLimitButton.onClick.AddListener(() => {
             OnMaxHoldLimitUpgradeClick?.Invoke(this, EventArgs.Empty);
+        });
+        TasksButton.onClick.AddListener(() => {
+            OnTasksButtonClick?.Invoke(this, EventArgs.Empty);
         });
 
     }

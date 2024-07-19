@@ -49,7 +49,12 @@ public class MakeStationUpgrade : MonoBehaviour{
 
         MainCanvasUI.Instance.OnGoToUpgradeClick += MainCanvas_OnGoToUpgradeClick;
         MainCanvasUI.Instance.OnGoToNormalGameplayClick += MainCanvas_OnGoToNormalGameplayClick;
+        MainCanvasUI.Instance.OnTasksButtonClick += MainCanvas_OnTasksButtonClick;
 
+    }
+
+    private void MainCanvas_OnTasksButtonClick(object sender, EventArgs e) {
+        Hide();
     }
 
     private void MainCanvas_OnGoToNormalGameplayClick(object sender, System.EventArgs e) {

@@ -75,12 +75,17 @@ public class AddNewStation : MonoBehaviour{
 
         MainCanvasUI.Instance.OnGoToUpgradeClick += MianCanvas_OnGoToUpgradeClick;
         MainCanvasUI.Instance.OnGoToNormalGameplayClick += MainCanvas_OnGoToNormalGameplayClick;
+        MainCanvasUI.Instance.OnTasksButtonClick += MainCanvas_OnTasksButtonClick;
 
         OnPriceChanged += AddNewStation_OnPriceChanged;
     }
 
     private void AddNewStation_OnPriceChanged(object sender, EventArgs e) {
         UpdateVisual();
+    }
+
+    private void MainCanvas_OnTasksButtonClick(object sender, EventArgs e) {
+        HideCanvas();   
     }
 
     private void MainCanvas_OnGoToNormalGameplayClick(object sender, System.EventArgs e) {
