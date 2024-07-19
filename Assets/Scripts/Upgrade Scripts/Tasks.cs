@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Tasks : MonoBehaviour{
+    private int TotalTasks;
+
     //arrays of tasks
     private string[] TasksTexts = {"Trade 100 times","Upgrade working object 5 times","Tap 3000 times","Upgrade a station 3 times","Get money"};
 
@@ -55,6 +57,8 @@ public class Tasks : MonoBehaviour{
 
 
     private void Start() {
+        TotalTasks = 5;
+
         MaxTime = 5f;
 
         PlayerTapsCount = 0;
@@ -227,4 +231,20 @@ public class Tasks : MonoBehaviour{
         }
     }
 
+
+    private void Update() {
+        //increase task timers based on if they are available
+        for (int i = 0; i < TotalTasks; i++) {
+            if (!TaskAvailability[i]) {
+                TaskTimes[i] += Time.deltaTime;
+
+                if (TaskTimes[i] > MaxTime) {
+                    //task available again
+                    TaskTimes[i] = 0f;
+
+                    TaskAvailability[i] = true;
+                }
+            }
+        }
+    }
 }
