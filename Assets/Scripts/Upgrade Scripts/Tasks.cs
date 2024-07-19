@@ -28,6 +28,7 @@ public class Tasks : MonoBehaviour{
     //tap task variables
     private int PlayerTapsCount;
     private int PlayerTapCountMax;
+    private bool isOnNormalGameplay;
 
     //trade task variables
     private int TradeCount;
@@ -243,6 +244,7 @@ public class Tasks : MonoBehaviour{
                     TaskTimes[i] = 0f;
 
                     TaskAvailability[i] = true;
+                    OnTaskCompletionChange?.Invoke(this, EventArgs.Empty);
                 }
             }
         }

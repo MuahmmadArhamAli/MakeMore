@@ -12,6 +12,9 @@ public class TradeStation : MonoBehaviour{
 
     private BoxCollider2D hitbox;
 
+    //Vector 2 for storing the original hitbox size
+    private Vector2 hitboxSize;
+
     //reference for the ObjectMakeSO
     [SerializeField] private ModelChangeResultSO CurrentObject;
 
@@ -35,6 +38,9 @@ public class TradeStation : MonoBehaviour{
     private void Start() {
         TotalObjectsMade = 0;
 
+        hitboxSize.x = hitbox.size.x;
+        hitboxSize.y = hitbox.size.y;
+
         ObjectMakeStation.OnObjectMade += ObjectMakeStation_OnObjectMade;
         Player.Instance.OnTradeStationClick += Player_OnTradeStationClick;
         MainCanvasUI.Instance.OnGoToUpgradeClick += MianCanvasUI_OnGoToUpgradeClick;
@@ -43,11 +49,12 @@ public class TradeStation : MonoBehaviour{
     }
 
     private void MainCanvas_OnTasksButtonClick(object sender, EventArgs e) {
-        HideHitbox();
+        Hide();
     }
 
     private void MainCanvasUI_OnGoToNormalGameplayClick(object sender, EventArgs e) {
         ShowHitbox();
+        Show();
     }
 
     private void MianCanvasUI_OnGoToUpgradeClick(object sender, EventArgs e) {
@@ -79,9 +86,16 @@ public class TradeStation : MonoBehaviour{
     }
 
     private void HideHitbox() {
-        hitbox.gameObject.SetActive(false);
+        hitbox.size = new Vector2(0f,0f);
     }
     private void ShowHitbox() {
-        hitbox.gameObject.SetActive(true);
+        hitbox.size = new Vector2(hitboxSize.x,hitboxSize.y);
+    }
+
+    private void Show() {
+        gameObject.SetActive(true);
+    }
+    private void Hide() {
+        gameObject.SetActive(false);
     }
 }
