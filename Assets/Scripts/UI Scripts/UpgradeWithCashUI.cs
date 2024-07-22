@@ -18,6 +18,7 @@ public class UpgradeWithCashUI : MonoBehaviour{
     public event EventHandler OnCashMultiplierIncrease;
     public event EventHandler OnMakeTimeIncrease;
 
+
     //price of upgraing 
     private float UpgradePrice = 1f;
 
