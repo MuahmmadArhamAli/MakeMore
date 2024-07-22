@@ -35,6 +35,9 @@ public class ObjectMakeStation : MonoBehaviour{
     //timer to set the total objects made
     private float ObjectMakeTimer;
 
+    //float to see how much time is increased by
+    private float IncreaseTime;
+
     //int to see how many things it can hold
     private static int MaxObjectHold = 4;
     private int ObjectHoldCurrently;
@@ -49,6 +52,7 @@ public class ObjectMakeStation : MonoBehaviour{
         ObjectMakeTimer = 0f;
         ObjectHoldCurrently = 0;
         TimerIncreaseMultiplier = 1f;
+        IncreaseTime = 0.2f;
 
         ObjectsHoldText.text = ObjectHoldCurrently.ToString();
 
@@ -61,20 +65,36 @@ public class ObjectMakeStation : MonoBehaviour{
         MainCanvasUI.Instance.OnGoToUpgradeClick += MainCanvasUI_OnGoToUpgradeClick;
         MainCanvasUI.Instance.OnGoToNormalGameplayClick += MainCanvasUI_OnGoToNormalGameplayClick;
         MainCanvasUI.Instance.OnTasksButtonClick += MainCanvas_OnTasksButtonClick;
+        MainCanvasUI.Instance.OnUpgradeCashButtonClick += MainCanvas_OnUpgradeCashButtonClick;
 
         MaxHoldObjectUpgrade.Instance.OnMaxHoldUpgrade += MaxHoldUpgrade_OnMaxHoldUpgrade;
+
+        UpgradeWithCashUI.Instance.OnClickMultiplierIncrease += UpgradeCashUI_OnClickMultiplierIncrease;
+        UpgradeWithCashUI.Instance.OnMakeTimeIncrease += UpgradeCashUI_OnMakeTimeIncrease;
 
         ObjectMakeSO = TradeStation.Instance.GetCurrentWorkinObject();
 
         SpawnNewInputModel();
     }
 
-    private void MainCanvas_OnTasksButtonClick(object sender, EventArgs e) {
-        NormalObject.SetActive(false);
+    private void UpgradeCashUI_OnMakeTimeIncrease(object sender, EventArgs e) {
+        IncreaseTime += 0.05f;
+    }
+
+    private void UpgradeCashUI_OnClickMultiplierIncrease(object sender, EventArgs e) {
+        OnClickTimerInceaseMultiplier += 0.1f;
     }
 
     private void MaxHoldUpgrade_OnMaxHoldUpgrade(object sender, EventArgs e) {
         MaxObjectHold += 2;
+    }
+
+    private void MainCanvas_OnUpgradeCashButtonClick(object sender, EventArgs e) {
+        NormalObject.SetActive(false);
+    }
+
+    private void MainCanvas_OnTasksButtonClick(object sender, EventArgs e) {
+        NormalObject.SetActive(false);
     }
 
     private void MainCanvasUI_OnGoToNormalGameplayClick(object sender, EventArgs e) {
@@ -98,7 +118,7 @@ public class ObjectMakeStation : MonoBehaviour{
 
     private void Player_OnNonInteractableObjectClick(object sender, EventArgs e) {
         
-        ObjectMakeTimer += 0.2f * OnClickTimerInceaseMultiplier;
+        ObjectMakeTimer += IncreaseTime * OnClickTimerInceaseMultiplier;
     }
 
     private void Update() {

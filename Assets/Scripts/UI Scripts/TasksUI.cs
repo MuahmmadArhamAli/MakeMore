@@ -63,6 +63,7 @@ public class TasksUI : MonoBehaviour{
         MainCanvasUI.Instance.OnTasksButtonClick += MainCanvas_OnTasksButtonClick;
         MainCanvasUI.Instance.OnGoToNormalGameplayClick += MainCanvas_OnGoToNormalGameplayClick;
         MainCanvasUI.Instance.OnGoToUpgradeClick += MainCanvas_OnGoToUpgradeClick;
+        MainCanvasUI.Instance.OnUpgradeCashButtonClick += MainCanvas_OnUpgradeCashButtonClick;
 
         //enable or disable buttons
         TradeTaskButton.interactable = tasks.GetTaskCompletion(Tasks.TasksComplete.TradeTask);
@@ -110,6 +111,9 @@ public class TasksUI : MonoBehaviour{
         else {
             GetMoneyTaskButton.interactable = true;
         }
+    }
+    private void MainCanvas_OnUpgradeCashButtonClick(object sender, EventArgs e) {
+        Hide();
     }
 
     private void MainCanvas_OnGoToUpgradeClick(object sender, System.EventArgs e) {

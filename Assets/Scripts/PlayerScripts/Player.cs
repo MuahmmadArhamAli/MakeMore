@@ -30,6 +30,12 @@ public class Player : MonoBehaviour{
         MainCanvasUI.Instance.OnGoToUpgradeClick += MainCanvas_OnGoToUpgradeClick;
         MainCanvasUI.Instance.OnGoToNormalGameplayClick += MainCanvas_OnGoToNormalGameplayClick;
         MainCanvasUI.Instance.OnTasksButtonClick += MainCanvas_OnTasksButtonClick;
+        MainCanvasUI.Instance.OnUpgradeCashButtonClick += MainCanvas_OnUpgradeCashButtonClick;
+
+    }
+
+    private void MainCanvas_OnUpgradeCashButtonClick(object sender, EventArgs e) {
+        isOnNormalGame = false;
     }
 
     private void MainCanvas_OnTasksButtonClick(object sender, EventArgs e) {

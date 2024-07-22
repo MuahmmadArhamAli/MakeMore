@@ -16,6 +16,7 @@ public class MainCanvasUI : MonoBehaviour{
     [SerializeField] private Button GoToUpgradeButton;
     [SerializeField] private Button GoToNormalGameplayButton;
     [SerializeField] private Button TasksButton;
+    [SerializeField] private Button UpgradeWithCashButton;
 
 
     [SerializeField] private Button UpgradeHoldLimitButton;
@@ -26,6 +27,7 @@ public class MainCanvasUI : MonoBehaviour{
     public event EventHandler OnGoToNormalGameplayClick;
     public event EventHandler OnMaxHoldLimitUpgradeClick;
     public event EventHandler OnTasksButtonClick;
+    public event EventHandler OnUpgradeCashButtonClick;
 
     private bool isFirstUpdate;
 
@@ -48,6 +50,10 @@ public class MainCanvasUI : MonoBehaviour{
         TasksButton.onClick.AddListener(() => {
             OnTasksButtonClick?.Invoke(this, EventArgs.Empty);
         });
+        UpgradeWithCashButton.onClick.AddListener(() => {
+            OnUpgradeCashButtonClick?.Invoke(this, EventArgs.Empty);
+        });
+
 
     }
 

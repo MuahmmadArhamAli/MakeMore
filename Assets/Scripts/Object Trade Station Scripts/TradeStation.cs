@@ -28,6 +28,9 @@ public class TradeStation : MonoBehaviour{
     //integer to see how many objects have been made
     private int TotalObjectsMade;
 
+    //cash multiplier
+    private float cashMultiplier;
+
     private void Awake() {
         //set instance
         Instance = this;
@@ -37,6 +40,7 @@ public class TradeStation : MonoBehaviour{
 
     private void Start() {
         TotalObjectsMade = 0;
+        cashMultiplier = 1f;
 
         hitboxSize.x = hitbox.size.x;
         hitboxSize.y = hitbox.size.y;
@@ -46,6 +50,17 @@ public class TradeStation : MonoBehaviour{
         MainCanvasUI.Instance.OnGoToUpgradeClick += MianCanvasUI_OnGoToUpgradeClick;
         MainCanvasUI.Instance.OnGoToNormalGameplayClick += MainCanvasUI_OnGoToNormalGameplayClick;
         MainCanvasUI.Instance.OnTasksButtonClick += MainCanvas_OnTasksButtonClick;
+        MainCanvasUI.Instance.OnUpgradeCashButtonClick += MainCanvas_OnUpgradeCashButtonClick;
+
+        UpgradeWithCashUI.Instance.OnCashMultiplierIncrease += UpgradeCashUI_OnCashMultiplierIncrease;
+    }
+
+    private void UpgradeCashUI_OnCashMultiplierIncrease(object sender, EventArgs e) {
+        cashMultiplier += 0.1f;
+    }
+
+    private void MainCanvas_OnUpgradeCashButtonClick(object sender, EventArgs e) {
+        Hide();
     }
 
     private void MainCanvas_OnTasksButtonClick(object sender, EventArgs e) {
@@ -63,7 +78,7 @@ public class TradeStation : MonoBehaviour{
 
     private void Player_OnTradeStationClick(object sender, EventArgs e) {
         OnTrade?.Invoke(this, EventArgs.Empty);
-        OnTradeForMoney?.Invoke(this, new OnTradeForMoneyEventArgs { money = TotalObjectsMade * CurrentObject.Value });
+        OnTradeForMoney?.Invoke(this, new OnTradeForMoneyEventArgs { money = (TotalObjectsMade * CurrentObject.Value) * cashMultiplier });
 
         TotalObjectsMade = 0;
     }
