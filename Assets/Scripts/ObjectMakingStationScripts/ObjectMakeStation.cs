@@ -4,12 +4,15 @@ using System.Collections.Generic;
 using System.Threading;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class ObjectMakeStation : MonoBehaviour{
+public class ObjectMakeStation : MonoBehaviour,IHasProgress{
     //static event for sending TradeStation to increase Total Numbers
     public static event EventHandler OnObjectMade;
 
     public static event EventHandler OnUpgrade;
+
+    public event EventHandler<IHasProgress.OnProgressChangedEventArgs> OnProgressChanged;
 
     //reference for Instantiating positions
     [SerializeField] private Transform InputModelSpawnPosition;
@@ -46,7 +49,11 @@ public class ObjectMakeStation : MonoBehaviour{
     private float TimerIncreaseMultiplier;
     private static float OnClickTimerInceaseMultiplier = 1f;
 
+    //reference of Image to turn red when the MaxHolds
+    [SerializeField] private Image fillImage;
+
     private void Start() {
+        fillImage.color = Color.green;
 
         isOutputModelSpawned = false;
         ObjectMakeTimer = 0f;
@@ -122,10 +129,14 @@ public class ObjectMakeStation : MonoBehaviour{
     }
 
     private void Update() {
-        if (ObjectHoldCurrently < MaxObjectHold && ObjectMakeSO != null) {
+        if (ObjectHoldCurrently < MaxObjectHold) {
             //if it can hold more objects
-            
+
+            fillImage.color = Color.green;
+
             ObjectMakeTimer += Time.deltaTime * TimerIncreaseMultiplier;
+
+            OnProgressChanged?.Invoke(this,new IHasProgress.OnProgressChangedEventArgs { progress = ObjectMakeTimer / ObjectMakeSO.TimeToChange });
 
             if (ObjectMakeTimer > ObjectMakeSO.TimeToChange) {
                 OnObjectMade?.Invoke(this, EventArgs.Empty);
@@ -145,6 +156,11 @@ public class ObjectMakeStation : MonoBehaviour{
 
                 ObjectMakeTimer = 0f;
             }
+        }
+
+        else {
+            fillImage.fillAmount = 1f;
+            fillImage.color = Color.red;
         }
     }
 
