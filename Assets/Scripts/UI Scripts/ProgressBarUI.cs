@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ProressBarUI : MonoBehaviour{
-
+public class ProgressBarUI : MonoBehaviour
+{
     //reference of gameObject that has IHasProgess
     [SerializeField] private GameObject HasProgressGameObject;
 

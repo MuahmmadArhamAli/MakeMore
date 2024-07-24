@@ -15,13 +15,14 @@ public class UpgradeStationTask : MonoBehaviour,IHasProgress{
     [SerializeField] private TextMeshProUGUI ShowingText;
 
     private void Start() {
-        ShowingText.text = tasks.GetCurrentAndMaxValue(Tasks.TasksComplete.UpgradeStationTask);
+        ShowingText.text = tasks.GetCurrentValue(Tasks.TasksComplete.UpgradeStationTask).ToString() + "/" + tasks.GetMaxValue(Tasks.TasksComplete.UpgradeStationTask).ToString();
+        OnProgressChanged?.Invoke(this, new IHasProgress.OnProgressChangedEventArgs { progress = tasks.GetCurrentValue(Tasks.TasksComplete.UpgradeStationTask) /tasks.GetMaxValue(Tasks.TasksComplete.UpgradeStationTask) });
 
         tasks.OnUpgradeStationTaskUpdate += Tasks_OnUpgradeStationTaskUpdate;
     }
 
     private void Tasks_OnUpgradeStationTaskUpdate(object sender, Tasks.OnTaskUpdateEventArgs e) {
-        ShowingText.text = tasks.GetCurrentAndMaxValue(Tasks.TasksComplete.UpgradeStationTask);
+        ShowingText.text = tasks.GetCurrentValue(Tasks.TasksComplete.UpgradeStationTask).ToString() + "/" + tasks.GetMaxValue(Tasks.TasksComplete.UpgradeStationTask).ToString();
 
         OnProgressChanged?.Invoke(this, new IHasProgress.OnProgressChangedEventArgs { progress = e.CurrentValue / e.MaxValue });
     }

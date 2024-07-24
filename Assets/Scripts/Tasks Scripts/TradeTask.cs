@@ -13,13 +13,14 @@ public class TradeTask : MonoBehaviour,IHasProgress{
     [SerializeField] private TextMeshProUGUI ShowingText;
 
     private void Start() {
-        ShowingText.text = tasks.GetCurrentAndMaxValue(Tasks.TasksComplete.TradeTask);
+        ShowingText.text = tasks.GetCurrentValue(Tasks.TasksComplete.TradeTask).ToString() + "/" + tasks.GetMaxValue(Tasks.TasksComplete.TradeTask).ToString();
+        OnProgressChanged?.Invoke(this, new IHasProgress.OnProgressChangedEventArgs { progress = tasks.GetCurrentValue(Tasks.TasksComplete.TradeTask) / tasks.GetMaxValue(Tasks.TasksComplete.TradeTask) });
 
         tasks.OnTradeTaskUpdate += Tasks_OnTradeTaskUpdate;
     }
 
     private void Tasks_OnTradeTaskUpdate(object sender, Tasks.OnTaskUpdateEventArgs e) {
-        ShowingText.text = tasks.GetCurrentAndMaxValue(Tasks.TasksComplete.TradeTask);
+        ShowingText.text = tasks.GetCurrentValue(Tasks.TasksComplete.TradeTask).ToString() + "/" + tasks.GetMaxValue(Tasks.TasksComplete.TradeTask).ToString();
 
         OnProgressChanged?.Invoke(this, new IHasProgress.OnProgressChangedEventArgs { progress = e.CurrentValue / e.MaxValue });
     }

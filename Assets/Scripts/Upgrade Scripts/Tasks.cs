@@ -39,7 +39,7 @@ public class Tasks : MonoBehaviour{
     private int StationUpgradeCountMax;
 
     //Get money task variables
-    private float MoneyRequired;
+    private float MoneyRequired = 4000;
 
     //Upgrade Object Tasks
     private int ObjectUpgradeCount;
@@ -68,6 +68,7 @@ public class Tasks : MonoBehaviour{
     public event EventHandler<OnTaskUpdateEventArgs> OnGetMoneyTaskUpdate;
     public event EventHandler<OnTaskUpdateEventArgs> OnUpgradeStationTaskUpdate;
     public event EventHandler<OnTaskUpdateEventArgs> OnTradeTaskUpdate;
+    public event EventHandler<OnTaskUpdateEventArgs> OnUpgradeObjectTaskUpdate;
 
 
     private void Start() {
@@ -162,8 +163,12 @@ public class Tasks : MonoBehaviour{
 
                 TaskCompleted[GetIndex(TasksComplete.TradeTask)] = false;
             }
+
+            OnTradeTaskUpdate?.Invoke(this, new OnTaskUpdateEventArgs { CurrentValue = TradeCount, MaxValue = TradeCountMax });
         }
         else if(e.taskComplete == TasksComplete.UpgradeObjectTask) {
+
+            OnUpgradeObjectTaskUpdate?.Invoke(this, new OnTaskUpdateEventArgs { CurrentValue = 0, MaxValue = 1});
 
         }
         else if(e.taskComplete == TasksComplete.TapTask) {
@@ -173,6 +178,8 @@ public class Tasks : MonoBehaviour{
             if (PlayerTapsCount < PlayerTapCountMax) {
                 TaskCompleted[GetIndex(TasksComplete.TapTask)] = false;
             }
+
+            OnPlayerClickTaskUpdate?.Invoke(this, new OnTaskUpdateEventArgs { CurrentValue = PlayerTapsCount, MaxValue = PlayerTapCountMax });
         }
         else if(e.taskComplete == TasksComplete.UpgradeStationTask) {
 
@@ -182,11 +189,14 @@ public class Tasks : MonoBehaviour{
                 TaskCompleted[GetIndex(TasksComplete.UpgradeStationTask)] = false;
             }
 
+            OnUpgradeStationTaskUpdate?.Invoke(this, new OnTaskUpdateEventArgs { CurrentValue = StationUpgradeCount, MaxValue = StationUpgradeCountMax });
         }
         else {
             if(NormalMoney.Instance.GetMoney() < MoneyRequired) {
                 TaskCompleted[GetIndex(TasksComplete.GetMoneyTask)] = false;
             }
+
+            OnGetMoneyTaskUpdate?.Invoke(this, new OnTaskUpdateEventArgs { CurrentValue = NormalMoney.Instance.GetMoney(), MaxValue = MoneyRequired });
         }
 
         OnTaskCompletionChange?.Invoke(this,EventArgs.Empty);
@@ -287,20 +297,37 @@ public class Tasks : MonoBehaviour{
 
     //function for different tasks to get the values at the start
 
-    public string GetCurrentAndMaxValue(TasksComplete task) {
+    public float GetCurrentValue(TasksComplete task) {
         switch (task) {
             case TasksComplete.TradeTask:
-                return TradeCount.ToString() + "/" + TradeCountMax.ToString();
+                return TradeCount;
             case TasksComplete.TapTask:
-                return PlayerTapsCount.ToString() + "/" + PlayerTapCountMax.ToString();
+                return PlayerTapsCount;
             case TasksComplete.GetMoneyTask:
-                return NormalMoney.Instance.GetMoney().ToString() + "/" + MoneyRequired.ToString();
+                return NormalMoney.Instance.GetMoney();
             case TasksComplete.UpgradeStationTask:
-                return StationUpgradeCount.ToString() + "/" + StationUpgradeCountMax.ToString();
+                return StationUpgradeCount;
             case TasksComplete.UpgradeObjectTask:
-                return ObjectUpgradeCount.ToString() + "/" + ObjectUpgradeCountMax.ToString();
+                return ObjectUpgradeCount;
             default:
-                return "";
+                return 0f;
+        }
+    }
+
+    public float GetMaxValue(TasksComplete task) {
+        switch (task) {
+            case TasksComplete.TradeTask:
+                return TradeCountMax;
+            case TasksComplete.TapTask:
+                return PlayerTapCountMax;
+            case TasksComplete.GetMoneyTask:
+                return MoneyRequired;
+            case TasksComplete.UpgradeStationTask:
+                return StationUpgradeCountMax;
+            case TasksComplete.UpgradeObjectTask:
+                return ObjectUpgradeCountMax;
+            default:
+                return 0f;
         }
     }
 
