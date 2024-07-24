@@ -58,7 +58,7 @@ public class TasksUI : MonoBehaviour{
     }
 
     private void Start() {
-        Hide();
+        StartCoroutine(HideDelayCoroutine());
 
         MainCanvasUI.Instance.OnTasksButtonClick += MainCanvas_OnTasksButtonClick;
         MainCanvasUI.Instance.OnGoToNormalGameplayClick += MainCanvas_OnGoToNormalGameplayClick;
@@ -136,4 +136,9 @@ public class TasksUI : MonoBehaviour{
         gameObject.SetActive(true);
     }
 
+    private IEnumerator HideDelayCoroutine() {
+        yield return new WaitForSeconds(0.2f);
+
+        Hide();
+    }
 }

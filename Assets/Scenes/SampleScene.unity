@@ -327,7 +327,7 @@ MonoBehaviour:
   m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 900, y: 2000}
+  m_ReferenceResolution: {x: 800, y: 800}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -667,12 +667,24 @@ PrefabInstance:
       value: Add New Station (2)
       objectReference: {fileID: 0}
     - target: {fileID: 4080685312936004118, guid: 015eb59a08a975540b8e747480442842, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4080685312936004118, guid: 015eb59a08a975540b8e747480442842, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4080685312936004118, guid: 015eb59a08a975540b8e747480442842, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4080685312936004118, guid: 015eb59a08a975540b8e747480442842, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 30
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 4080685312936004118, guid: 015eb59a08a975540b8e747480442842, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 30
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4080685312936004118, guid: 015eb59a08a975540b8e747480442842, type: 3}
       propertyPath: m_LocalPosition.z
@@ -705,6 +717,10 @@ PrefabInstance:
     - target: {fileID: 4080685312936004118, guid: 015eb59a08a975540b8e747480442842, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4080685312936004118, guid: 015eb59a08a975540b8e747480442842, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6623156348650472725, guid: 015eb59a08a975540b8e747480442842, type: 3}
       propertyPath: ShouldMakeStationSpawn
@@ -860,8 +876,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 80
-  m_fontSizeBase: 80
+  m_fontSize: 50
+  m_fontSizeBase: 50
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -926,7 +942,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 256.25, y: -42.30005}
+  m_AnchoredPosition: {x: 256.25, y: -42.3125}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &200150903
@@ -1593,19 +1609,19 @@ RectTransform:
   m_GameObject: {fileID: 479337968}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
+  m_ConstrainProportionsScale: 1
   m_Children:
-  - {fileID: 1038014964}
   - {fileID: 895620287}
+  - {fileID: 1038014964}
   - {fileID: 1047275949}
   - {fileID: 811250446}
   m_Father: {fileID: 17127585}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 7}
+  m_SizeDelta: {x: 0, y: 14.000008}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &479337970
 MonoBehaviour:
@@ -2279,7 +2295,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 200, y: 200}
+  m_SizeDelta: {x: 150, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &666774776
 MonoBehaviour:
@@ -2466,8 +2482,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 159, y: -281}
-  m_SizeDelta: {x: 300, y: 100}
+  m_AnchoredPosition: {x: 121.5, y: -165}
+  m_SizeDelta: {x: 200, y: 66.66666}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &812111009
 MonoBehaviour:
@@ -2844,8 +2860,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 40
-  m_fontSizeBase: 40
+  m_fontSize: 30
+  m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -2972,12 +2988,24 @@ PrefabInstance:
       value: Add New Station (4)
       objectReference: {fileID: 0}
     - target: {fileID: 4080685312936004118, guid: 015eb59a08a975540b8e747480442842, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4080685312936004118, guid: 015eb59a08a975540b8e747480442842, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4080685312936004118, guid: 015eb59a08a975540b8e747480442842, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4080685312936004118, guid: 015eb59a08a975540b8e747480442842, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4080685312936004118, guid: 015eb59a08a975540b8e747480442842, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -25
       objectReference: {fileID: 0}
     - target: {fileID: 4080685312936004118, guid: 015eb59a08a975540b8e747480442842, type: 3}
       propertyPath: m_LocalPosition.z
@@ -3010,6 +3038,10 @@ PrefabInstance:
     - target: {fileID: 4080685312936004118, guid: 015eb59a08a975540b8e747480442842, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4080685312936004118, guid: 015eb59a08a975540b8e747480442842, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6623156348650472725, guid: 015eb59a08a975540b8e747480442842, type: 3}
       propertyPath: ShouldMakeStationSpawn
@@ -3182,7 +3214,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 200, y: 200}
+  m_SizeDelta: {x: 150, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &875010638
 MonoBehaviour:
@@ -3290,7 +3322,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 895620286}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -3346,8 +3378,8 @@ RectTransform:
   m_GameObject: {fileID: 958567030}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 832881371}
   - {fileID: 1457529910}
@@ -3355,7 +3387,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -169.8}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &958567032
@@ -3611,8 +3643,8 @@ RectTransform:
   m_GameObject: {fileID: 977647990}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 991268259}
   - {fileID: 1152304162}
@@ -3622,7 +3654,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 6, y: 63}
+  m_AnchoredPosition: {x: 122.1, y: 10.1}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &977647992
@@ -3643,7 +3675,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 7
-  m_Spacing: 30
+  m_Spacing: 60
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
@@ -3769,7 +3801,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 200, y: 200}
+  m_SizeDelta: {x: 150, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1005461776
 GameObject:
@@ -4447,7 +4479,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 200, y: 200}
+  m_SizeDelta: {x: 150, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1161757226
 GameObject:
@@ -4658,12 +4690,24 @@ PrefabInstance:
       value: Add New Station (8)
       objectReference: {fileID: 0}
     - target: {fileID: 4080685312936004118, guid: 015eb59a08a975540b8e747480442842, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4080685312936004118, guid: 015eb59a08a975540b8e747480442842, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4080685312936004118, guid: 015eb59a08a975540b8e747480442842, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4080685312936004118, guid: 015eb59a08a975540b8e747480442842, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 30
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 4080685312936004118, guid: 015eb59a08a975540b8e747480442842, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -30
+      value: -60
       objectReference: {fileID: 0}
     - target: {fileID: 4080685312936004118, guid: 015eb59a08a975540b8e747480442842, type: 3}
       propertyPath: m_LocalPosition.z
@@ -4696,6 +4740,10 @@ PrefabInstance:
     - target: {fileID: 4080685312936004118, guid: 015eb59a08a975540b8e747480442842, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4080685312936004118, guid: 015eb59a08a975540b8e747480442842, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6623156348650472725, guid: 015eb59a08a975540b8e747480442842, type: 3}
       propertyPath: ShouldMakeStationSpawn
@@ -5531,8 +5579,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 80
-  m_fontSizeBase: 80
+  m_fontSize: 50
+  m_fontSizeBase: 50
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -5597,7 +5645,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -212, y: -42.30005}
+  m_AnchoredPosition: {x: -212, y: -42.3125}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1571861647
@@ -6079,12 +6127,24 @@ PrefabInstance:
       value: Add New Station (6)
       objectReference: {fileID: 0}
     - target: {fileID: 4080685312936004118, guid: 015eb59a08a975540b8e747480442842, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4080685312936004118, guid: 015eb59a08a975540b8e747480442842, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4080685312936004118, guid: 015eb59a08a975540b8e747480442842, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4080685312936004118, guid: 015eb59a08a975540b8e747480442842, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -30
+      value: -40
       objectReference: {fileID: 0}
     - target: {fileID: 4080685312936004118, guid: 015eb59a08a975540b8e747480442842, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -30
+      value: -60
       objectReference: {fileID: 0}
     - target: {fileID: 4080685312936004118, guid: 015eb59a08a975540b8e747480442842, type: 3}
       propertyPath: m_LocalPosition.z
@@ -6117,6 +6177,10 @@ PrefabInstance:
     - target: {fileID: 4080685312936004118, guid: 015eb59a08a975540b8e747480442842, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4080685312936004118, guid: 015eb59a08a975540b8e747480442842, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6623156348650472725, guid: 015eb59a08a975540b8e747480442842, type: 3}
       propertyPath: ShouldMakeStationSpawn
@@ -6355,12 +6419,24 @@ PrefabInstance:
       value: Add New Station (3)
       objectReference: {fileID: 0}
     - target: {fileID: 4080685312936004118, guid: 015eb59a08a975540b8e747480442842, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4080685312936004118, guid: 015eb59a08a975540b8e747480442842, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4080685312936004118, guid: 015eb59a08a975540b8e747480442842, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4080685312936004118, guid: 015eb59a08a975540b8e747480442842, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -30
+      value: -40
       objectReference: {fileID: 0}
     - target: {fileID: 4080685312936004118, guid: 015eb59a08a975540b8e747480442842, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -25
       objectReference: {fileID: 0}
     - target: {fileID: 4080685312936004118, guid: 015eb59a08a975540b8e747480442842, type: 3}
       propertyPath: m_LocalPosition.z
@@ -6393,6 +6469,10 @@ PrefabInstance:
     - target: {fileID: 4080685312936004118, guid: 015eb59a08a975540b8e747480442842, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4080685312936004118, guid: 015eb59a08a975540b8e747480442842, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6623156348650472725, guid: 015eb59a08a975540b8e747480442842, type: 3}
       propertyPath: ShouldMakeStationSpawn
@@ -6421,12 +6501,24 @@ PrefabInstance:
       value: Add New Station (1)
       objectReference: {fileID: 0}
     - target: {fileID: 4080685312936004118, guid: 015eb59a08a975540b8e747480442842, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4080685312936004118, guid: 015eb59a08a975540b8e747480442842, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4080685312936004118, guid: 015eb59a08a975540b8e747480442842, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4080685312936004118, guid: 015eb59a08a975540b8e747480442842, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4080685312936004118, guid: 015eb59a08a975540b8e747480442842, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 30
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4080685312936004118, guid: 015eb59a08a975540b8e747480442842, type: 3}
       propertyPath: m_LocalPosition.z
@@ -6459,6 +6551,10 @@ PrefabInstance:
     - target: {fileID: 4080685312936004118, guid: 015eb59a08a975540b8e747480442842, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4080685312936004118, guid: 015eb59a08a975540b8e747480442842, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6623156348650472725, guid: 015eb59a08a975540b8e747480442842, type: 3}
       propertyPath: ShouldMakeStationSpawn
@@ -6562,12 +6658,24 @@ PrefabInstance:
       value: Add New Station (7)
       objectReference: {fileID: 0}
     - target: {fileID: 4080685312936004118, guid: 015eb59a08a975540b8e747480442842, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4080685312936004118, guid: 015eb59a08a975540b8e747480442842, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4080685312936004118, guid: 015eb59a08a975540b8e747480442842, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4080685312936004118, guid: 015eb59a08a975540b8e747480442842, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4080685312936004118, guid: 015eb59a08a975540b8e747480442842, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -30
+      value: -60
       objectReference: {fileID: 0}
     - target: {fileID: 4080685312936004118, guid: 015eb59a08a975540b8e747480442842, type: 3}
       propertyPath: m_LocalPosition.z
@@ -6600,6 +6708,10 @@ PrefabInstance:
     - target: {fileID: 4080685312936004118, guid: 015eb59a08a975540b8e747480442842, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4080685312936004118, guid: 015eb59a08a975540b8e747480442842, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6623156348650472725, guid: 015eb59a08a975540b8e747480442842, type: 3}
       propertyPath: ShouldMakeStationSpawn
@@ -7743,12 +7855,24 @@ PrefabInstance:
       value: Add New Station (5)
       objectReference: {fileID: 0}
     - target: {fileID: 4080685312936004118, guid: 015eb59a08a975540b8e747480442842, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4080685312936004118, guid: 015eb59a08a975540b8e747480442842, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4080685312936004118, guid: 015eb59a08a975540b8e747480442842, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4080685312936004118, guid: 015eb59a08a975540b8e747480442842, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 30
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 4080685312936004118, guid: 015eb59a08a975540b8e747480442842, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -25
       objectReference: {fileID: 0}
     - target: {fileID: 4080685312936004118, guid: 015eb59a08a975540b8e747480442842, type: 3}
       propertyPath: m_LocalPosition.z
@@ -7781,6 +7905,10 @@ PrefabInstance:
     - target: {fileID: 4080685312936004118, guid: 015eb59a08a975540b8e747480442842, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4080685312936004118, guid: 015eb59a08a975540b8e747480442842, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6623156348650472725, guid: 015eb59a08a975540b8e747480442842, type: 3}
       propertyPath: ShouldMakeStationSpawn
@@ -7866,12 +7994,24 @@ PrefabInstance:
       value: Add New Station
       objectReference: {fileID: 0}
     - target: {fileID: 4080685312936004118, guid: 015eb59a08a975540b8e747480442842, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4080685312936004118, guid: 015eb59a08a975540b8e747480442842, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4080685312936004118, guid: 015eb59a08a975540b8e747480442842, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4080685312936004118, guid: 015eb59a08a975540b8e747480442842, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -30
+      value: -40
       objectReference: {fileID: 0}
     - target: {fileID: 4080685312936004118, guid: 015eb59a08a975540b8e747480442842, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 30
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4080685312936004118, guid: 015eb59a08a975540b8e747480442842, type: 3}
       propertyPath: m_LocalPosition.z
@@ -7904,6 +8044,10 @@ PrefabInstance:
     - target: {fileID: 4080685312936004118, guid: 015eb59a08a975540b8e747480442842, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4080685312936004118, guid: 015eb59a08a975540b8e747480442842, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6623156348650472725, guid: 015eb59a08a975540b8e747480442842, type: 3}
       propertyPath: ShouldMakeStationSpawn

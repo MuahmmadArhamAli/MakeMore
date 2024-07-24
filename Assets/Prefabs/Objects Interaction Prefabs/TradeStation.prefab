@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8505605625335704093}
-  - component: {fileID: 6824484230691480506}
+  - component: {fileID: 1995181137313455635}
   m_Layer: 0
   m_Name: LeftHand
   m_TagString: Untagged
@@ -27,12 +27,12 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 6, y: 6, z: 6}
+  m_LocalScale: {x: 10, y: 10, z: 10}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 6233564942850437066}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &6824484230691480506
+--- !u!212 &1995181137313455635
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -178,7 +178,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 30, y: 30}
+  m_Size: {x: 50, y: 50}
   m_EdgeRadius: 0
 --- !u!95 &7590023807992359149
 Animator:
@@ -222,7 +222,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6229893478739962703}
-  - component: {fileID: 49417946921252574}
+  - component: {fileID: 5484375545190174057}
   m_Layer: 0
   m_Name: RightHand
   m_TagString: Untagged
@@ -240,12 +240,12 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 6, y: 6, z: 6}
+  m_LocalScale: {x: 10, y: 10, z: 10}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 6233564942850437066}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &49417946921252574
+--- !u!212 &5484375545190174057
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -324,7 +324,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 6, y: 6, z: 6}
+  m_LocalScale: {x: 10, y: 10, z: 10}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 6233564942850437066}
