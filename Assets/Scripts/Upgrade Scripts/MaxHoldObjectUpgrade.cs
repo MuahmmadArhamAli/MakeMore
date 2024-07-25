@@ -28,4 +28,8 @@ public class MaxHoldObjectUpgrade : MonoBehaviour{
             NormalMoney.Instance.DecreaseMoney(Cost);
         }
     }
+
+    private void nDestroy() {
+        MainCanvasUI.Instance.OnMaxHoldLimitUpgradeClick -= MainCanvas_OnMaxHoldLimitUpgradeClick;
+    }
 }

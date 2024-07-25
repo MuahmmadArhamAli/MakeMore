@@ -86,4 +86,11 @@ public class UpgradeWithCashUI : MonoBehaviour{
     private void Show() {
         gameObject.SetActive(true);
     }
+
+    private void OnDestroy() {
+        MainCanvasUI.Instance.OnUpgradeCashButtonClick -= MainCanvas_OnUpgradeCashButtonClick;
+        MainCanvasUI.Instance.OnGoToNormalGameplayClick -= MainCanvas_OnGoToNormalGameplayClick;
+        MainCanvasUI.Instance.OnGoToUpgradeClick -= MainCanvas_OnGoToUpgradeClick;
+        MainCanvasUI.Instance.OnTasksButtonClick -= MainCanvas_OnTasksButtonClick;
+    }
 }

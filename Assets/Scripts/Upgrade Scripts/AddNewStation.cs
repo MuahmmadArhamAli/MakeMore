@@ -113,4 +113,13 @@ public class AddNewStation : MonoBehaviour{
     private void UpdateVisual() {
         PriceText.text = PriceOfAdding.ToString();
     }
+
+    private void OnDestroy() {
+        MainCanvasUI.Instance.OnGoToUpgradeClick -= MianCanvas_OnGoToUpgradeClick;
+        MainCanvasUI.Instance.OnGoToNormalGameplayClick -= MainCanvas_OnGoToNormalGameplayClick;
+        MainCanvasUI.Instance.OnTasksButtonClick -= MainCanvas_OnTasksButtonClick;
+        MainCanvasUI.Instance.OnUpgradeCashButtonClick -= MianCanvas_OnUpgradeCashButtonClick;
+
+        OnPriceChanged -= AddNewStation_OnPriceChanged;
+    }
 }

@@ -49,9 +49,13 @@ public class MainCanvasUI : MonoBehaviour{
         });
         TasksButton.onClick.AddListener(() => {
             OnTasksButtonClick?.Invoke(this, EventArgs.Empty);
+
+            HideUpgradeButtons();
         });
         UpgradeWithCashButton.onClick.AddListener(() => {
             OnUpgradeCashButtonClick?.Invoke(this, EventArgs.Empty);
+
+            HideUpgradeButtons();
         });
 
 
@@ -80,6 +84,7 @@ public class MainCanvasUI : MonoBehaviour{
 
     private void OnDestroy() {
         NormalMoney.Instance.OnMoneyChanged -= NormalMoney_OnMoneyChanged;
+        CashMoney.Instance.OnCashChanged -= CashMoney_OnCashChanged;
     }
 
     private void HideUpgradeButtons() {
@@ -96,4 +101,5 @@ public class MainCanvasUI : MonoBehaviour{
             isFirstUpdate = false;
         }
     }
+
 }

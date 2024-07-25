@@ -42,4 +42,8 @@ public class NormalMoney : MonoBehaviour,IMoney{
 
         OnMoneyChanged?.Invoke(this, new OnMoneyChangedEventArgs { money = MoneyAmount });
     }
+
+    private void OnDestroy() {
+        TradeStation.Instance.OnTradeForMoney -= TradeStation_OnTradeForMoney;
+    }
 }

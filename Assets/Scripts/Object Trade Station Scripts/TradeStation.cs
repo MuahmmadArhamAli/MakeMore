@@ -94,6 +94,10 @@ public class TradeStation : MonoBehaviour{
         Player.Instance.OnTradeStationClick -= Player_OnTradeStationClick;
         MainCanvasUI.Instance.OnGoToUpgradeClick -= MianCanvasUI_OnGoToUpgradeClick;
         MainCanvasUI.Instance.OnGoToNormalGameplayClick -= MainCanvasUI_OnGoToNormalGameplayClick;
+        MainCanvasUI.Instance.OnTasksButtonClick -= MainCanvas_OnTasksButtonClick;
+        MainCanvasUI.Instance.OnUpgradeCashButtonClick -= MainCanvas_OnUpgradeCashButtonClick;
+
+        UpgradeWithCashUI.Instance.OnCashMultiplierIncrease -= UpgradeCashUI_OnCashMultiplierIncrease;
     }
 
     public ModelChangeResultSO GetCurrentWorkinObject() {
@@ -113,4 +117,6 @@ public class TradeStation : MonoBehaviour{
     private void Hide() {
         gameObject.SetActive(false);
     }
+
+    
 }

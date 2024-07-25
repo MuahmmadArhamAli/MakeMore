@@ -25,4 +25,8 @@ public class TapTask : MonoBehaviour,IHasProgress{
 
         OnProgressChanged?.Invoke(this, new IHasProgress.OnProgressChangedEventArgs { progress = e.CurrentValue / e.MaxValue });
     }
+
+    private void OnDestroy() {
+        tasks.OnPlayerClickTaskUpdate -= Tasks_OnPlayerClickTaskUpdate;
+    }
 }

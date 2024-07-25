@@ -45,4 +45,12 @@ public class HandAnimation : MonoBehaviour{
             }
         }
     }
+
+
+    private void OnDestroy() {
+        Player.Instance.OnNonInteractableObjectClick -= Player_OnNonInteractableObjectClick;
+
+        MainCanvasUI.Instance.OnGoToNormalGameplayClick -= MainCanvas_OnGoToNormalGameplayClick;
+        MainCanvasUI.Instance.OnGoToUpgradeClick -= MainCanvas_OnGoToUpgradeClick;
+    }
 }

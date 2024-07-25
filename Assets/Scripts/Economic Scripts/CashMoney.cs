@@ -10,7 +10,7 @@ public class CashMoney : MonoBehaviour, IMoney {
     public class OnCashChangedEventArgs : EventArgs { public float cash; }
     public event EventHandler<OnCashChangedEventArgs> OnCashChanged;
 
-    private float CashAmount;
+    private float CashAmount = 2f;
 
     private void Awake() {
         Instance = this;

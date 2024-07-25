@@ -348,4 +348,18 @@ public class Tasks : MonoBehaviour{
         }
     }
 
+    private void OnDestroy() {
+        taskUI.OnTaskMoneyReceived -= TaskUI_OnTaskMoneyReceived;
+
+        Player.Instance.OnNonInteractableObjectClick -= Player_OnNonInteractableObjectClick;
+        TradeStation.Instance.OnTradeForMoney -= TradeStation_OnTradeForMoney;
+        ObjectMakeStation.OnUpgrade -= ObjectMakeStation_OnUpgrade;
+        NormalMoney.Instance.OnMoneyChanged -= NormalMoney_OnMoneyChanged;
+
+        MainCanvasUI.Instance.OnGoToNormalGameplayClick -= MainCanvas_OnGoToNormalGameplayClick;
+        MainCanvasUI.Instance.OnGoToUpgradeClick -= MainCanvas_OnGoToUpgradeClick;
+        MainCanvasUI.Instance.OnTasksButtonClick -= MainCanvas_OnTasksButtonClick;
+        MainCanvasUI.Instance.OnUpgradeCashButtonClick -= MainCanvas_OnUpgradeCashButtonClick;
+    }
+
 }

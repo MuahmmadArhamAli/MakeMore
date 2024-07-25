@@ -58,12 +58,15 @@ public class TasksUI : MonoBehaviour{
     }
 
     private void Start() {
-        StartCoroutine(HideDelayCoroutine());
+        StartCoroutine(HideDelay());
 
         MainCanvasUI.Instance.OnTasksButtonClick += MainCanvas_OnTasksButtonClick;
         MainCanvasUI.Instance.OnGoToNormalGameplayClick += MainCanvas_OnGoToNormalGameplayClick;
         MainCanvasUI.Instance.OnGoToUpgradeClick += MainCanvas_OnGoToUpgradeClick;
         MainCanvasUI.Instance.OnUpgradeCashButtonClick += MainCanvas_OnUpgradeCashButtonClick;
+        
+        tasks.OnTaskComplete += Tasks_OnTaskComplete;
+        tasks.OnTaskCompletionChange += Tasks_OnTaskCompletionChange;
 
         //enable or disable buttons
         TradeTaskButton.interactable = tasks.GetTaskCompletion(Tasks.TasksComplete.TradeTask);
@@ -79,8 +82,6 @@ public class TasksUI : MonoBehaviour{
         UpgradeWorkingObjectTaskText.text = tasks.GetTaskText(Tasks.TasksComplete.UpgradeObjectTask);
         UpgradeWorkStationTaskText.text = tasks.GetTaskText(Tasks.TasksComplete.UpgradeStationTask);
 
-        tasks.OnTaskComplete += Tasks_OnTaskComplete;
-        tasks.OnTaskCompletionChange += Tasks_OnTaskCompletionChange;
     }
 
     private void Tasks_OnTaskCompletionChange(object sender, EventArgs e) {
@@ -136,9 +137,20 @@ public class TasksUI : MonoBehaviour{
         gameObject.SetActive(true);
     }
 
-    private IEnumerator HideDelayCoroutine() {
-        yield return new WaitForSeconds(0.2f);
+    private IEnumerator HideDelay() {
+        yield return new WaitForSeconds(0.5f);
 
         Hide();
+    }
+
+    private void OnDestroy() {
+        MainCanvasUI.Instance.OnTasksButtonClick -= MainCanvas_OnTasksButtonClick;
+        MainCanvasUI.Instance.OnGoToNormalGameplayClick -= MainCanvas_OnGoToNormalGameplayClick;
+        MainCanvasUI.Instance.OnGoToUpgradeClick -= MainCanvas_OnGoToUpgradeClick;
+        MainCanvasUI.Instance.OnUpgradeCashButtonClick -= MainCanvas_OnUpgradeCashButtonClick;
+
+        tasks.OnTaskComplete -= Tasks_OnTaskComplete;
+        tasks.OnTaskCompletionChange -= Tasks_OnTaskCompletionChange;
+
     }
 }

@@ -45,4 +45,6 @@ public class InputManager : MonoBehaviour{
     public Vector2 GetTapPosition() {
         return inputActions.TouchClick.TapPosition.ReadValue<Vector2>();
     }
+
+
 }

@@ -200,7 +200,20 @@ public class ObjectMakeStation : MonoBehaviour,IHasProgress{
 
     private void OnDestroy() {
         Player.Instance.OnNonInteractableObjectClick -= Player_OnNonInteractableObjectClick;
+
         TradeStation.Instance.OnTrade -= TradeStation_OnTrade;
+
+        makeStationUpgrade.OnUpgraded -= MakeStationUpgrade_OnUpgraded;
+
+        MainCanvasUI.Instance.OnGoToUpgradeClick -= MainCanvasUI_OnGoToUpgradeClick;
+        MainCanvasUI.Instance.OnGoToNormalGameplayClick -= MainCanvasUI_OnGoToNormalGameplayClick;
+        MainCanvasUI.Instance.OnTasksButtonClick -= MainCanvas_OnTasksButtonClick;
+        MainCanvasUI.Instance.OnUpgradeCashButtonClick -= MainCanvas_OnUpgradeCashButtonClick;
+
+        MaxHoldObjectUpgrade.Instance.OnMaxHoldUpgrade -= MaxHoldUpgrade_OnMaxHoldUpgrade;
+
+        UpgradeWithCashUI.Instance.OnClickMultiplierIncrease -= UpgradeCashUI_OnClickMultiplierIncrease;
+        UpgradeWithCashUI.Instance.OnMakeTimeIncrease -= UpgradeCashUI_OnMakeTimeIncrease;
     }
 
     public void SetCurrentWorkingObject() {

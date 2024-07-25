@@ -70,5 +70,9 @@ public class Player : MonoBehaviour{
 
     private void OnDestroy() {
         InputManager.Instance.OnClickOrTouch -= InputManager_OnClickOrTouch;
+        MainCanvasUI.Instance.OnGoToUpgradeClick += MainCanvas_OnGoToUpgradeClick;
+        MainCanvasUI.Instance.OnGoToNormalGameplayClick -= MainCanvas_OnGoToNormalGameplayClick;
+        MainCanvasUI.Instance.OnTasksButtonClick -= MainCanvas_OnTasksButtonClick;
+        MainCanvasUI.Instance.OnUpgradeCashButtonClick -= MainCanvas_OnUpgradeCashButtonClick;
     }
 }
