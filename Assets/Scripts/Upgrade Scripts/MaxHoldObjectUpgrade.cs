@@ -24,9 +24,7 @@ public class MaxHoldObjectUpgrade : MonoBehaviour{
     private void MainCanvas_OnMaxHoldLimitUpgradeClick(object sender, System.EventArgs e) {
         if(NormalMoney.Instance.GetMoney() >= Cost) {
             OnMaxHoldUpgrade?.Invoke(this,EventArgs.Empty);
-
             NormalMoney.Instance.DecreaseMoney(Cost);
-
             Cost += 100;
         }
     }

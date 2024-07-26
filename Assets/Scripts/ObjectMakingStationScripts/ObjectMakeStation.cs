@@ -18,6 +18,8 @@ public class ObjectMakeStation : MonoBehaviour,IHasProgress{
     [SerializeField] private Transform InputModelSpawnPosition;
     [SerializeField] private Transform OutputModelSpawnPosition;
 
+    public static event EventHandler OnMaxHoldObjecChange;
+
     [SerializeField] private GameObject NormalObject;
 
     //text for showing how many objects there are
@@ -94,6 +96,8 @@ public class ObjectMakeStation : MonoBehaviour,IHasProgress{
 
     private void MaxHoldUpgrade_OnMaxHoldUpgrade(object sender, EventArgs e) {
         MaxObjectHold += 2;
+
+        OnMaxHoldObjecChange?.Invoke(this, EventArgs.Empty);
     }
 
     private void MainCanvas_OnUpgradeCashButtonClick(object sender, EventArgs e) {
