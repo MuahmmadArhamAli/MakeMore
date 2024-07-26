@@ -69,7 +69,7 @@ public class Tasks : MonoBehaviour{
     public event EventHandler<OnTaskUpdateEventArgs> OnUpgradeStationTaskUpdate;
     public event EventHandler<OnTaskUpdateEventArgs> OnTradeTaskUpdate;
     public event EventHandler<OnTaskUpdateEventArgs> OnUpgradeObjectTaskUpdate;
-
+    
 
     private void Start() {
         TotalTasks = 5;

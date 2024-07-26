@@ -39,7 +39,7 @@ public class ObjectMakeStation : MonoBehaviour,IHasProgress{
     private float ObjectMakeTimer;
 
     //float to see how much time is increased by
-    private float IncreaseTime;
+    private static float IncreaseTime = 0.2f;
 
     //int to see how many things it can hold
     private static int MaxObjectHold = 4;
@@ -85,7 +85,7 @@ public class ObjectMakeStation : MonoBehaviour,IHasProgress{
     }
 
     private void UpgradeCashUI_OnMakeTimeIncrease(object sender, EventArgs e) {
-        IncreaseTime += 0.05f;
+        IncreaseTime += 0.1f;
     }
 
     private void UpgradeCashUI_OnClickMultiplierIncrease(object sender, EventArgs e) {
@@ -229,4 +229,17 @@ public class ObjectMakeStation : MonoBehaviour,IHasProgress{
     private void UpdateVisual() {
         ObjectsHoldText.text = ObjectHoldCurrently.ToString();
     }
+
+    public static int GetMaxHoldObject() {
+        return MaxObjectHold;
+    }
+
+    public static float GetClickMultiplier() {
+        return OnClickTimerInceaseMultiplier;
+    }
+
+    public static float GetMakeTimeMultiplier() {
+        return IncreaseTime;
+    }
+
 }

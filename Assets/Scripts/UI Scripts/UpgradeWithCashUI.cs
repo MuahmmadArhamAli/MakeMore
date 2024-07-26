@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,49 +19,56 @@ public class UpgradeWithCashUI : MonoBehaviour{
     public event EventHandler OnCashMultiplierIncrease;
     public event EventHandler OnMakeTimeIncrease;
 
+    [SerializeField] private TextMeshProUGUI ClickTimerMultiplierText;
+    [SerializeField] private TextMeshProUGUI CashMultiplierText;
+    [SerializeField] private TextMeshProUGUI MakeTimerMultiplierText;
 
     //price of upgraing 
     private float UpgradePrice = 1f;
 
     private void Awake() {
+
         Instance = this;
 
         UpgradeCashMultiplier.onClick.AddListener(() => {
-            if(CashMoney.Instance.GetMoney() >= UpgradePrice) {
-                //player can afford cash multiplier
+            OnCashMultiplierIncrease?.Invoke(this,EventArgs.Empty);
 
-                OnCashMultiplierIncrease?.Invoke(this,EventArgs.Empty);
-
-                CashMoney.Instance.DecreaseMoney(UpgradePrice);
-            }
+            CashMoney.Instance.DecreaseMoney(UpgradePrice);
         });
-        UpgradeClickMultiplierButton.onClick.AddListener(() => {
-            if (CashMoney.Instance.GetMoney() >= UpgradePrice) {
-                //player can afford click multiplier
-
-                OnClickMultiplierIncrease?.Invoke(this, EventArgs.Empty);
-
-                CashMoney.Instance.DecreaseMoney(UpgradePrice);
-            }
+        UpgradeClickMultiplierButton.onClick.AddListener(() => { 
+            OnClickMultiplierIncrease?.Invoke(this, EventArgs.Empty);
+            CashMoney.Instance.DecreaseMoney(UpgradePrice);
         });
         UpgradeMakeTime.onClick.AddListener(() => {
-            if (CashMoney.Instance.GetMoney() >= UpgradePrice) {
-                //player can afford click multiplier
+            OnMakeTimeIncrease?.Invoke(this, EventArgs.Empty);
 
-                OnMakeTimeIncrease?.Invoke(this, EventArgs.Empty);
-
-                CashMoney.Instance.DecreaseMoney(UpgradePrice);
-            }
+            CashMoney.Instance.DecreaseMoney(UpgradePrice);
         });
     }
 
     private void Start() {
+        UpgradeClickMultiplierButton.interactable = UpgradeCashMultiplier.interactable = UpgradeMakeTime.interactable = CashMoney.Instance.GetMoney() >= UpgradePrice;
+
+        ClickTimerMultiplierText.text = ObjectMakeStation.GetClickMultiplier().ToString();
+        MakeTimerMultiplierText.text = ObjectMakeStation.GetMakeTimeMultiplier().ToString();
+        CashMultiplierText.text = TradeStation.Instance.GetCashMultiplier().ToString();
+        
         Hide();
 
         MainCanvasUI.Instance.OnUpgradeCashButtonClick += MainCanvas_OnUpgradeCashButtonClick;
         MainCanvasUI.Instance.OnGoToNormalGameplayClick += MainCanvas_OnGoToNormalGameplayClick;
         MainCanvasUI.Instance.OnGoToUpgradeClick += MainCanvas_OnGoToUpgradeClick;
         MainCanvasUI.Instance.OnTasksButtonClick += MainCanvas_OnTasksButtonClick;
+
+        CashMoney.Instance.OnCashChanged += Cash_OnCashChanged;
+    }
+
+    private void Cash_OnCashChanged(object sender, CashMoney.OnCashChangedEventArgs e) {
+        UpgradeClickMultiplierButton.interactable = UpgradeCashMultiplier.interactable = UpgradeMakeTime.interactable = CashMoney.Instance.GetMoney() >= UpgradePrice;
+
+        ClickTimerMultiplierText.text = ObjectMakeStation.GetClickMultiplier().ToString();
+        MakeTimerMultiplierText.text = ObjectMakeStation.GetMakeTimeMultiplier().ToString();
+        CashMultiplierText.text = TradeStation.Instance.GetCashMultiplier().ToString();
     }
 
     private void MainCanvas_OnTasksButtonClick(object sender, EventArgs e) {
@@ -92,5 +100,8 @@ public class UpgradeWithCashUI : MonoBehaviour{
         MainCanvasUI.Instance.OnGoToNormalGameplayClick -= MainCanvas_OnGoToNormalGameplayClick;
         MainCanvasUI.Instance.OnGoToUpgradeClick -= MainCanvas_OnGoToUpgradeClick;
         MainCanvasUI.Instance.OnTasksButtonClick -= MainCanvas_OnTasksButtonClick;
+
+        CashMoney.Instance.OnCashChanged -= Cash_OnCashChanged;
     }
+
 }

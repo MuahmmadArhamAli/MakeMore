@@ -29,7 +29,7 @@ public class TradeStation : MonoBehaviour{
     private int TotalObjectsMade;
 
     //cash multiplier
-    private float cashMultiplier;
+    private float cashMultiplier = 1f;
 
     private void Awake() {
         //set instance
@@ -40,7 +40,6 @@ public class TradeStation : MonoBehaviour{
 
     private void Start() {
         TotalObjectsMade = 0;
-        cashMultiplier = 1f;
 
         hitboxSize.x = hitbox.size.x;
         hitboxSize.y = hitbox.size.y;
@@ -118,5 +117,7 @@ public class TradeStation : MonoBehaviour{
         gameObject.SetActive(false);
     }
 
-    
+    public float GetCashMultiplier() {
+        return cashMultiplier;
+    }
 }

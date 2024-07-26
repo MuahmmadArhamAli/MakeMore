@@ -22,6 +22,12 @@ public class TasksUI : MonoBehaviour{
     [SerializeField] private TextMeshProUGUI TapTaskText;
     [SerializeField] private TextMeshProUGUI UpgradeWorkStationTaskText;
     [SerializeField] private TextMeshProUGUI GetMoneyTaskText;
+
+    [SerializeField] private TextMeshProUGUI TradeTaskAvailabilityText;
+    [SerializeField] private TextMeshProUGUI UpgradeWorkingTaskAvailabilityText;
+    [SerializeField] private TextMeshProUGUI TapTaskAvailabilityText;
+    [SerializeField] private TextMeshProUGUI UpgradeWorkStationTaskAvailabilityText;
+    [SerializeField] private TextMeshProUGUI GetMoneyTaskAvailabilityText;
  
     //reference of tasks
     [SerializeField] private Tasks tasks;
@@ -75,13 +81,14 @@ public class TasksUI : MonoBehaviour{
         UpgradeWorkingObjectTaskButton.interactable = tasks.GetTaskCompletion(Tasks.TasksComplete.UpgradeObjectTask);
         UpgradeWorkStationTaskButton.interactable = tasks.GetTaskCompletion(Tasks.TasksComplete.UpgradeStationTask);
 
+        SetAvailabilityTexts();
+
         //set text
         TradeTaskText.text = tasks.GetTaskText(Tasks.TasksComplete.TradeTask);
         GetMoneyTaskText.text = tasks.GetTaskText(Tasks.TasksComplete.GetMoneyTask);
         TapTaskText.text = tasks.GetTaskText(Tasks.TasksComplete.TapTask);
         UpgradeWorkingObjectTaskText.text = tasks.GetTaskText(Tasks.TasksComplete.UpgradeObjectTask);
         UpgradeWorkStationTaskText.text = tasks.GetTaskText(Tasks.TasksComplete.UpgradeStationTask);
-
     }
 
     private void Tasks_OnTaskCompletionChange(object sender, EventArgs e) {
@@ -93,6 +100,8 @@ public class TasksUI : MonoBehaviour{
         TapTaskButton.interactable = tasks.GetTaskCompletion(Tasks.TasksComplete.TapTask);
         UpgradeWorkingObjectTaskButton.interactable = tasks.GetTaskCompletion(Tasks.TasksComplete.UpgradeObjectTask);
         UpgradeWorkStationTaskButton.interactable = tasks.GetTaskCompletion(Tasks.TasksComplete.UpgradeStationTask);
+
+        SetAvailabilityTexts();
     }
 
     private void Tasks_OnTaskComplete(object sender, Tasks.OnTaskCompleteEventArgs e) {
@@ -152,5 +161,13 @@ public class TasksUI : MonoBehaviour{
         tasks.OnTaskComplete -= Tasks_OnTaskComplete;
         tasks.OnTaskCompletionChange -= Tasks_OnTaskCompletionChange;
 
+    }
+
+    private void SetAvailabilityTexts() {
+        TradeTaskAvailabilityText.text = TradeTaskButton.interactable ? "Available" : "Unavailable";
+        UpgradeWorkingTaskAvailabilityText.text = UpgradeWorkingObjectTaskButton.interactable ? "Available" : "Unavailable";
+        TapTaskAvailabilityText.text = TapTaskButton.interactable ? "Available" : "Unavailable";
+        UpgradeWorkStationTaskAvailabilityText.text = UpgradeWorkStationTaskButton.interactable ? "Available" : "Unavailable";
+        GetMoneyTaskAvailabilityText.text = GetMoneyTaskButton.interactable ? "Available" : "Unavailable";
     }
 }

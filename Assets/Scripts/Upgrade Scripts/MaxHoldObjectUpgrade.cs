@@ -16,7 +16,7 @@ public class MaxHoldObjectUpgrade : MonoBehaviour{
     }
 
     private void Start() {
-        Cost = 500f;
+        Cost = 300f;
 
         MainCanvasUI.Instance.OnMaxHoldLimitUpgradeClick += MainCanvas_OnMaxHoldLimitUpgradeClick;
     }
@@ -26,10 +26,16 @@ public class MaxHoldObjectUpgrade : MonoBehaviour{
             OnMaxHoldUpgrade?.Invoke(this,EventArgs.Empty);
 
             NormalMoney.Instance.DecreaseMoney(Cost);
+
+            Cost += 100;
         }
     }
 
-    private void nDestroy() {
+    private void OnDestroy() {
         MainCanvasUI.Instance.OnMaxHoldLimitUpgradeClick -= MainCanvas_OnMaxHoldLimitUpgradeClick;
+    }
+
+    public float GetCost() {
+        return Cost;
     }
 }

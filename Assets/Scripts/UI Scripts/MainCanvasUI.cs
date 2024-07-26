@@ -29,6 +29,9 @@ public class MainCanvasUI : MonoBehaviour{
     public event EventHandler OnTasksButtonClick;
     public event EventHandler OnUpgradeCashButtonClick;
 
+    [SerializeField] private TextMeshProUGUI MaxHoldObjectsQuantityText;
+    [SerializeField] private TextMeshProUGUI MaxHoldObjectsCostText;
+
     private bool isFirstUpdate;
 
     private void Awake() {
@@ -71,6 +74,9 @@ public class MainCanvasUI : MonoBehaviour{
 
         MoneyText.text = "Money: " + NormalMoney.Instance.GetMoney();
         CashText.text = "Cash: " + CashMoney.Instance.GetMoney();
+
+        MaxHoldObjectsCostText.text = MaxHoldObjectUpgrade.Instance.GetCost().ToString();
+        MaxHoldObjectsQuantityText.text = ObjectMakeStation.GetMaxHoldObject().ToString() + " -> " + (ObjectMakeStation.GetMaxHoldObject()+2).ToString();
     }
 
     private void CashMoney_OnCashChanged(object sender, CashMoney.OnCashChangedEventArgs e) {
