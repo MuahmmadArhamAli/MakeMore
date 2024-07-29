@@ -98,6 +98,8 @@ public class MainCanvasUI : MonoBehaviour{
     private void OnDestroy() {
         NormalMoney.Instance.OnMoneyChanged -= NormalMoney_OnMoneyChanged;
         CashMoney.Instance.OnCashChanged -= CashMoney_OnCashChanged;
+
+        MaxHoldObjectUpgrade.Instance.OnMaxHoldUpgrade -= MaxHold_OnMaxHoldUpgrade;
     }
 
     private void HideUpgradeButtons() {

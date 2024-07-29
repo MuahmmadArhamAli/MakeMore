@@ -34,7 +34,7 @@ public class MaxHoldObjectUpgrade : MonoBehaviour{
             
             Cost += 100;
             
-            OnMaxHoldUpgrade?.Invoke(this, new OnMaxHoldUpgradeEventArgs { HoldObjects = MaxHoldObjects, cost = Cost + 100 });
+            OnMaxHoldUpgrade?.Invoke(this, new OnMaxHoldUpgradeEventArgs { HoldObjects = MaxHoldObjects, cost = Cost });
         }
     }
 

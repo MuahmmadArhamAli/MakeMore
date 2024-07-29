@@ -15,16 +15,16 @@ public class UpgradeObjectTask : MonoBehaviour,IHasProgress{
     [SerializeField] private TextMeshProUGUI ShowingText;
     
     private void Start() {
-        ShowingText.text = tasks.GetCurrentValue(Tasks.TasksComplete.UpgradeObjectTask).ToString() + "/"  + tasks.GetMaxValue(Tasks.TasksComplete.UpgradeObjectTask).ToString();
+        ShowingText.text = tasks.GetCurrentValue(Tasks.DifferentTasks.UpgradeObjectTask).ToString() + "/"  + tasks.GetMaxValue(Tasks.DifferentTasks.UpgradeObjectTask).ToString();
 
-        OnProgressChanged?.Invoke(this, new IHasProgress.OnProgressChangedEventArgs { progress =  tasks.GetCurrentValue(Tasks.TasksComplete.UpgradeObjectTask) / tasks.GetMaxValue(Tasks.TasksComplete.UpgradeObjectTask) });
+        OnProgressChanged?.Invoke(this, new IHasProgress.OnProgressChangedEventArgs { progress =  tasks.GetCurrentValue(Tasks.DifferentTasks.UpgradeObjectTask) / tasks.GetMaxValue(Tasks.DifferentTasks.UpgradeObjectTask) });
 
 
         tasks.OnUpgradeObjectTaskUpdate += Tasks_OnUpgradeObjectTaskUpdate;
     }
 
     private void Tasks_OnUpgradeObjectTaskUpdate(object sender, Tasks.OnTaskUpdateEventArgs e) {
-        ShowingText.text = tasks.GetCurrentValue(Tasks.TasksComplete.UpgradeObjectTask).ToString() + "/" + tasks.GetMaxValue(Tasks.TasksComplete.UpgradeObjectTask).ToString();
+        ShowingText.text = tasks.GetCurrentValue(Tasks.DifferentTasks.UpgradeObjectTask).ToString() + "/" + tasks.GetMaxValue(Tasks.DifferentTasks.UpgradeObjectTask).ToString();
 
         OnProgressChanged?.Invoke(this, new IHasProgress.OnProgressChangedEventArgs { progress = e.CurrentValue / e.MaxValue });
     }

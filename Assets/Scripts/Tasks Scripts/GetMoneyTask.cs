@@ -16,14 +16,14 @@ public class GetMoneyTask : MonoBehaviour,IHasProgress{
     [SerializeField] private TextMeshProUGUI ShowingText;
     
     private void Start() {
-        ShowingText.text = tasks.GetCurrentValue(Tasks.TasksComplete.GetMoneyTask).ToString() + "/" + tasks.GetMaxValue(Tasks.TasksComplete.GetMoneyTask).ToString();
-        OnProgressChanged?.Invoke(this, new IHasProgress.OnProgressChangedEventArgs { progress = tasks.GetCurrentValue(Tasks.TasksComplete.GetMoneyTask) / tasks.GetMaxValue(Tasks.TasksComplete.GetMoneyTask) });
+        ShowingText.text = tasks.GetCurrentValue(Tasks.DifferentTasks.GetMoneyTask).ToString() + "/" + tasks.GetMaxValue(Tasks.DifferentTasks.GetMoneyTask).ToString();
+        OnProgressChanged?.Invoke(this, new IHasProgress.OnProgressChangedEventArgs { progress = tasks.GetCurrentValue(Tasks.DifferentTasks.GetMoneyTask) / tasks.GetMaxValue(Tasks.DifferentTasks.GetMoneyTask) });
 
         tasks.OnGetMoneyTaskUpdate += Tasks_OnGetMoneyTaskUpdate;
     }
 
     private void Tasks_OnGetMoneyTaskUpdate(object sender, Tasks.OnTaskUpdateEventArgs e) {
-        ShowingText.text = tasks.GetCurrentValue(Tasks.TasksComplete.GetMoneyTask).ToString() + "/" + tasks.GetMaxValue(Tasks.TasksComplete.GetMoneyTask).ToString();
+        ShowingText.text = tasks.GetCurrentValue(Tasks.DifferentTasks.GetMoneyTask).ToString() + "/" + tasks.GetMaxValue(Tasks.DifferentTasks.GetMoneyTask).ToString();
 
         OnProgressChanged?.Invoke(this, new IHasProgress.OnProgressChangedEventArgs { progress = e.CurrentValue/e.MaxValue });
     }
