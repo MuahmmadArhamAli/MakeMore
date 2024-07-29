@@ -72,17 +72,18 @@ public class MainCanvasUI : MonoBehaviour{
         NormalMoney.Instance.OnMoneyChanged += NormalMoney_OnMoneyChanged;
         CashMoney.Instance.OnCashChanged += CashMoney_OnCashChanged;
 
-        ObjectMakeStation.OnMaxHoldObjecChange += ObjectMakeStation_OnMaxHoldObjecChange;
-
         MoneyText.text = "Money: " + NormalMoney.Instance.GetMoney();
         CashText.text = "Cash: " + CashMoney.Instance.GetMoney();
 
         MaxHoldObjectsCostText.text = MaxHoldObjectUpgrade.Instance.GetCost().ToString();
-        MaxHoldObjectsQuantityText.text = ObjectMakeStation.GetMaxHoldObject().ToString() + " -> " + (ObjectMakeStation.GetMaxHoldObject()+2).ToString();
+        MaxHoldObjectsQuantityText.text = MaxHoldObjectUpgrade.Instance.GetMaxObjectHold().ToString();
+
+        MaxHoldObjectUpgrade.Instance.OnMaxHoldUpgrade += MaxHold_OnMaxHoldUpgrade;
     }
 
-    private void ObjectMakeStation_OnMaxHoldObjecChange(object sender, EventArgs e) {
-        StartCoroutine(TextUpdateDelay());   
+    private void MaxHold_OnMaxHoldUpgrade(object sender, MaxHoldObjectUpgrade.OnMaxHoldUpgradeEventArgs e) {
+        MaxHoldObjectsCostText.text = e.cost.ToString();
+        MaxHoldObjectsQuantityText.text = e.HoldObjects.ToString();
     }
 
     private void CashMoney_OnCashChanged(object sender, CashMoney.OnCashChangedEventArgs e) {
@@ -112,12 +113,5 @@ public class MainCanvasUI : MonoBehaviour{
 
             isFirstUpdate = false;
         }
-    }
-
-    private IEnumerator TextUpdateDelay() {
-        yield return new WaitForSeconds(0.3f);
-
-        MaxHoldObjectsCostText.text = MaxHoldObjectUpgrade.Instance.GetCost().ToString();
-        MaxHoldObjectsQuantityText.text = ObjectMakeStation.GetMaxHoldObject().ToString() + " -> " + (ObjectMakeStation.GetMaxHoldObject() + 2).ToString();
     }
 }

@@ -29,7 +29,7 @@ public class TradeStation : MonoBehaviour{
     private int TotalObjectsMade;
 
     //cash multiplier
-    private float cashMultiplier = 1f;
+    private float cashMultiplier;
 
     private void Awake() {
         //set instance
@@ -40,6 +40,8 @@ public class TradeStation : MonoBehaviour{
 
     private void Start() {
         TotalObjectsMade = 0;
+
+        cashMultiplier = UpgradeWithCashUI.Instance.GetCashMultiplier();
 
         hitboxSize.x = hitbox.size.x;
         hitboxSize.y = hitbox.size.y;
@@ -54,8 +56,8 @@ public class TradeStation : MonoBehaviour{
         UpgradeWithCashUI.Instance.OnCashMultiplierIncrease += UpgradeCashUI_OnCashMultiplierIncrease;
     }
 
-    private void UpgradeCashUI_OnCashMultiplierIncrease(object sender, EventArgs e) {
-        cashMultiplier += 0.1f;
+    private void UpgradeCashUI_OnCashMultiplierIncrease(object sender, UpgradeWithCashUI.OnMultiplierIncreaseEventArgs e) {
+        cashMultiplier += e.Multiplier;
     }
 
     private void MainCanvas_OnUpgradeCashButtonClick(object sender, EventArgs e) {

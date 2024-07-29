@@ -15,9 +15,14 @@ public class UpgradeWithCashUI : MonoBehaviour{
 
 
     //event to send the respetive Scripts to increase multiplier
-    public event EventHandler OnClickMultiplierIncrease;
-    public event EventHandler OnCashMultiplierIncrease;
-    public event EventHandler OnMakeTimeIncrease;
+    public class OnMultiplierIncreaseEventArgs:EventArgs { public float Multiplier; }
+    public event EventHandler<OnMultiplierIncreaseEventArgs> OnClickMultiplierIncrease;
+    public event EventHandler<OnMultiplierIncreaseEventArgs> OnCashMultiplierIncrease;
+    public event EventHandler<OnMultiplierIncreaseEventArgs> OnMakeTimeIncrease;
+
+    private float ClickMultiplier;
+    private float CashMultiplier;
+    private float TimeMultiplier;
 
     [SerializeField] private TextMeshProUGUI ClickTimerMultiplierText;
     [SerializeField] private TextMeshProUGUI CashMultiplierText;
@@ -30,17 +35,28 @@ public class UpgradeWithCashUI : MonoBehaviour{
 
         Instance = this;
 
+        ClickMultiplier = 1f;
+        CashMultiplier = 1f;
+        TimeMultiplier = 0.1f;
+
         UpgradeCashMultiplier.onClick.AddListener(() => {
-            OnCashMultiplierIncrease?.Invoke(this,EventArgs.Empty);
+            CashMultiplier += 0.1f;
+
+            OnCashMultiplierIncrease?.Invoke(this, new OnMultiplierIncreaseEventArgs { Multiplier = CashMultiplier });
 
             CashMoney.Instance.DecreaseMoney(UpgradePrice);
         });
-        UpgradeClickMultiplierButton.onClick.AddListener(() => { 
-            OnClickMultiplierIncrease?.Invoke(this, EventArgs.Empty);
+        UpgradeClickMultiplierButton.onClick.AddListener(() => {
+            ClickMultiplier += 0.1f;
+
+            OnClickMultiplierIncrease?.Invoke(this, new OnMultiplierIncreaseEventArgs { Multiplier = ClickMultiplier});
+            
             CashMoney.Instance.DecreaseMoney(UpgradePrice);
         });
         UpgradeMakeTime.onClick.AddListener(() => {
-            OnMakeTimeIncrease?.Invoke(this, EventArgs.Empty);
+            TimeMultiplier += 0.1f;
+
+            OnMakeTimeIncrease?.Invoke(this, new OnMultiplierIncreaseEventArgs { Multiplier = TimeMultiplier });
 
             CashMoney.Instance.DecreaseMoney(UpgradePrice);
         });
@@ -103,5 +119,18 @@ public class UpgradeWithCashUI : MonoBehaviour{
 
         CashMoney.Instance.OnCashChanged -= Cash_OnCashChanged;
     }
+
+    public float GetCashMultiplier() {
+        return CashMultiplier;
+    }
+
+    public float GetClickMultiplier() {
+        return ClickMultiplier;
+    }
+
+    public float GetTimeMultiplier() {
+        return TimeMultiplier;
+    }
+
 
 }

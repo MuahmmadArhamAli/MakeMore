@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -17,8 +18,6 @@ public class ObjectMakeStation : MonoBehaviour,IHasProgress{
     //reference for Instantiating positions
     [SerializeField] private Transform InputModelSpawnPosition;
     [SerializeField] private Transform OutputModelSpawnPosition;
-
-    public static event EventHandler OnMaxHoldObjecChange;
 
     [SerializeField] private GameObject NormalObject;
 
@@ -41,21 +40,26 @@ public class ObjectMakeStation : MonoBehaviour,IHasProgress{
     private float ObjectMakeTimer;
 
     //float to see how much time is increased by
-    private static float IncreaseTime = 0.2f;
+    private static float IncreaseTime;
 
     //int to see how many things it can hold
-    private static int MaxObjectHold = 4;
+    private static int MaxObjectHold;
     private int ObjectHoldCurrently;
 
     //Timer increase multiplier
     private float TimerIncreaseMultiplier;
-    private static float OnClickTimerInceaseMultiplier = 1f;
+    private static float OnClickTimerInceaseMultiplier;
 
     //reference of Image to turn red when the MaxHolds
     [SerializeField] private Image fillImage;
 
     private void Start() {
         fillImage.color = Color.green;
+
+        MaxObjectHold = MaxHoldObjectUpgrade.Instance.GetMaxObjectHold();
+
+        OnClickTimerInceaseMultiplier = UpgradeWithCashUI.Instance.GetClickMultiplier();
+        IncreaseTime = UpgradeWithCashUI.Instance.GetTimeMultiplier();
 
         isOutputModelSpawned = false;
         ObjectMakeTimer = 0f;
@@ -86,18 +90,16 @@ public class ObjectMakeStation : MonoBehaviour,IHasProgress{
         SpawnNewInputModel();
     }
 
-    private void UpgradeCashUI_OnMakeTimeIncrease(object sender, EventArgs e) {
-        IncreaseTime += 0.1f;
+    private void UpgradeCashUI_OnMakeTimeIncrease(object sender, UpgradeWithCashUI.OnMultiplierIncreaseEventArgs e) {
+        IncreaseTime += e.Multiplier;
     }
 
-    private void UpgradeCashUI_OnClickMultiplierIncrease(object sender, EventArgs e) {
-        OnClickTimerInceaseMultiplier += 0.1f;
+    private void UpgradeCashUI_OnClickMultiplierIncrease(object sender, UpgradeWithCashUI.OnMultiplierIncreaseEventArgs e) {
+        OnClickTimerInceaseMultiplier += e.Multiplier;
     }
 
-    private void MaxHoldUpgrade_OnMaxHoldUpgrade(object sender, EventArgs e) {
-        MaxObjectHold += 2;
-
-        OnMaxHoldObjecChange?.Invoke(this, EventArgs.Empty);
+    private void MaxHoldUpgrade_OnMaxHoldUpgrade(object sender, MaxHoldObjectUpgrade.OnMaxHoldUpgradeEventArgs e) {
+        MaxObjectHold = e.HoldObjects;
     }
 
     private void MainCanvas_OnUpgradeCashButtonClick(object sender, EventArgs e) {
@@ -232,10 +234,6 @@ public class ObjectMakeStation : MonoBehaviour,IHasProgress{
 
     private void UpdateVisual() {
         ObjectsHoldText.text = ObjectHoldCurrently.ToString();
-    }
-
-    public static int GetMaxHoldObject() {
-        return MaxObjectHold;
     }
 
     public static float GetClickMultiplier() {
