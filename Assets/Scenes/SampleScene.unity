@@ -1911,11 +1911,6 @@ MonoBehaviour:
   TapTaskButton: {fileID: 1909142711}
   UpgradeWorkStationTaskButton: {fileID: 75897040}
   GetMoneyTaskButton: {fileID: 211887979}
-  TradeTaskImage: {fileID: 1811746508}
-  ObjectUpgradeTaskImage: {fileID: 1102634229}
-  TapTaskImage: {fileID: 1745803680}
-  StationUpgradeTaskImage: {fileID: 816804645}
-  MoneyTaskImage: {fileID: 90834158}
   TradeTaskText: {fileID: 1396365964}
   UpgradeWorkingObjectTaskText: {fileID: 200150904}
   TapTaskText: {fileID: 1846378877}
