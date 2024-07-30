@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,15 +9,19 @@ public class TimeSaveDelta : MonoBehaviour{
 
     private const string TimeDeltaSaveString = "TimeToEnd";
 
-    private float LastTimeToStart;
+    private DateTime LastTimeToStart;
     private float DeltaTime;
 
     private void Awake() {
         Instance = this;
 
-        LastTimeToStart = PlayerPrefs.GetFloat(TimeDeltaSaveString,Time.time);
+        
+        string saveTime = PlayerPrefs.GetString(TimeDeltaSaveString,DateTime.Now.ToString());
+        LastTimeToStart = DateTime.Parse(saveTime);
 
-        DeltaTime = Time.time - LastTimeToStart;
+        DeltaTime = (float)(DateTime.Now - LastTimeToStart).TotalSeconds;
+
+        Debug.Log(DeltaTime);
     }
 
     public float GetDeltaTime() {
@@ -24,7 +29,7 @@ public class TimeSaveDelta : MonoBehaviour{
     }
 
     private void OnDestroy() {
-        PlayerPrefs.SetFloat(TimeDeltaSaveString,Time.time);
+        PlayerPrefs.SetString(TimeDeltaSaveString,DateTime.Now.ToString());
         PlayerPrefs.Save();
     }
 
