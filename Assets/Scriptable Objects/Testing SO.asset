@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4ed06155180aba14ab62a53183309d59, type: 3}
-  m_Name: TestingSO
+  m_Name: Testing SO
   m_EditorClassIdentifier: 
   InputModel: {fileID: 7362639465949757947, guid: e11a74e8e99b9204b9a22fd4abef94fa, type: 3}
   OutputModel: {fileID: 7534585291958350477, guid: 64fd79097de5433419a5027d22080396, type: 3}
-  TimeToChange: 1
+  TimeToChange: 5
   Value: 5

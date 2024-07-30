@@ -21,7 +21,6 @@ public class ObjectMakeStation : MonoBehaviour,IHasProgress{
     public class OnNewObjectMadeEventArgs : EventArgs { public int Objects; };
     public event EventHandler<OnNewObjectMadeEventArgs> OnNewObjectMade;
 
-
     public event EventHandler<IHasProgress.OnProgressChangedEventArgs> OnProgressChanged;
 
     //reference for Instantiating positions
@@ -43,6 +42,10 @@ public class ObjectMakeStation : MonoBehaviour,IHasProgress{
 
     //reference of the outputmodel gameobject
     private GameObject outputModel;
+
+    //int to see how many times the objects have been looped and how many objets there are
+    private int TimesLooped;
+    private int TotalObjects;
     
     //bool to see if an output model has already been spawned
     private bool isOutputModelSpawned;
@@ -91,6 +94,7 @@ public class ObjectMakeStation : MonoBehaviour,IHasProgress{
         Player.Instance.OnNonInteractableObjectClick += Player_OnNonInteractableObjectClick;
         
         TradeStation.Instance.OnTrade += TradeStation_OnTrade;
+        TradeStation.Instance.OnObjectUpgraded += TradeStation_OnObjectUpgraded;
 
         makeStationUpgrade.OnUpgraded += MakeStationUpgrade_OnUpgraded;
 
@@ -106,6 +110,15 @@ public class ObjectMakeStation : MonoBehaviour,IHasProgress{
 
         ObjectMakeSO = TradeStation.Instance.GetCurrentWorkinObject();
 
+        SpawnNewInputModel();
+    }
+
+    private void TradeStation_OnObjectUpgraded(object sender, TradeStation.OnObjectUpgradedEventArgs e) {
+        ObjectMakeSO = e.newObject;
+        TimesLooped = e.TimesLooped;
+
+
+        DestroyOutputModels();
         SpawnNewInputModel();
     }
 
@@ -180,7 +193,7 @@ public class ObjectMakeStation : MonoBehaviour,IHasProgress{
 
             OnProgressChanged?.Invoke(this,new IHasProgress.OnProgressChangedEventArgs { progress = ObjectMakeTimer / ObjectMakeSO.TimeToChange });
 
-            if (ObjectMakeTimer > ObjectMakeSO.TimeToChange) {
+            if (ObjectMakeTimer > ObjectMakeSO.TimeToChange + (TimesLooped * TotalObjects * 5)) {
                 OnAnyObjectMade?.Invoke(this, EventArgs.Empty);
 
                 ObjectHoldCurrently++;
@@ -250,6 +263,7 @@ public class ObjectMakeStation : MonoBehaviour,IHasProgress{
         Player.Instance.OnNonInteractableObjectClick -= Player_OnNonInteractableObjectClick;
 
         TradeStation.Instance.OnTrade -= TradeStation_OnTrade;
+        TradeStation.Instance.OnObjectUpgraded -= TradeStation_OnObjectUpgraded;
 
         makeStationUpgrade.OnUpgraded -= MakeStationUpgrade_OnUpgraded;
 
@@ -266,6 +280,8 @@ public class ObjectMakeStation : MonoBehaviour,IHasProgress{
 
     public void SetCurrentWorkingObject() {
         ObjectMakeSO = TradeStation.Instance.GetCurrentWorkinObject();
+        TimesLooped = TradeStation.Instance.GetTimesLooped();
+        TotalObjects = TradeStation.Instance.GetTotalObjects();
 
         SpawnNewInputModel();
     }

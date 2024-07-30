@@ -160,11 +160,34 @@ public class Tasks : MonoBehaviour{
         TradeStation.Instance.OnTradeForMoney += TradeStation_OnTradeForMoney;
         ObjectMakeStation.OnAnyUpgrade += ObjectMakeStation_OnUpgrade;
         NormalMoney.Instance.OnMoneyChanged += NormalMoney_OnMoneyChanged;
+        TradeStation.Instance.OnObjectUpgraded += TradeStation_OnObjectUpgraded;    
 
         MainCanvasUI.Instance.OnGoToNormalGameplayClick += MainCanvas_OnGoToNormalGameplayClick;
         MainCanvasUI.Instance.OnGoToUpgradeClick += MainCanvas_OnGoToUpgradeClick;
         MainCanvasUI.Instance.OnTasksButtonClick += MainCanvas_OnTasksButtonClick;
         MainCanvasUI.Instance.OnUpgradeCashButtonClick += MainCanvas_OnUpgradeCashButtonClick;
+    }
+
+    private void TradeStation_OnObjectUpgraded(object sender, TradeStation.OnObjectUpgradedEventArgs e) {
+        if (TaskAvailability[GetIndex(DifferentTasks.UpgradeObjectTask)]) {
+
+            ObjectUpgradeCount++;
+
+            PlayerPrefs.SetInt(CountPrefsStrings[1],ObjectUpgradeCount);
+            PlayerPrefs.Save();
+
+            OnUpgradeObjectTaskUpdate?.Invoke(this, new OnTaskUpdateEventArgs { CurrentValue = ObjectUpgradeCount, MaxValue = ObjectUpgradeCountMax });
+
+            if (ObjectUpgradeCount >= ObjectUpgradeCountMax) {
+                //send event
+                OnTaskComplete?.Invoke(this, new OnTaskCompleteEventArgs { taskComplete = DifferentTasks.UpgradeObjectTask });
+
+                TaskCompleted[GetIndex(DifferentTasks.UpgradeObjectTask)] = true;
+
+                PlayerPrefs.SetInt(CompletionPrefsStrings[1], 1);
+                PlayerPrefs.Save();
+            }
+        }
     }
 
     private void MainCanvas_OnUpgradeCashButtonClick(object sender, EventArgs e) {
@@ -251,8 +274,22 @@ public class Tasks : MonoBehaviour{
         else if(e.taskComplete == DifferentTasks.UpgradeObjectTask) {
             //have to save here have to save here have to save here have to save here have to save here have to save herehave to save here have to save herehave to save here have to save here have to save here have to save here have to save here have to save here
 
-            OnUpgradeObjectTaskUpdate?.Invoke(this, new OnTaskUpdateEventArgs { CurrentValue = 0, MaxValue = 1});
+            ObjectUpgradeCount -= ObjectUpgradeCountMax;
 
+            PlayerPrefs.SetInt(CountPrefsStrings[1], ObjectUpgradeCount);
+            PlayerPrefs.Save();
+
+            //if condition to see whether the player has alread done this task so that he can get money 2 times
+            if (ObjectUpgradeCount < ObjectUpgradeCountMax) {
+                //set task completed to false
+
+                TaskCompleted[GetIndex(DifferentTasks.UpgradeObjectTask)] = false;
+
+                PlayerPrefs.SetInt(CompletionPrefsStrings[1], 0);
+                PlayerPrefs.Save();
+            }
+
+            OnUpgradeObjectTaskUpdate?.Invoke(this, new OnTaskUpdateEventArgs { CurrentValue = ObjectUpgradeCount, MaxValue = ObjectUpgradeCountMax});
         }
         else if(e.taskComplete == DifferentTasks.TapTask) {
             PlayerTapsCount -= PlayerTapCountMax;
