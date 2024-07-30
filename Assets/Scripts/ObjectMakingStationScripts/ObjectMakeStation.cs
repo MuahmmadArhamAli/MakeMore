@@ -61,6 +61,13 @@ public class ObjectMakeStation : MonoBehaviour,IHasProgress{
     private float TimerIncreaseMultiplier;
     private static float OnClickTimerInceaseMultiplier;
 
+    private const float MaxSlowingDownTime = 10f;
+    private const float MaxSleepingTime = 20f;
+
+    private float SlowDownSleepTimer;
+
+    private bool isSlowed;
+    private bool isSleeping;
 
     private void Start() {
         fillImage.color = Color.green;
@@ -72,7 +79,13 @@ public class ObjectMakeStation : MonoBehaviour,IHasProgress{
 
         isOutputModelSpawned = false;
         ObjectMakeTimer = 0f;
-        
+
+        isSlowed = false;
+        isSleeping = false;
+
+        SlowDownSleepTimer = 0f;
+        SlowDownSleepTimer += TimeSaveDelta.Instance.GetDeltaTime();
+
         ObjectsHoldText.text = ObjectHoldCurrently.ToString();
 
         Player.Instance.OnNonInteractableObjectClick += Player_OnNonInteractableObjectClick;
@@ -139,17 +152,31 @@ public class ObjectMakeStation : MonoBehaviour,IHasProgress{
     private void Player_OnNonInteractableObjectClick(object sender, EventArgs e) {
         
         ObjectMakeTimer += IncreaseTime * OnClickTimerInceaseMultiplier;
+
+        SlowDownSleepTimer = 0f;
+        isSlowed = false;
+        isSleeping = false;
     }
 
     private void Update() {
-        if (ObjectHoldCurrently < MaxObjectHold) {
-            //if it can hold more objects
+        SlowDownSleepTimer += Time.deltaTime;
 
+        if(SlowDownSleepTimer >= MaxSlowingDownTime) {
+            isSlowed = true;
+        }
+        if(SlowDownSleepTimer >= MaxSleepingTime) {
+            isSleeping = true;
+        }
 
+        if (!isSleeping && ObjectHoldCurrently < MaxObjectHold) {
+            //if it can hold more objects and is not sleeping
 
             fillImage.color = Color.green;
 
-            ObjectMakeTimer += Time.deltaTime * TimerIncreaseMultiplier;
+            if(!isSlowed)
+                ObjectMakeTimer += Time.deltaTime * TimerIncreaseMultiplier;
+            else
+                ObjectMakeTimer += (Time.deltaTime * TimerIncreaseMultiplier)/4f;
 
             OnProgressChanged?.Invoke(this,new IHasProgress.OnProgressChangedEventArgs { progress = ObjectMakeTimer / ObjectMakeSO.TimeToChange });
 
@@ -174,9 +201,14 @@ public class ObjectMakeStation : MonoBehaviour,IHasProgress{
             }
         }
 
-        else {
+        else if(!isSleeping) {
             fillImage.fillAmount = 1f;
             fillImage.color = Color.red;
+        }
+        else if (isSleeping && ObjectHoldCurrently < MaxObjectHold) {
+            fillImage.fillAmount = 0f;
+
+            fillImage.color = Color.green;
         }
     }
 

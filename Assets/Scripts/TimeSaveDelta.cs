@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[DefaultExecutionOrder(-1)]
 public class TimeSaveDelta : MonoBehaviour{
     //Singleton
     public static TimeSaveDelta Instance {  get; private set; }
@@ -20,8 +21,6 @@ public class TimeSaveDelta : MonoBehaviour{
         LastTimeToStart = DateTime.Parse(saveTime);
 
         DeltaTime = (float)(DateTime.Now - LastTimeToStart).TotalSeconds;
-
-        Debug.Log(DeltaTime);
     }
 
     public float GetDeltaTime() {
