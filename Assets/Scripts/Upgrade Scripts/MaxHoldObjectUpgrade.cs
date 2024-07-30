@@ -7,6 +7,11 @@ public class MaxHoldObjectUpgrade : MonoBehaviour{
     //Singleton
     public static MaxHoldObjectUpgrade Instance {  get; private set; }
 
+    //strings for player prefs
+    private const string HoldObjectCostSctring = "HoldObjectCost";
+    private const string HoldObjectQuantityString = "HoldObjectQuantity";
+
+
     private float Cost;
 
     private int MaxHoldObjects;
@@ -16,11 +21,12 @@ public class MaxHoldObjectUpgrade : MonoBehaviour{
 
     private void Awake() {
         Instance = this;
+
+        Cost = PlayerPrefs.GetFloat(HoldObjectCostSctring,300);
+        MaxHoldObjects = PlayerPrefs.GetInt(HoldObjectQuantityString,4);
     }
 
     private void Start() {
-        Cost = 300f;
-        MaxHoldObjects = 4;
 
         MainCanvasUI.Instance.OnMaxHoldLimitUpgradeClick += MainCanvas_OnMaxHoldLimitUpgradeClick;
     }
@@ -33,7 +39,13 @@ public class MaxHoldObjectUpgrade : MonoBehaviour{
             NormalMoney.Instance.DecreaseMoney(Cost);
             
             Cost += 100;
-            
+
+            //Save the player Prefs
+            PlayerPrefs.SetFloat(HoldObjectCostSctring,Cost);
+            PlayerPrefs.SetInt(HoldObjectQuantityString,MaxHoldObjects);
+
+            PlayerPrefs.Save();
+
             OnMaxHoldUpgrade?.Invoke(this, new OnMaxHoldUpgradeEventArgs { HoldObjects = MaxHoldObjects, cost = Cost });
         }
     }

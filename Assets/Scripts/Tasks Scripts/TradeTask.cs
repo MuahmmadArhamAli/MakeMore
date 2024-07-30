@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class TradeTask : MonoBehaviour,IHasProgress{
 
-
     public event EventHandler<IHasProgress.OnProgressChangedEventArgs> OnProgressChanged;
 
     [SerializeField] private Tasks tasks;

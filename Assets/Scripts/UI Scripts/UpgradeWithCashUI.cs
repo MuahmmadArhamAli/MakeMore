@@ -13,6 +13,10 @@ public class UpgradeWithCashUI : MonoBehaviour{
     [SerializeField] private Button UpgradeCashMultiplier;
     [SerializeField] private Button UpgradeMakeTime;
 
+    //strings for player prefs
+    private const string ClickMultiplierString = "ClickMultiplier";
+    private const string CashMultiplierString = "CashMultiplier";
+    private const string TimeMultiplierString = "TimeMultiplier";
 
     //event to send the respetive Scripts to increase multiplier
     public class OnMultiplierIncreaseEventArgs:EventArgs { public float Multiplier; }
@@ -35,12 +39,15 @@ public class UpgradeWithCashUI : MonoBehaviour{
 
         Instance = this;
 
-        ClickMultiplier = 1f;
-        CashMultiplier = 1f;
-        TimeMultiplier = 0.1f;
+        ClickMultiplier = PlayerPrefs.GetFloat(ClickMultiplierString,1f);
+        CashMultiplier = PlayerPrefs.GetFloat(CashMultiplierString,1f);
+        TimeMultiplier = PlayerPrefs.GetFloat(TimeMultiplierString,0.1f);
 
         UpgradeCashMultiplier.onClick.AddListener(() => {
             CashMultiplier += 0.1f;
+
+            PlayerPrefs.SetFloat(CashMultiplierString,CashMultiplier);
+            PlayerPrefs.Save();
 
             OnCashMultiplierIncrease?.Invoke(this, new OnMultiplierIncreaseEventArgs { Multiplier = CashMultiplier });
 
@@ -49,12 +56,18 @@ public class UpgradeWithCashUI : MonoBehaviour{
         UpgradeClickMultiplierButton.onClick.AddListener(() => {
             ClickMultiplier += 0.1f;
 
+            PlayerPrefs.SetFloat(ClickMultiplierString, ClickMultiplier);
+            PlayerPrefs.Save();
+
             OnClickMultiplierIncrease?.Invoke(this, new OnMultiplierIncreaseEventArgs { Multiplier = ClickMultiplier});
             
             CashMoney.Instance.DecreaseMoney(UpgradePrice);
         });
         UpgradeMakeTime.onClick.AddListener(() => {
             TimeMultiplier += 0.1f;
+
+            PlayerPrefs.SetFloat(TimeMultiplierString, TimeMultiplier);
+            PlayerPrefs.Save();
 
             OnMakeTimeIncrease?.Invoke(this, new OnMultiplierIncreaseEventArgs { Multiplier = TimeMultiplier });
 

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using System.Threading;
 using TMPro;
 using Unity.VisualScripting;
@@ -9,9 +10,17 @@ using UnityEngine.UI;
 
 public class ObjectMakeStation : MonoBehaviour,IHasProgress{
     //static event for sending TradeStation to increase Total Numbers
-    public static event EventHandler OnObjectMade;
+    public static event EventHandler OnAnyObjectMade;
 
-    public static event EventHandler OnUpgrade;
+    public static event EventHandler OnAnyUpgrade;
+
+    //events to send to save data
+    public class OnUpgradeEventArgs:EventArgs { public float cost; public float TimerMultiplier; }
+    public event EventHandler<OnUpgradeEventArgs> OnUpgrade;
+
+    public class OnNewObjectMadeEventArgs : EventArgs { public int Objects; };
+    public event EventHandler<OnNewObjectMadeEventArgs> OnNewObjectMade;
+
 
     public event EventHandler<IHasProgress.OnProgressChangedEventArgs> OnProgressChanged;
 
@@ -118,10 +127,11 @@ public class ObjectMakeStation : MonoBehaviour,IHasProgress{
         NormalObject.SetActive(false);
     }
 
-    private void MakeStationUpgrade_OnUpgraded(object sender, EventArgs e) {
+    private void MakeStationUpgrade_OnUpgraded(object sender, MakeStationUpgrade.OnUpgradedEventArgs e) {
         TimerIncreaseMultiplier += .2f;
 
-        OnUpgrade?.Invoke(this,EventArgs.Empty);
+        OnAnyUpgrade?.Invoke(this,EventArgs.Empty);
+        OnUpgrade?.Invoke(this, new OnUpgradeEventArgs { TimerMultiplier = TimerIncreaseMultiplier, cost = e.cost});
     }
 
     private void TradeStation_OnTrade(object sender, EventArgs e) {
@@ -145,9 +155,10 @@ public class ObjectMakeStation : MonoBehaviour,IHasProgress{
             OnProgressChanged?.Invoke(this,new IHasProgress.OnProgressChangedEventArgs { progress = ObjectMakeTimer / ObjectMakeSO.TimeToChange });
 
             if (ObjectMakeTimer > ObjectMakeSO.TimeToChange) {
-                OnObjectMade?.Invoke(this, EventArgs.Empty);
+                OnAnyObjectMade?.Invoke(this, EventArgs.Empty);
 
                 ObjectHoldCurrently++;
+                OnNewObjectMade?.Invoke(this, new OnNewObjectMadeEventArgs { Objects = ObjectHoldCurrently });
 
                 UpdateVisual();
 
@@ -242,6 +253,29 @@ public class ObjectMakeStation : MonoBehaviour,IHasProgress{
 
     public static float GetMakeTimeMultiplier() {
         return IncreaseTime;
+    }
+
+    public void SetStationData(float TimerIncreaseMultiplier, float CostOfUpgrade, int ObjectHoldCurrently) {
+        this.TimerIncreaseMultiplier = TimerIncreaseMultiplier;
+        this.ObjectHoldCurrently = ObjectHoldCurrently;
+
+        makeStationUpgrade.SetCost(CostOfUpgrade);
+
+        AddObjectsAcordingToTime();
+    }
+
+    private void AddObjectsAcordingToTime() {
+        //calculate the remaining objects needed
+        int ObjectsLeft = MaxObjectHold - ObjectHoldCurrently;
+
+        StartCoroutine(ChangeObjectHeld(ObjectsLeft));
+    }
+
+    private IEnumerator ChangeObjectHeld(int ObjectsLeft) {
+        yield return new WaitUntil(()=> ObjectMakeSO != null);
+
+        ObjectHoldCurrently += Mathf.FloorToInt(TimeSaveDelta.Instance.GetDeltaTime() / ObjectMakeSO.TimeToChange);
+        ObjectHoldCurrently = Mathf.Clamp(ObjectHoldCurrently,0,ObjectsLeft);
     }
 
 }

@@ -46,7 +46,7 @@ public class TradeStation : MonoBehaviour{
         hitboxSize.x = hitbox.size.x;
         hitboxSize.y = hitbox.size.y;
 
-        ObjectMakeStation.OnObjectMade += ObjectMakeStation_OnObjectMade;
+        ObjectMakeStation.OnAnyObjectMade += ObjectMakeStation_OnObjectMade;
         Player.Instance.OnTradeStationClick += Player_OnTradeStationClick;
         MainCanvasUI.Instance.OnGoToUpgradeClick += MianCanvasUI_OnGoToUpgradeClick;
         MainCanvasUI.Instance.OnGoToNormalGameplayClick += MainCanvasUI_OnGoToNormalGameplayClick;
@@ -91,7 +91,7 @@ public class TradeStation : MonoBehaviour{
 
 
     private void OnDestroy() {
-        ObjectMakeStation.OnObjectMade -= ObjectMakeStation_OnObjectMade;
+        ObjectMakeStation.OnAnyObjectMade -= ObjectMakeStation_OnObjectMade;
         Player.Instance.OnTradeStationClick -= Player_OnTradeStationClick;
         MainCanvasUI.Instance.OnGoToUpgradeClick -= MianCanvasUI_OnGoToUpgradeClick;
         MainCanvasUI.Instance.OnGoToNormalGameplayClick -= MainCanvasUI_OnGoToNormalGameplayClick;

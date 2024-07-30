@@ -16,7 +16,8 @@ public class MakeStationUpgrade : MonoBehaviour{
     [SerializeField] private ObjectMakeStation makeStation;
 
     //event for telling MakeStation to increase its speed
-    public event EventHandler OnUpgraded;
+    public class OnUpgradedEventArgs:EventArgs { public float cost; }
+    public event EventHandler<OnUpgradedEventArgs> OnUpgraded;
 
 
     //variables for upgrade cost etc
@@ -33,7 +34,7 @@ public class MakeStationUpgrade : MonoBehaviour{
 
                 UpdateVisual();
 
-                OnUpgraded?.Invoke(this, EventArgs.Empty);
+                OnUpgraded?.Invoke(this, new OnUpgradedEventArgs { cost = UpgradeCost });
             }
         });
     }
@@ -88,4 +89,9 @@ public class MakeStationUpgrade : MonoBehaviour{
         MainCanvasUI.Instance.OnTasksButtonClick -= MainCanvas_OnTasksButtonClick;
         MainCanvasUI.Instance.OnUpgradeCashButtonClick -= MainCanvas_OnUpgradeCashButtonClick;
     }
+
+    public void SetCost(float cost) {
+        UpgradeCost = cost;
+    }
+
 }

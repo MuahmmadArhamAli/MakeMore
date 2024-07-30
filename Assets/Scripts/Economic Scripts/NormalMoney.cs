@@ -9,6 +9,8 @@ public class NormalMoney : MonoBehaviour,IMoney{
         
     private float MoneyAmount;
 
+    private const string NormalMoneySaved = "MoneySaved";
+
     //event for Canvas to change Money
     public class OnMoneyChangedEventArgs { public float money; }
     public event EventHandler<OnMoneyChangedEventArgs> OnMoneyChanged;
@@ -16,7 +18,7 @@ public class NormalMoney : MonoBehaviour,IMoney{
     private void Awake() {
         Instance = this;
 
-        MoneyAmount = 5000f;
+        MoneyAmount = PlayerPrefs.GetFloat(NormalMoneySaved,0f);
     }
 
     private void Start() {
@@ -30,6 +32,9 @@ public class NormalMoney : MonoBehaviour,IMoney{
     public void DecreaseMoney(float money) {
         MoneyAmount -= money;
 
+        PlayerPrefs.SetFloat(NormalMoneySaved,MoneyAmount);
+        PlayerPrefs.Save();
+
         OnMoneyChanged?.Invoke(this, new OnMoneyChangedEventArgs { money = MoneyAmount});
     }
 
@@ -39,6 +44,9 @@ public class NormalMoney : MonoBehaviour,IMoney{
 
     public void IncreaseMoney(float money) {
         MoneyAmount += money;
+
+        PlayerPrefs.SetFloat(NormalMoneySaved, MoneyAmount);
+        PlayerPrefs.Save();
 
         OnMoneyChanged?.Invoke(this, new OnMoneyChangedEventArgs { money = MoneyAmount });
     }

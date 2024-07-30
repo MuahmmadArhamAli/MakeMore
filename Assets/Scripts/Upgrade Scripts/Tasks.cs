@@ -2,13 +2,26 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
+using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
 
 public class Tasks : MonoBehaviour{
+    //strings for Counts of different tasks
+    private readonly string[] CountPrefsStrings = { "TradeCount", "ObjectUpgradeCount" , "TapCount" , "StationUpgradeCount" , "MoneyRequired" };
+
+    //strings for timers
+    private readonly string[] TimerPrefsStrings = { "TradeTimer" , "ObjectUpgradeTimer" , "TapTimer" , "StationUpgradeTimer" , "MoneyTimer" };
+
+    //string for availablilty
+    private readonly string[] AvailablePrefsStrings = { "TradeAvailable", "ObjectUpgradeAvailable", "TapAvailable", "StationUpgradeAvailable", "MoneyAvailable" };
+
+    //strings for completion
+    private readonly string[] CompletionPrefsStrings = { "TradeCompletion", "ObjectUpgradeCompletion", "TapCompletion", "StationUpgradeCompletion", "MoneyCompletion" };
+
     private int TotalTasks;
 
     //arrays of tasks
-    private string[] TasksTexts = {"Trade 100 times","Upgrade object 5 times","Tap 3000 times","Upgrade a station 3 times","Get 4000 money"};
+    private string[] TasksTexts = {"Trade","Upgrade object","Tap","Upgrade station","Get money"};
 
     //array of times
     private float[] TaskTimes = {0f,0f,0f,0f,0f};
@@ -17,7 +30,7 @@ public class Tasks : MonoBehaviour{
     private bool[] TaskCompleted = {false,false,false,false,false};
 
     //array of bools to see if the task is available
-    private bool[] TaskAvailability = {true,true,true,true,true };
+    private bool[] TaskAvailability = {true,true,true,true,true};
 
     private float MaxTime;
 
@@ -35,12 +48,12 @@ public class Tasks : MonoBehaviour{
     private int TradeCount;
     private int TradeCountMax;
 
-    //upgrad station varoiables
+    //upgrad station variables
     private int StationUpgradeCount;
     private int StationUpgradeCountMax;
 
     //Get money task variables
-    private float MoneyRequired = 4000;
+    private float MoneyRequired;
 
     //Upgrade Object Tasks
     private int ObjectUpgradeCount;
@@ -76,32 +89,61 @@ public class Tasks : MonoBehaviour{
 
     public class OnTaskTimerChangeEventArgs : EventArgs { public float timer; public float MaxTime; public DifferentTasks task; }
     public event EventHandler<OnTaskTimerChangeEventArgs> OnTaskTimerChange;
-    
 
-    private void Start() {
+    private void Awake() {
         TotalTasks = 5;
-
         MaxTime = 5f;
 
-        PlayerTapsCount = 0;
+        PlayerTapsCount = PlayerPrefs.GetInt(CountPrefsStrings[2],0);
         PlayerTapCountMax = 5;
 
-        TradeCount = 0;
+        TradeCount = PlayerPrefs.GetInt(CountPrefsStrings[0],0);
         TradeCountMax = 5;
-        
-        StationUpgradeCount = 0;
-        StationUpgradeCountMax = 2;
-        
-        MoneyRequired = 4000;
 
-        ObjectUpgradeCount = 0;
+        StationUpgradeCount = PlayerPrefs.GetInt(CountPrefsStrings[3],0);
+        StationUpgradeCountMax = 2;
+
+        MoneyRequired = PlayerPrefs.GetFloat(CountPrefsStrings[4],5000f);
+
+        ObjectUpgradeCount = PlayerPrefs.GetInt(CountPrefsStrings[1],0);
         ObjectUpgradeCountMax = 4;
 
+
+        //timers getting from player Prefs
+        TaskTimes[0] = PlayerPrefs.GetFloat(TimerPrefsStrings[0],0f);
+        TaskTimes[1] = PlayerPrefs.GetFloat(TimerPrefsStrings[1],0f);
+        TaskTimes[2] = PlayerPrefs.GetFloat(TimerPrefsStrings[2],0f);
+        TaskTimes[3] = PlayerPrefs.GetFloat(TimerPrefsStrings[3],0f);
+        TaskTimes[4] = PlayerPrefs.GetFloat(TimerPrefsStrings[4],0f);
+
+        //add the time it took to open the game again
+        TaskTimes[0] += TimeSaveDelta.Instance.GetDeltaTime();
+        TaskTimes[1] += TimeSaveDelta.Instance.GetDeltaTime();
+        TaskTimes[2] += TimeSaveDelta.Instance.GetDeltaTime();
+        TaskTimes[3] += TimeSaveDelta.Instance.GetDeltaTime();
+        TaskTimes[4] += TimeSaveDelta.Instance.GetDeltaTime();
+
+        //completion getting from player prefs
+        TaskCompleted[0] = PlayerPrefs.GetInt(CompletionPrefsStrings[0], 0) == 1;
+        TaskCompleted[1] = PlayerPrefs.GetInt(CompletionPrefsStrings[1], 0) == 1;
+        TaskCompleted[2] = PlayerPrefs.GetInt(CompletionPrefsStrings[2], 0) == 1;
+        TaskCompleted[3] = PlayerPrefs.GetInt(CompletionPrefsStrings[3], 0) == 1 ;
+        TaskCompleted[4] = PlayerPrefs.GetInt(CompletionPrefsStrings[4], 0) == 1;
+
+        // available getting from player prefs
+        TaskAvailability[0] = PlayerPrefs.GetInt(AvailablePrefsStrings[0], 0) == 0;
+        TaskAvailability[1] = PlayerPrefs.GetInt(AvailablePrefsStrings[1], 0) == 0;
+        TaskAvailability[2] = PlayerPrefs.GetInt(AvailablePrefsStrings[2], 0) == 0;
+        TaskAvailability[3] = PlayerPrefs.GetInt(AvailablePrefsStrings[3], 0) == 0;
+        TaskAvailability[4] = PlayerPrefs.GetInt(AvailablePrefsStrings[4], 0) == 0;
+    }
+
+    private void Start() {
         taskUI.OnTaskMoneyReceived += TaskUI_OnTaskMoneyReceived;
 
         Player.Instance.OnNonInteractableObjectClick += Player_OnNonInteractableObjectClick;
         TradeStation.Instance.OnTradeForMoney += TradeStation_OnTradeForMoney;
-        ObjectMakeStation.OnUpgrade += ObjectMakeStation_OnUpgrade;
+        ObjectMakeStation.OnAnyUpgrade += ObjectMakeStation_OnUpgrade;
         NormalMoney.Instance.OnMoneyChanged += NormalMoney_OnMoneyChanged;
 
         MainCanvasUI.Instance.OnGoToNormalGameplayClick += MainCanvas_OnGoToNormalGameplayClick;
@@ -136,6 +178,9 @@ public class Tasks : MonoBehaviour{
                 OnTaskComplete?.Invoke(this, new OnTaskCompleteEventArgs { taskComplete = DifferentTasks.GetMoneyTask });
 
                 TaskCompleted[GetIndex(DifferentTasks.GetMoneyTask)] = true;
+
+                PlayerPrefs.SetInt(CompletionPrefsStrings[4],1);
+                PlayerPrefs.Save();
             }
         }
     }
@@ -146,12 +191,18 @@ public class Tasks : MonoBehaviour{
 
             StationUpgradeCount++;
 
+            PlayerPrefs.SetInt(CountPrefsStrings[3],StationUpgradeCount);
+            PlayerPrefs.Save();
+
             OnUpgradeStationTaskUpdate?.Invoke(this, new OnTaskUpdateEventArgs { CurrentValue = StationUpgradeCount , MaxValue = StationUpgradeCountMax });
 
             if(StationUpgradeCount >= StationUpgradeCountMax) {
                 OnTaskComplete?.Invoke(this, new OnTaskCompleteEventArgs { taskComplete = DifferentTasks.UpgradeStationTask });
 
                 TaskCompleted[GetIndex(DifferentTasks.UpgradeStationTask)] = true;
+
+                PlayerPrefs.SetInt(CompletionPrefsStrings[3],1);
+                PlayerPrefs.Save();
             }
         }
     }
@@ -161,19 +212,29 @@ public class Tasks : MonoBehaviour{
 
         TaskAvailability[GetIndex(e.taskComplete)] = false;
 
+        PlayerPrefs.SetInt(AvailablePrefsStrings[GetIndex(e.taskComplete)],0);
+        PlayerPrefs.Save();
+
         if(e.taskComplete == DifferentTasks.TradeTask) {
             TradeCount -= TradeCountMax;
+
+            PlayerPrefs.SetInt(CountPrefsStrings[0],TradeCount);
+            PlayerPrefs.Save();
 
             //if condition to see whether the player has alread done this task so that he can get money 2 times
             if(TradeCount < TradeCountMax) {
                 //set task completed to false
 
                 TaskCompleted[GetIndex(DifferentTasks.TradeTask)] = false;
+
+                PlayerPrefs.SetInt(CompletionPrefsStrings[0],0);
+                PlayerPrefs.Save();
             }
 
             OnTradeTaskUpdate?.Invoke(this, new OnTaskUpdateEventArgs { CurrentValue = TradeCount, MaxValue = TradeCountMax });
         }
         else if(e.taskComplete == DifferentTasks.UpgradeObjectTask) {
+            //have to save here have to save here have to save here have to save here have to save here have to save herehave to save here have to save herehave to save here have to save here have to save here have to save here have to save here have to save here
 
             OnUpgradeObjectTaskUpdate?.Invoke(this, new OnTaskUpdateEventArgs { CurrentValue = 0, MaxValue = 1});
 
@@ -181,9 +242,15 @@ public class Tasks : MonoBehaviour{
         else if(e.taskComplete == DifferentTasks.TapTask) {
             PlayerTapsCount -= PlayerTapCountMax;
 
+            PlayerPrefs.SetInt(CountPrefsStrings[2],PlayerTapsCount);
+            PlayerPrefs.Save();
+
             //if condition to see whether the player has alread done this task so that he can get money 2 times
             if (PlayerTapsCount < PlayerTapCountMax) {
                 TaskCompleted[GetIndex(DifferentTasks.TapTask)] = false;
+
+                PlayerPrefs.SetInt(CompletionPrefsStrings[2],0);
+                PlayerPrefs.Save();
             }
 
             OnPlayerClickTaskUpdate?.Invoke(this, new OnTaskUpdateEventArgs { CurrentValue = PlayerTapsCount, MaxValue = PlayerTapCountMax });
@@ -191,18 +258,31 @@ public class Tasks : MonoBehaviour{
         else if(e.taskComplete == DifferentTasks.UpgradeStationTask) {
 
             StationUpgradeCount -= StationUpgradeCountMax;
+
+            PlayerPrefs.SetInt(CountPrefsStrings[3],StationUpgradeCount);
+            PlayerPrefs.Save();
+
             //if condition to see whether the player has alread done this task so that he can get money 2 times
             if (StationUpgradeCount < StationUpgradeCountMax) {
                 TaskCompleted[GetIndex(DifferentTasks.UpgradeStationTask)] = false;
+
+                PlayerPrefs.SetInt(CompletionPrefsStrings[3], 0);
+                PlayerPrefs.Save();
             }
 
             OnUpgradeStationTaskUpdate?.Invoke(this, new OnTaskUpdateEventArgs { CurrentValue = StationUpgradeCount, MaxValue = StationUpgradeCountMax });
         }
         else {
             MoneyRequired += 4000f;
-            
+
+            PlayerPrefs.SetFloat(CountPrefsStrings[4],MoneyRequired);
+            PlayerPrefs.Save();
+
             if(NormalMoney.Instance.GetMoney() < MoneyRequired) {
                 TaskCompleted[GetIndex(DifferentTasks.GetMoneyTask)] = false;
+
+                PlayerPrefs.SetInt(CompletionPrefsStrings[4], 0);
+                PlayerPrefs.Save();
             }
 
             OnGetMoneyTaskUpdate?.Invoke(this, new OnTaskUpdateEventArgs { CurrentValue = NormalMoney.Instance.GetMoney(), MaxValue = MoneyRequired });
@@ -221,12 +301,18 @@ public class Tasks : MonoBehaviour{
 
                 TradeCount++;
 
+                PlayerPrefs.SetInt(CountPrefsStrings[0],TradeCount);
+                PlayerPrefs.Save();
+
                 OnTradeTaskUpdate?.Invoke(this, new OnTaskUpdateEventArgs { CurrentValue = TradeCount, MaxValue = TradeCountMax });
 
                 if (TradeCount >= TradeCountMax) {
                     OnTaskComplete?.Invoke(this, new OnTaskCompleteEventArgs { taskComplete = DifferentTasks.TradeTask });
 
                     TaskCompleted[GetIndex(DifferentTasks.TradeTask)] = true;
+
+                    PlayerPrefs.SetInt(CompletionPrefsStrings[0],1);
+                    PlayerPrefs.Save();
                 }
             }
         }
@@ -237,6 +323,8 @@ public class Tasks : MonoBehaviour{
             if (TaskAvailability[GetIndex(DifferentTasks.TapTask)]) {
 
                 PlayerTapsCount++;
+                PlayerPrefs.SetInt(CountPrefsStrings[2],PlayerTapsCount);
+                PlayerPrefs.Save();
 
                 OnPlayerClickTaskUpdate.Invoke(this, new OnTaskUpdateEventArgs { MaxValue = PlayerTapCountMax, CurrentValue = PlayerTapsCount });
 
@@ -245,6 +333,9 @@ public class Tasks : MonoBehaviour{
                     OnTaskComplete?.Invoke(this, new OnTaskCompleteEventArgs { taskComplete = DifferentTasks.TapTask });
 
                     TaskCompleted[GetIndex(DifferentTasks.TapTask)] = true;
+
+                    PlayerPrefs.SetInt(CompletionPrefsStrings[2], 1);
+                    PlayerPrefs.Save();
                 }
             }
         }
@@ -368,6 +459,7 @@ public class Tasks : MonoBehaviour{
 
             if (!TaskAvailability[i]) {
                 TaskTimes[i] += Time.deltaTime;
+                PlayerPrefs.SetFloat(TimerPrefsStrings[i], TaskTimes[i]);
 
                 OnTaskTimerChange?.Invoke(this, new OnTaskTimerChangeEventArgs { timer = TaskTimes[i], MaxTime = MaxTime, task = currentTask });
 
@@ -376,6 +468,8 @@ public class Tasks : MonoBehaviour{
                     TaskTimes[i] = 0f;
 
                     TaskAvailability[i] = true;
+                    PlayerPrefs.SetFloat(TimerPrefsStrings[i], TaskTimes[i]);
+
                     OnTaskCompletionChange?.Invoke(this, EventArgs.Empty);
                 }
             }
@@ -385,6 +479,8 @@ public class Tasks : MonoBehaviour{
                 OnTaskTimerChange?.Invoke(this, new OnTaskTimerChangeEventArgs { timer = MaxTime + 1, MaxTime = MaxTime, task = currentTask });
             }
         }
+
+        PlayerPrefs.Save();
     }
 
     private void OnDestroy() {
@@ -392,7 +488,7 @@ public class Tasks : MonoBehaviour{
 
         Player.Instance.OnNonInteractableObjectClick -= Player_OnNonInteractableObjectClick;
         TradeStation.Instance.OnTradeForMoney -= TradeStation_OnTradeForMoney;
-        ObjectMakeStation.OnUpgrade -= ObjectMakeStation_OnUpgrade;
+        ObjectMakeStation.OnAnyUpgrade -= ObjectMakeStation_OnUpgrade;
         NormalMoney.Instance.OnMoneyChanged -= NormalMoney_OnMoneyChanged;
 
         MainCanvasUI.Instance.OnGoToNormalGameplayClick -= MainCanvas_OnGoToNormalGameplayClick;
