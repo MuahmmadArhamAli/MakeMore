@@ -72,10 +72,7 @@ public class ObjectMakeStation : MonoBehaviour,IHasProgress{
 
         isOutputModelSpawned = false;
         ObjectMakeTimer = 0f;
-        ObjectHoldCurrently = 0;
-        TimerIncreaseMultiplier = 1f;
-        IncreaseTime = 0.2f;
-
+        
         ObjectsHoldText.text = ObjectHoldCurrently.ToString();
 
         Player.Instance.OnNonInteractableObjectClick += Player_OnNonInteractableObjectClick;
@@ -147,6 +144,8 @@ public class ObjectMakeStation : MonoBehaviour,IHasProgress{
     private void Update() {
         if (ObjectHoldCurrently < MaxObjectHold) {
             //if it can hold more objects
+
+
 
             fillImage.color = Color.green;
 
@@ -277,11 +276,10 @@ public class ObjectMakeStation : MonoBehaviour,IHasProgress{
         yield return new WaitUntil(()=> ObjectMakeSO != null);
 
         ObjectHoldCurrently += Mathf.FloorToInt(TimeSaveDelta.Instance.GetDeltaTime() / ObjectMakeSO.TimeToChange);
-        ObjectHoldCurrently = Mathf.Clamp(ObjectHoldCurrently,0,ObjectsLeft);
+
+        ObjectHoldCurrently = Mathf.Clamp(ObjectHoldCurrently,0,MaxObjectHold);
 
         UpdateUI();
-
-
     }
 
     private void UpdateUI() {
@@ -290,7 +288,11 @@ public class ObjectMakeStation : MonoBehaviour,IHasProgress{
         if(ObjectHoldCurrently >= MaxObjectHold) {
             fillImage.fillAmount = 1f;
             fillImage.color = Color.red;
+        }
 
+        if(ObjectHoldCurrently > 0) {
+            outputModel.SetActive(true);
+            isOutputModelSpawned = true;
         }
     }
 
