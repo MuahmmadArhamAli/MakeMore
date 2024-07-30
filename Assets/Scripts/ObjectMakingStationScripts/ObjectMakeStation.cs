@@ -32,6 +32,8 @@ public class ObjectMakeStation : MonoBehaviour,IHasProgress{
 
     //text for showing how many objects there are
     [SerializeField] private TextMeshProUGUI ObjectsHoldText;
+    //reference of Image to turn red when the MaxHolds
+    [SerializeField] private Image fillImage;
 
     //variable forsetting the ObjectMakeSO
     private ModelChangeResultSO ObjectMakeSO;
@@ -59,8 +61,6 @@ public class ObjectMakeStation : MonoBehaviour,IHasProgress{
     private float TimerIncreaseMultiplier;
     private static float OnClickTimerInceaseMultiplier;
 
-    //reference of Image to turn red when the MaxHolds
-    [SerializeField] private Image fillImage;
 
     private void Start() {
         fillImage.color = Color.green;
@@ -261,6 +261,8 @@ public class ObjectMakeStation : MonoBehaviour,IHasProgress{
 
         makeStationUpgrade.SetCost(CostOfUpgrade);
 
+        UpdateUI();
+
         AddObjectsAcordingToTime();
     }
 
@@ -276,6 +278,20 @@ public class ObjectMakeStation : MonoBehaviour,IHasProgress{
 
         ObjectHoldCurrently += Mathf.FloorToInt(TimeSaveDelta.Instance.GetDeltaTime() / ObjectMakeSO.TimeToChange);
         ObjectHoldCurrently = Mathf.Clamp(ObjectHoldCurrently,0,ObjectsLeft);
+
+        UpdateUI();
+
+
+    }
+
+    private void UpdateUI() {
+        ObjectsHoldText.text = ObjectHoldCurrently.ToString();
+
+        if(ObjectHoldCurrently >= MaxObjectHold) {
+            fillImage.fillAmount = 1f;
+            fillImage.color = Color.red;
+
+        }
     }
 
 }

@@ -97,16 +97,25 @@ public class Tasks : MonoBehaviour{
         PlayerTapsCount = PlayerPrefs.GetInt(CountPrefsStrings[2],0);
         PlayerTapCountMax = 5;
 
+        OnPlayerClickTaskUpdate?.Invoke(this, new OnTaskUpdateEventArgs { CurrentValue = PlayerTapsCount, MaxValue = PlayerTapCountMax });
+
         TradeCount = PlayerPrefs.GetInt(CountPrefsStrings[0],0);
         TradeCountMax = 5;
+
+        OnTradeTaskUpdate?.Invoke(this, new OnTaskUpdateEventArgs { MaxValue = TradeCountMax, CurrentValue = TradeCount });
 
         StationUpgradeCount = PlayerPrefs.GetInt(CountPrefsStrings[3],0);
         StationUpgradeCountMax = 2;
 
+        OnUpgradeStationTaskUpdate?.Invoke(this, new OnTaskUpdateEventArgs { CurrentValue = StationUpgradeCount, MaxValue = StationUpgradeCountMax });
+
         MoneyRequired = PlayerPrefs.GetFloat(CountPrefsStrings[4],5000f);
+        OnGetMoneyTaskUpdate?.Invoke(this, new OnTaskUpdateEventArgs { CurrentValue = NormalMoney.Instance.GetMoney(), MaxValue = MoneyRequired });
 
         ObjectUpgradeCount = PlayerPrefs.GetInt(CountPrefsStrings[1],0);
         ObjectUpgradeCountMax = 4;
+
+        OnUpgradeObjectTaskUpdate?.Invoke(this, new OnTaskUpdateEventArgs { CurrentValue = ObjectUpgradeCount, MaxValue = ObjectUpgradeCountMax });
 
 
         //timers getting from player Prefs
@@ -122,6 +131,12 @@ public class Tasks : MonoBehaviour{
         TaskTimes[2] += TimeSaveDelta.Instance.GetDeltaTime();
         TaskTimes[3] += TimeSaveDelta.Instance.GetDeltaTime();
         TaskTimes[4] += TimeSaveDelta.Instance.GetDeltaTime();
+
+        OnTaskTimerChange?.Invoke(this, new OnTaskTimerChangeEventArgs { MaxTime = MaxTime, timer = TaskTimes[0], task = DifferentTasks.TradeTask});
+        OnTaskTimerChange?.Invoke(this, new OnTaskTimerChangeEventArgs { MaxTime = MaxTime, timer = TaskTimes[1], task = DifferentTasks.UpgradeObjectTask});
+        OnTaskTimerChange?.Invoke(this, new OnTaskTimerChangeEventArgs { MaxTime = MaxTime, timer = TaskTimes[2], task = DifferentTasks.TapTask});
+        OnTaskTimerChange?.Invoke(this, new OnTaskTimerChangeEventArgs { MaxTime = MaxTime, timer = TaskTimes[3], task = DifferentTasks.UpgradeStationTask});
+        OnTaskTimerChange?.Invoke(this, new OnTaskTimerChangeEventArgs { MaxTime = MaxTime, timer = TaskTimes[4], task = DifferentTasks.GetMoneyTask});
 
         //completion getting from player prefs
         TaskCompleted[0] = PlayerPrefs.GetInt(CompletionPrefsStrings[0], 0) == 1;
