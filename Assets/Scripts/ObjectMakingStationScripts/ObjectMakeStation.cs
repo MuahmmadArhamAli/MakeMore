@@ -14,6 +14,11 @@ public class ObjectMakeStation : MonoBehaviour,IHasProgress{
 
     public static event EventHandler OnAnyUpgrade;
 
+    //strings for isSlowed and isSleeping
+    private const string isSlowedString = "isSlowed";
+    private const string isSleepingString = "isSleeping";
+
+
     //events to send to save data
     public class OnUpgradeEventArgs:EventArgs { public float cost; public float TimerMultiplier; }
     public event EventHandler<OnUpgradeEventArgs> OnUpgrade;
@@ -71,6 +76,11 @@ public class ObjectMakeStation : MonoBehaviour,IHasProgress{
 
     private bool isSlowed;
     private bool isSleeping;
+
+    private void Awake() {
+        isSlowed = PlayerPrefs.GetInt(isSlowedString,0) == 1;
+        isSleeping = PlayerPrefs.GetInt(isSleepingString,0) == 1;
+    }
 
     private void Start() {
         fillImage.color = Color.green;
@@ -169,16 +179,26 @@ public class ObjectMakeStation : MonoBehaviour,IHasProgress{
         SlowDownSleepTimer = 0f;
         isSlowed = false;
         isSleeping = false;
+
+        PlayerPrefs.SetInt(isSlowedString,0);
+        PlayerPrefs.SetInt(isSleepingString,0);
+        PlayerPrefs.Save();
     }
 
     private void Update() {
         SlowDownSleepTimer += Time.deltaTime;
 
-        if(SlowDownSleepTimer >= MaxSlowingDownTime) {
+        if(!isSlowed && SlowDownSleepTimer >= MaxSlowingDownTime) {
             isSlowed = true;
+
+            PlayerPrefs.SetInt(isSlowedString,1);
+            PlayerPrefs.Save();
         }
-        if(SlowDownSleepTimer >= MaxSleepingTime) {
+        if(!isSlowed && SlowDownSleepTimer >= MaxSleepingTime) {
             isSleeping = true;
+
+            PlayerPrefs.SetInt(isSleepingString,1);
+            PlayerPrefs.Save();
         }
 
         if (!isSleeping && ObjectHoldCurrently < MaxObjectHold) {
@@ -193,7 +213,7 @@ public class ObjectMakeStation : MonoBehaviour,IHasProgress{
 
             OnProgressChanged?.Invoke(this,new IHasProgress.OnProgressChangedEventArgs { progress = ObjectMakeTimer / ObjectMakeSO.TimeToChange });
 
-            if (ObjectMakeTimer > ObjectMakeSO.TimeToChange + (TimesLooped * TotalObjects * 5)) {
+            if (ObjectMakeTimer > ObjectMakeSO.TimeToChange + (TimesLooped * TotalObjects * 30)) {
                 OnAnyObjectMade?.Invoke(this, EventArgs.Empty);
 
                 ObjectHoldCurrently++;

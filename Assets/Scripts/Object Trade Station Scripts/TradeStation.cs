@@ -13,6 +13,7 @@ public class TradeStation : MonoBehaviour,IHasProgress{
     private const string IndexOfObjectString = "IndexOfObject";
     private const string CurrentObjectsTradedString = "CurrentObjectsTraded";
     private const string TimesLoopedString = "TimesLooped";
+    private const string TotalObjectsMadeString = "TotalObjectsMade";
 
     private int IndexOfObject;
     private int MaxObjectNeededToLevelUp;
@@ -67,14 +68,13 @@ public class TradeStation : MonoBehaviour,IHasProgress{
         CurrentObjectsTraded = PlayerPrefs.GetInt(CurrentObjectsTradedString,0);
         CurrentObject = ObjectsToChange[IndexOfObject];
 
+        TotalObjectsMade = PlayerPrefs.GetInt(TotalObjectsMadeString,0);
 
         CurrentObjectsText.text = CurrentObjectsTraded.ToString();
         MaxObjectsText.text = MaxObjectNeededToLevelUp.ToString();
     }
 
     private void Start() {
-        TotalObjectsMade = 0;
-
         cashMultiplier = UpgradeWithCashUI.Instance.GetCashMultiplier();
 
         hitboxSize.x = hitbox.size.x;
@@ -114,8 +114,10 @@ public class TradeStation : MonoBehaviour,IHasProgress{
     }
 
     private void Player_OnTradeStationClick(object sender, EventArgs e) {
+        Debug.Log("Trade Station Why it no working");
+
         OnTrade?.Invoke(this, EventArgs.Empty);
-        OnTradeForMoney?.Invoke(this, new OnTradeForMoneyEventArgs { money = (TotalObjectsMade * (CurrentObject.Value + (TimesLooped * 5 * ObjectsToChange.Length))) * cashMultiplier });
+        OnTradeForMoney?.Invoke(this, new OnTradeForMoneyEventArgs { money = (TotalObjectsMade * (CurrentObject.Value + (TimesLooped * 30 * ObjectsToChange.Length))) * cashMultiplier });
 
         CurrentObjectsTraded += TotalObjectsMade;
 
@@ -133,7 +135,6 @@ public class TradeStation : MonoBehaviour,IHasProgress{
             CurrentObject = ObjectsToChange[IndexOfObject];
 
             PlayerPrefs.SetInt(IndexOfObjectString, IndexOfObject);
-            PlayerPrefs.SetInt(CurrentObjectsTradedString,CurrentObjectsTraded);
             PlayerPrefs.Save();
 
             OnObjectUpgraded?.Invoke(this, new OnObjectUpgradedEventArgs { newObject = CurrentObject, TimesLooped = TimesLooped });
@@ -143,13 +144,21 @@ public class TradeStation : MonoBehaviour,IHasProgress{
         }
         CurrentObjectsText.text = CurrentObjectsTraded.ToString();
 
+        PlayerPrefs.SetInt(CurrentObjectsTradedString, CurrentObjectsTraded);
+        PlayerPrefs.Save();
+
         OnProgressChanged?.Invoke(this, new IHasProgress.OnProgressChangedEventArgs { progress = (float)CurrentObjectsTraded/ MaxObjectNeededToLevelUp});
 
         TotalObjectsMade = 0;
+        PlayerPrefs.SetInt(TotalObjectsMadeString,0);
+        PlayerPrefs.Save();
     }
 
     private void ObjectMakeStation_OnObjectMade(object sender, System.EventArgs e) {
         TotalObjectsMade++;
+
+        PlayerPrefs.SetInt(TotalObjectsMadeString,TotalObjectsMade);
+        PlayerPrefs.Save();
     }
 
 

@@ -21,6 +21,7 @@ public class MainCanvasUI : MonoBehaviour{
 
     [SerializeField] private Button UpgradeHoldLimitButton;
 
+    [SerializeField] private GameObject ExperienceGameObject;
 
     //event for make stations to show upgrade 
     public event EventHandler OnGoToUpgradeClick;
@@ -39,12 +40,12 @@ public class MainCanvasUI : MonoBehaviour{
 
         GoToUpgradeButton.onClick.AddListener(() => {
             OnGoToUpgradeClick?.Invoke(this, EventArgs.Empty);
-            ShowUpgradeButtons();
+            ShowUpgradeButtonsAndHideXP();
         });
 
         GoToNormalGameplayButton.onClick.AddListener(() => {
             OnGoToNormalGameplayClick?.Invoke(this, EventArgs.Empty);
-            HideUpgradeButtons();
+            HideUpgradeButtonsAndShowXP();
         });
 
         UpgradeHoldLimitButton.onClick.AddListener(() => {
@@ -53,12 +54,12 @@ public class MainCanvasUI : MonoBehaviour{
         TasksButton.onClick.AddListener(() => {
             OnTasksButtonClick?.Invoke(this, EventArgs.Empty);
 
-            HideUpgradeButtons();
+            HideUpgradeButtonsAndShowXP();
         });
         UpgradeWithCashButton.onClick.AddListener(() => {
             OnUpgradeCashButtonClick?.Invoke(this, EventArgs.Empty);
 
-            HideUpgradeButtons();
+            HideUpgradeButtonsAndShowXP();
         });
 
 
@@ -67,7 +68,7 @@ public class MainCanvasUI : MonoBehaviour{
     private void Start() {
         isFirstUpdate = true;
 
-        HideUpgradeButtons();
+        HideUpgradeButtonsAndShowXP();
 
         NormalMoney.Instance.OnMoneyChanged += NormalMoney_OnMoneyChanged;
         CashMoney.Instance.OnCashChanged += CashMoney_OnCashChanged;
@@ -102,11 +103,15 @@ public class MainCanvasUI : MonoBehaviour{
         MaxHoldObjectUpgrade.Instance.OnMaxHoldUpgrade -= MaxHold_OnMaxHoldUpgrade;
     }
 
-    private void HideUpgradeButtons() {
+    private void HideUpgradeButtonsAndShowXP() {
         UpgradeHoldLimitButton.gameObject.SetActive(false);
+
+        ExperienceGameObject.SetActive(true);
     }
-    private void ShowUpgradeButtons() {
+    private void ShowUpgradeButtonsAndHideXP() {
         UpgradeHoldLimitButton.gameObject.SetActive(true);
+
+        ExperienceGameObject.SetActive(false);
     }
 
     private void Update() {
