@@ -83,6 +83,8 @@ public class AddNewStation : MonoBehaviour{
                     OnPriceChanged?.Invoke(this, EventArgs.Empty);
 
                     HideCanvas();
+
+
                 }
             }
         });

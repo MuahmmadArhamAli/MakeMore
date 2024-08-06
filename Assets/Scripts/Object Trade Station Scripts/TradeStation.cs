@@ -93,7 +93,7 @@ public class TradeStation : MonoBehaviour,IHasProgress{
     }
 
     private void UpgradeCashUI_OnCashMultiplierIncrease(object sender, UpgradeWithCashUI.OnMultiplierIncreaseEventArgs e) {
-        cashMultiplier += e.Multiplier;
+        cashMultiplier = e.Multiplier;
     }
 
     private void MainCanvas_OnUpgradeCashButtonClick(object sender, EventArgs e) {
@@ -114,7 +114,6 @@ public class TradeStation : MonoBehaviour,IHasProgress{
     }
 
     private void Player_OnTradeStationClick(object sender, EventArgs e) {
-        Debug.Log("Trade Station Why it no working");
 
         OnTrade?.Invoke(this, EventArgs.Empty);
         OnTradeForMoney?.Invoke(this, new OnTradeForMoneyEventArgs { money = (TotalObjectsMade * (CurrentObject.Value + (TimesLooped * 30 * ObjectsToChange.Length))) * cashMultiplier });

@@ -26,7 +26,6 @@ public class NormalMoney : MonoBehaviour,IMoney{
     }
 
     private void TradeStation_OnTradeForMoney(object sender, TradeStation.OnTradeForMoneyEventArgs e) {
-        Debug.Log("Money Why it no working");
         IncreaseMoney(e.money);
     }
 
@@ -44,16 +43,11 @@ public class NormalMoney : MonoBehaviour,IMoney{
     }
 
     public void IncreaseMoney(float money) {
-        Debug.Log("Prev Money " + MoneyAmount);
-
+        
         MoneyAmount += money;
 
         PlayerPrefs.SetFloat(NormalMoneySaved, MoneyAmount);
         PlayerPrefs.Save();
-
-        Debug.Log("Increased by " + money);
-
-        Debug.Log("Increased Money: " + MoneyAmount);
 
         OnMoneyChanged?.Invoke(this, new OnMoneyChangedEventArgs { money = MoneyAmount });
 

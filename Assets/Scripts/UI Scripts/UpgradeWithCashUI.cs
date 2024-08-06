@@ -46,6 +46,7 @@ public class UpgradeWithCashUI : MonoBehaviour{
         UpgradeCashMultiplier.onClick.AddListener(() => {
             CashMultiplier += 0.1f;
 
+
             PlayerPrefs.SetFloat(CashMultiplierString,CashMultiplier);
             PlayerPrefs.Save();
 

@@ -16,7 +16,9 @@ public class ObjectMakeStation : MonoBehaviour,IHasProgress{
 
     //strings for isSlowed and isSleeping
     private const string isSlowedString = "isSlowed";
+
     private const string isSleepingString = "isSleeping";
+
 
 
     //events to send to save data
@@ -66,7 +68,7 @@ public class ObjectMakeStation : MonoBehaviour,IHasProgress{
     private int ObjectHoldCurrently;
 
     //Timer increase multiplier
-    private float TimerIncreaseMultiplier;
+    private float TimerIncreaseMultiplier = 1f;
     private static float OnClickTimerInceaseMultiplier;
 
     private const float MaxSlowingDownTime = 10f;
@@ -133,11 +135,11 @@ public class ObjectMakeStation : MonoBehaviour,IHasProgress{
     }
 
     private void UpgradeCashUI_OnMakeTimeIncrease(object sender, UpgradeWithCashUI.OnMultiplierIncreaseEventArgs e) {
-        IncreaseTime += e.Multiplier;
+        IncreaseTime = e.Multiplier;
     }
 
     private void UpgradeCashUI_OnClickMultiplierIncrease(object sender, UpgradeWithCashUI.OnMultiplierIncreaseEventArgs e) {
-        OnClickTimerInceaseMultiplier += e.Multiplier;
+        OnClickTimerInceaseMultiplier = e.Multiplier;
     }
 
     private void MaxHoldUpgrade_OnMaxHoldUpgrade(object sender, MaxHoldObjectUpgrade.OnMaxHoldUpgradeEventArgs e) {
@@ -362,6 +364,12 @@ public class ObjectMakeStation : MonoBehaviour,IHasProgress{
             outputModel.SetActive(true);
             isOutputModelSpawned = true;
         }
+    }
+
+    public void PrintTest() {
+        Debug.Log("Current: " + ObjectHoldCurrently);
+        Debug.Log("Max: " + MaxObjectHold);
+        Debug.Log("Sleeping: " + isSleeping);
     }
 
 }
