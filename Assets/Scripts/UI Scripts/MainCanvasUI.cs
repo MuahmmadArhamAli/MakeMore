@@ -40,12 +40,15 @@ public class MainCanvasUI : MonoBehaviour{
 
         GoToUpgradeButton.onClick.AddListener(() => {
             OnGoToUpgradeClick?.Invoke(this, EventArgs.Empty);
-            ShowUpgradeButtonsAndHideXP();
+            ShowUpgradeButtons();
+            HideXP();
+
         });
 
         GoToNormalGameplayButton.onClick.AddListener(() => {
             OnGoToNormalGameplayClick?.Invoke(this, EventArgs.Empty);
-            HideUpgradeButtonsAndShowXP();
+            HideUpgradeButtons();
+            ShowXP();
         });
 
         UpgradeHoldLimitButton.onClick.AddListener(() => {
@@ -54,12 +57,14 @@ public class MainCanvasUI : MonoBehaviour{
         TasksButton.onClick.AddListener(() => {
             OnTasksButtonClick?.Invoke(this, EventArgs.Empty);
 
-            HideUpgradeButtonsAndShowXP();
+            HideUpgradeButtons();
+            HideXP();
         });
         UpgradeWithCashButton.onClick.AddListener(() => {
             OnUpgradeCashButtonClick?.Invoke(this, EventArgs.Empty);
 
-            HideUpgradeButtonsAndShowXP();
+            HideUpgradeButtons();
+            HideXP();
         });
 
 
@@ -68,13 +73,14 @@ public class MainCanvasUI : MonoBehaviour{
     private void Start() {
         isFirstUpdate = true;
 
-        HideUpgradeButtonsAndShowXP();
+        HideUpgradeButtons();
+        ShowXP();
 
         NormalMoney.Instance.OnMoneyChanged += NormalMoney_OnMoneyChanged;
         CashMoney.Instance.OnCashChanged += CashMoney_OnCashChanged;
 
-        MoneyText.text = "Money: " + NormalMoney.Instance.GetMoney();
-        CashText.text = "Cash: " + CashMoney.Instance.GetMoney();
+        MoneyText.text = NormalMoney.Instance.GetMoney().ToString();
+        CashText.text = CashMoney.Instance.GetMoney().ToString();
 
         MaxHoldObjectsCostText.text = MaxHoldObjectUpgrade.Instance.GetCost().ToString();
         MaxHoldObjectsQuantityText.text = MaxHoldObjectUpgrade.Instance.GetMaxObjectHold().ToString();
@@ -88,11 +94,11 @@ public class MainCanvasUI : MonoBehaviour{
     }
 
     private void CashMoney_OnCashChanged(object sender, CashMoney.OnCashChangedEventArgs e) {
-        CashText.text = "Cash: " + CashMoney.Instance.GetMoney();
+        CashText.text = CashMoney.Instance.GetMoney().ToString();
     }
 
     private void NormalMoney_OnMoneyChanged(object sender, NormalMoney.OnMoneyChangedEventArgs e) {
-        MoneyText.text = "Money: " + e.money;
+        MoneyText.text = e.money.ToString();
     }
 
 
@@ -103,14 +109,17 @@ public class MainCanvasUI : MonoBehaviour{
         MaxHoldObjectUpgrade.Instance.OnMaxHoldUpgrade -= MaxHold_OnMaxHoldUpgrade;
     }
 
-    private void HideUpgradeButtonsAndShowXP() {
+    private void HideUpgradeButtons() {
         UpgradeHoldLimitButton.gameObject.SetActive(false);
+    }
+    private void ShowUpgradeButtons() {
+        UpgradeHoldLimitButton.gameObject.SetActive(true);
+    }
 
+    private void ShowXP() {
         ExperienceGameObject.SetActive(true);
     }
-    private void ShowUpgradeButtonsAndHideXP() {
-        UpgradeHoldLimitButton.gameObject.SetActive(true);
-
+    private void HideXP() {
         ExperienceGameObject.SetActive(false);
     }
 

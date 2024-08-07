@@ -21,8 +21,7 @@ public class TradeStation : MonoBehaviour,IHasProgress{
     private int TimesLooped;
 
 
-    [SerializeField] private TextMeshProUGUI CurrentObjectsText;
-    [SerializeField] private TextMeshProUGUI MaxObjectsText;
+    [SerializeField] private TextMeshProUGUI CurrentXPPercent;
 
     //reference for the box collider for not allowing to interact while in upgrade screen
     private BoxCollider2D hitbox;
@@ -70,8 +69,8 @@ public class TradeStation : MonoBehaviour,IHasProgress{
 
         TotalObjectsMade = PlayerPrefs.GetInt(TotalObjectsMadeString,0);
 
-        CurrentObjectsText.text = CurrentObjectsTraded.ToString();
-        MaxObjectsText.text = MaxObjectNeededToLevelUp.ToString();
+        CurrentXPPercent.text = (Mathf.FloorToInt((((float)CurrentObjectsTraded / MaxObjectNeededToLevelUp) * 100f))).ToString() + "%";
+
     }
 
     private void Start() {
@@ -139,9 +138,8 @@ public class TradeStation : MonoBehaviour,IHasProgress{
             OnObjectUpgraded?.Invoke(this, new OnObjectUpgradedEventArgs { newObject = CurrentObject, TimesLooped = TimesLooped });
 
             MaxObjectNeededToLevelUp = (IndexOfObject + 1) * 30 + (TimesLooped * ObjectsToChange.Length * 30);
-            MaxObjectsText.text = MaxObjectNeededToLevelUp.ToString();
         }
-        CurrentObjectsText.text = CurrentObjectsTraded.ToString();
+        CurrentXPPercent.text = (Mathf.FloorToInt(((float)CurrentObjectsTraded / MaxObjectNeededToLevelUp) * 100f)).ToString() + "%";
 
         PlayerPrefs.SetInt(CurrentObjectsTradedString, CurrentObjectsTraded);
         PlayerPrefs.Save();
