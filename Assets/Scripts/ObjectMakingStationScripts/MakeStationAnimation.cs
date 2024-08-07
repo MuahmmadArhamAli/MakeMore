@@ -50,4 +50,8 @@ public class MakeStationAnimation : MonoBehaviour{
         }
 
     }
+
+    private void OnDestroy() {
+        makeStation.OnStateChanged -= MakeStation_OnStateChanged;
+    }
 }
