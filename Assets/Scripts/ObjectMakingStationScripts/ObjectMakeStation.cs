@@ -9,6 +9,18 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class ObjectMakeStation : MonoBehaviour,IHasProgress{
+
+    //enum for state machine
+    public enum WorkingStates {
+        Working,
+        Slowed,
+        Waiting,
+        Sleeping,
+    }
+
+    public class OnStateChagedEventArgs : EventArgs { public WorkingStates state; }
+    public event EventHandler<OnStateChagedEventArgs> OnStateChanged;
+
     //static event for sending TradeStation to increase Total Numbers
     public static event EventHandler OnAnyObjectMade;
 
@@ -71,8 +83,8 @@ public class ObjectMakeStation : MonoBehaviour,IHasProgress{
     private float TimerIncreaseMultiplier = 1f;
     private static float OnClickTimerInceaseMultiplier;
 
-    private const float MaxSlowingDownTime = 10f;
-    private const float MaxSleepingTime = 20f;
+    private const float MaxSlowingDownTime = 5f;
+    private const float MaxSleepingTime = 10f;
 
     private float SlowDownSleepTimer;
 
@@ -94,9 +106,6 @@ public class ObjectMakeStation : MonoBehaviour,IHasProgress{
 
         isOutputModelSpawned = false;
         ObjectMakeTimer = 0f;
-
-        isSlowed = false;
-        isSleeping = false;
 
         SlowDownSleepTimer = 0f;
         SlowDownSleepTimer += TimeSaveDelta.Instance.GetDeltaTime();
@@ -123,6 +132,16 @@ public class ObjectMakeStation : MonoBehaviour,IHasProgress{
         ObjectMakeSO = TradeStation.Instance.GetCurrentWorkinObject();
 
         SpawnNewInputModel();
+
+        if (isSlowed) {
+            OnStateChanged?.Invoke(this, new OnStateChagedEventArgs { state = WorkingStates.Slowed});
+        }
+        else if (isSleeping) {
+            OnStateChanged?.Invoke(this, new OnStateChagedEventArgs { state = WorkingStates.Sleeping });
+        }
+        else {
+            OnStateChanged?.Invoke(this, new OnStateChagedEventArgs { state = WorkingStates.Working });
+        }
     }
 
     private void TradeStation_OnObjectUpgraded(object sender, TradeStation.OnObjectUpgradedEventArgs e) {
@@ -182,6 +201,8 @@ public class ObjectMakeStation : MonoBehaviour,IHasProgress{
         isSlowed = false;
         isSleeping = false;
 
+        OnStateChanged?.Invoke(this, new OnStateChagedEventArgs { state = WorkingStates.Working });
+
         PlayerPrefs.SetInt(isSlowedString,0);
         PlayerPrefs.SetInt(isSleepingString,0);
         PlayerPrefs.Save();
@@ -192,27 +213,33 @@ public class ObjectMakeStation : MonoBehaviour,IHasProgress{
 
         if(!isSlowed && SlowDownSleepTimer >= MaxSlowingDownTime) {
             isSlowed = true;
-
+                
             PlayerPrefs.SetInt(isSlowedString,1);
             PlayerPrefs.Save();
+
+            OnStateChanged?.Invoke(this, new OnStateChagedEventArgs { state = WorkingStates.Slowed });
         }
-        if(!isSlowed && SlowDownSleepTimer >= MaxSleepingTime) {
+        else if(!isSleeping && SlowDownSleepTimer >= MaxSleepingTime) {
             isSleeping = true;
 
             PlayerPrefs.SetInt(isSleepingString,1);
             PlayerPrefs.Save();
+
+            OnStateChanged?.Invoke(this, new OnStateChagedEventArgs { state = WorkingStates.Sleeping });
         }
 
         if (!isSleeping && ObjectHoldCurrently < MaxObjectHold) {
             //if it can hold more objects and is not sleeping
 
+
             fillImage.color = Color.green;
 
-            if(!isSlowed)
+            if (!isSlowed) {
                 ObjectMakeTimer += Time.deltaTime * TimerIncreaseMultiplier;
-            else
-                ObjectMakeTimer += (Time.deltaTime * TimerIncreaseMultiplier)/4f;
-
+            }
+            else if(!isSleeping){
+                ObjectMakeTimer += (Time.deltaTime * TimerIncreaseMultiplier) / 4f;
+            }
             OnProgressChanged?.Invoke(this,new IHasProgress.OnProgressChangedEventArgs { progress = ObjectMakeTimer / ObjectMakeSO.TimeToChange });
 
             if (ObjectMakeTimer > ObjectMakeSO.TimeToChange + (TimesLooped * TotalObjects * 30)) {
@@ -239,10 +266,11 @@ public class ObjectMakeStation : MonoBehaviour,IHasProgress{
         else if(!isSleeping) {
             fillImage.fillAmount = 1f;
             fillImage.color = Color.red;
+
+            OnStateChanged?.Invoke(this, new OnStateChagedEventArgs { state = WorkingStates.Waiting });
         }
         else if (isSleeping && ObjectHoldCurrently < MaxObjectHold) {
             fillImage.fillAmount = 0f;
-
             fillImage.color = Color.green;
         }
     }

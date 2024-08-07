@@ -31,15 +31,15 @@ public class AddStationsSave : MonoBehaviour{
     private void Awake() {
         //set the isSpawned booleans of add stations
 
-        TopLeft_StationsArr.SetSpawnDefault(PlayerPrefs.GetInt(AddNewStationPrefsSpawnString[0],1) == 1);
-        TopMiddle_StationsArr.SetSpawnDefault(PlayerPrefs.GetInt(AddNewStationPrefsSpawnString[1],1) == 1);
-        TopRight_StationsArr.SetSpawnDefault(PlayerPrefs.GetInt(AddNewStationPrefsSpawnString[2],1) == 1);
-        MiddleLeft_StationsArr.SetSpawnDefault(PlayerPrefs.GetInt(AddNewStationPrefsSpawnString[3],1) == 1);
+        TopLeft_StationsArr.SetSpawnDefault(PlayerPrefs.GetInt(AddNewStationPrefsSpawnString[0],0) == 1);
+        TopMiddle_StationsArr.SetSpawnDefault(PlayerPrefs.GetInt(AddNewStationPrefsSpawnString[1],0) == 1);
+        TopRight_StationsArr.SetSpawnDefault(PlayerPrefs.GetInt(AddNewStationPrefsSpawnString[2],0) == 1);
+        MiddleLeft_StationsArr.SetSpawnDefault(PlayerPrefs.GetInt(AddNewStationPrefsSpawnString[3],0) == 1);
         MiddleMiddle_StationsArr.SetSpawnDefault(PlayerPrefs.GetInt(AddNewStationPrefsSpawnString[4],1) == 1);
-        MiddleRight_StationsArr.SetSpawnDefault(PlayerPrefs.GetInt(AddNewStationPrefsSpawnString[5],1) == 1);
-        BottomLeft_StationsArr.SetSpawnDefault(PlayerPrefs.GetInt(AddNewStationPrefsSpawnString[6],1) == 1);
-        BottomMiddle_StationsArr.SetSpawnDefault(PlayerPrefs.GetInt(AddNewStationPrefsSpawnString[7],1) == 1);
-        BottomRight_StationsArr.SetSpawnDefault(PlayerPrefs.GetInt(AddNewStationPrefsSpawnString[8],1) == 1);
+        MiddleRight_StationsArr.SetSpawnDefault(PlayerPrefs.GetInt(AddNewStationPrefsSpawnString[5],0) == 1);
+        BottomLeft_StationsArr.SetSpawnDefault(PlayerPrefs.GetInt(AddNewStationPrefsSpawnString[6],0) == 1);
+        BottomMiddle_StationsArr.SetSpawnDefault(PlayerPrefs.GetInt(AddNewStationPrefsSpawnString[7],0) == 1);
+        BottomRight_StationsArr.SetSpawnDefault(PlayerPrefs.GetInt(AddNewStationPrefsSpawnString[8],0) == 1);
 
         //give data to all the stations
         TopLeft_StationsArr.WriteMakeStationData(/* Timer Multiplier*/ PlayerPrefs.GetFloat(MakeStationsTimerMultipliersString[0], 1f), /* Cost */PlayerPrefs.GetFloat(MakeStationsUpgradeCostString[0],200f),/* Objects Held */PlayerPrefs.GetInt(MakeStationsHoldObjectsString[0],0));
