@@ -352,13 +352,6 @@ public class ObjectMakeStation : MonoBehaviour,IHasProgress{
         ObjectsHoldText.text = ObjectHoldCurrently.ToString();
     }
 
-    public static float GetClickMultiplier() {
-        return OnClickTimerInceaseMultiplier;
-    }
-
-    public static float GetMakeTimeMultiplier() {
-        return IncreaseTime;
-    }
 
     public void SetStationData(float TimerIncreaseMultiplier, float CostOfUpgrade, int ObjectHoldCurrently) {
         this.TimerIncreaseMultiplier = TimerIncreaseMultiplier;
@@ -400,12 +393,6 @@ public class ObjectMakeStation : MonoBehaviour,IHasProgress{
             outputModel.SetActive(true);
             isOutputModelSpawned = true;
         }
-    }
-
-    public void PrintTest() {
-        Debug.Log("Current: " + ObjectHoldCurrently);
-        Debug.Log("Max: " + MaxObjectHold);
-        Debug.Log("Sleeping: " + isSleeping);
     }
 
 }

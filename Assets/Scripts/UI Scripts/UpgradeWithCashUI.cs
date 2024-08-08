@@ -43,9 +43,14 @@ public class UpgradeWithCashUI : MonoBehaviour{
         CashMultiplier = PlayerPrefs.GetFloat(CashMultiplierString,1f);
         TimeMultiplier = PlayerPrefs.GetFloat(TimeMultiplierString,0.1f);
 
+        CashMultiplier = (float)Math.Round(CashMultiplier, 1);
+        ClickMultiplier = (float)Math.Round(ClickMultiplier, 1);
+        TimeMultiplier = (float)Math.Round(TimeMultiplier, 1);
+
         UpgradeCashMultiplier.onClick.AddListener(() => {
             CashMultiplier += 0.1f;
 
+            CashMultiplier = (float)Math.Round(CashMultiplier, 1);
 
             PlayerPrefs.SetFloat(CashMultiplierString,CashMultiplier);
             PlayerPrefs.Save();
@@ -57,6 +62,8 @@ public class UpgradeWithCashUI : MonoBehaviour{
         UpgradeClickMultiplierButton.onClick.AddListener(() => {
             ClickMultiplier += 0.1f;
 
+            ClickMultiplier = (float)Math.Round(ClickMultiplier, 1);
+
             PlayerPrefs.SetFloat(ClickMultiplierString, ClickMultiplier);
             PlayerPrefs.Save();
 
@@ -66,7 +73,9 @@ public class UpgradeWithCashUI : MonoBehaviour{
         });
         UpgradeMakeTime.onClick.AddListener(() => {
             TimeMultiplier += 0.1f;
-
+            
+            TimeMultiplier = (float)Math.Round(TimeMultiplier, 1);
+            
             PlayerPrefs.SetFloat(TimeMultiplierString, TimeMultiplier);
             PlayerPrefs.Save();
 
@@ -79,9 +88,9 @@ public class UpgradeWithCashUI : MonoBehaviour{
     private void Start() {
         UpgradeClickMultiplierButton.interactable = UpgradeCashMultiplier.interactable = UpgradeMakeTime.interactable = CashMoney.Instance.GetMoney() >= UpgradePrice;
 
-        ClickTimerMultiplierText.text = ObjectMakeStation.GetClickMultiplier().ToString();
-        MakeTimerMultiplierText.text = ObjectMakeStation.GetMakeTimeMultiplier().ToString();
-        CashMultiplierText.text = TradeStation.Instance.GetCashMultiplier().ToString();
+        ClickTimerMultiplierText.text = ClickMultiplier.ToString();
+        MakeTimerMultiplierText.text = TimeMultiplier.ToString();
+        CashMultiplierText.text = CashMultiplier.ToString();
         
         Hide();
 
@@ -96,9 +105,9 @@ public class UpgradeWithCashUI : MonoBehaviour{
     private void Cash_OnCashChanged(object sender, CashMoney.OnCashChangedEventArgs e) {
         UpgradeClickMultiplierButton.interactable = UpgradeCashMultiplier.interactable = UpgradeMakeTime.interactable = CashMoney.Instance.GetMoney() >= UpgradePrice;
 
-        ClickTimerMultiplierText.text = ObjectMakeStation.GetClickMultiplier().ToString();
-        MakeTimerMultiplierText.text = ObjectMakeStation.GetMakeTimeMultiplier().ToString();
-        CashMultiplierText.text = TradeStation.Instance.GetCashMultiplier().ToString();
+        ClickTimerMultiplierText.text = ClickMultiplier.ToString();
+        MakeTimerMultiplierText.text = TimeMultiplier.ToString();
+        CashMultiplierText.text = CashMultiplier.ToString();
     }
 
     private void MainCanvas_OnTasksButtonClick(object sender, EventArgs e) {

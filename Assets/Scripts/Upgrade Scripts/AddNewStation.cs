@@ -49,6 +49,8 @@ public class AddNewStation : MonoBehaviour{
 
         PriceOfAdding = PlayerPrefs.GetFloat(PriceOfAddingString,200*CostMultiplier);
 
+        Mathf.RoundToInt(PriceOfAdding);
+
         AddButton.onClick.AddListener(() => {
             if (!isMakeStationSpawned) {
                 //spawn a new station
@@ -73,6 +75,8 @@ public class AddNewStation : MonoBehaviour{
                     PlayerPrefs.SetFloat(CostMultiplierString,CostMultiplier);
 
                     PriceOfAdding += (PriceOfAdding * CostMultiplier);
+
+                    Mathf.RoundToInt(PriceOfAdding);
 
                     PlayerPrefs.SetFloat(PriceOfAddingString,PriceOfAdding);
 

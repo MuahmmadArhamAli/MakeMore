@@ -92,6 +92,8 @@ public class MakeStationUpgrade : MonoBehaviour{
 
     public void SetCost(float cost) {
         UpgradeCost = cost;
+
+        Mathf.CeilToInt(UpgradeCost);
     }
 
 }

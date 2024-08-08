@@ -194,8 +194,4 @@ public class TradeStation : MonoBehaviour,IHasProgress{
     private void Hide() {
         gameObject.SetActive(false);
     }
-
-    public float GetCashMultiplier() {
-        return cashMultiplier;
-    }
 }
