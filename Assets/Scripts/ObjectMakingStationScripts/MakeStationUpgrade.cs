@@ -72,7 +72,7 @@ public class MakeStationUpgrade : MonoBehaviour{
     }
 
     private void UpdateVisual() {
-        UpgradeCostText.text = "+" + UpgradeCost;
+        UpgradeCostText.text = UpgradeCost.ToString();
     }
 
     private void Show() {

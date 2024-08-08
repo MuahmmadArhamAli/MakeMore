@@ -17,7 +17,7 @@ public class CashMoney : MonoBehaviour, IMoney {
     private void Awake() {
         Instance = this;
 
-        CashAmount = PlayerPrefs.GetFloat(TotalCashString,0f);
+        CashAmount = PlayerPrefs.GetFloat(TotalCashString,100f);
     }
 
 

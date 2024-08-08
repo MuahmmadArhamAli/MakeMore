@@ -76,14 +76,14 @@ public class MainCanvasUI : MonoBehaviour{
         CashText.text = CashMoney.Instance.GetMoney().ToString();
 
         MaxHoldObjectsCostText.text = MaxHoldObjectUpgrade.Instance.GetCost().ToString();
-        MaxHoldObjectsQuantityText.text = MaxHoldObjectUpgrade.Instance.GetMaxObjectHold().ToString();
+        MaxHoldObjectsQuantityText.text = MaxHoldObjectUpgrade.Instance.GetMaxObjectHold().ToString() + "->" + (MaxHoldObjectUpgrade.Instance.GetMaxObjectHold() + 2).ToString();
 
         MaxHoldObjectUpgrade.Instance.OnMaxHoldUpgrade += MaxHold_OnMaxHoldUpgrade;
     }
 
     private void MaxHold_OnMaxHoldUpgrade(object sender, MaxHoldObjectUpgrade.OnMaxHoldUpgradeEventArgs e) {
         MaxHoldObjectsCostText.text = e.cost.ToString();
-        MaxHoldObjectsQuantityText.text = e.HoldObjects.ToString();
+        MaxHoldObjectsQuantityText.text = e.HoldObjects.ToString() + "->" + (e.HoldObjects+2).ToString();
     }
 
     private void CashMoney_OnCashChanged(object sender, CashMoney.OnCashChangedEventArgs e) {
