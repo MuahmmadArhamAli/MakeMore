@@ -83,7 +83,7 @@ public class TradeStation : MonoBehaviour,IHasProgress{
         Player.Instance.OnTradeStationClick += Player_OnTradeStationClick;
         MainCanvasUI.Instance.OnGoToUpgradeClick += MianCanvasUI_OnGoToUpgradeClick;
         MainCanvasUI.Instance.OnGoToNormalGameplayClick += MainCanvasUI_OnGoToNormalGameplayClick;
-        MainCanvasUI.Instance.OnTasksButtonClick += MainCanvas_OnTasksButtonClick;
+        MainCanvasUI.Instance.OnSettigsButtonClick += MainCanvas_OnTasksButtonClick;
         MainCanvasUI.Instance.OnUpgradeCashButtonClick += MainCanvas_OnUpgradeCashButtonClick;
 
         UpgradeWithCashUI.Instance.OnCashMultiplierIncrease += UpgradeCashUI_OnCashMultiplierIncrease;
@@ -164,7 +164,7 @@ public class TradeStation : MonoBehaviour,IHasProgress{
         Player.Instance.OnTradeStationClick -= Player_OnTradeStationClick;
         MainCanvasUI.Instance.OnGoToUpgradeClick -= MianCanvasUI_OnGoToUpgradeClick;
         MainCanvasUI.Instance.OnGoToNormalGameplayClick -= MainCanvasUI_OnGoToNormalGameplayClick;
-        MainCanvasUI.Instance.OnTasksButtonClick -= MainCanvas_OnTasksButtonClick;
+        MainCanvasUI.Instance.OnSettigsButtonClick -= MainCanvas_OnTasksButtonClick;
         MainCanvasUI.Instance.OnUpgradeCashButtonClick -= MainCanvas_OnUpgradeCashButtonClick;
 
         UpgradeWithCashUI.Instance.OnCashMultiplierIncrease -= UpgradeCashUI_OnCashMultiplierIncrease;

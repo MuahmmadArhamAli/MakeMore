@@ -19,34 +19,44 @@ public class MakeStationAnimation : MonoBehaviour{
     //animator
     private Animator animator;
 
-    private const string SlowedWorkingString = "SlowWork";
-    private const string WorkingString = "Work";
-    private const string IdleString = "Idle";
+    private const string SlowedWorkingString = "IsSlowWorking";
+    private const string WorkingString = "IsWorking";
+    private const string IdleString = "isIdle";
 
     private void Awake() {
         animator = GetComponent<Animator>();
         spriteRenderer = Face.GetComponent<SpriteRenderer>();
     }
     private void Start() {
+        animator.keepAnimatorStateOnDisable = true;
+
         makeStation.OnStateChanged += MakeStation_OnStateChanged;
     }
 
     private void MakeStation_OnStateChanged(object sender, ObjectMakeStation.OnStateChagedEventArgs e) {
         if(e.state == ObjectMakeStation.WorkingStates.Working) {
             spriteRenderer.sprite = SmileFace;
-            animator.SetTrigger(WorkingString);
+            animator.SetBool(WorkingString,true);
+            animator.SetBool(SlowedWorkingString,false);
+            animator.SetBool(IdleString,false);
         }
         else if (e.state == ObjectMakeStation.WorkingStates.Sleeping) {
             spriteRenderer.sprite = SleepFace;
-            animator.SetTrigger(IdleString);
+            animator.SetBool(WorkingString, false);
+            animator.SetBool(SlowedWorkingString, false);
+            animator.SetBool(IdleString, true);
         }
         else if (e.state == ObjectMakeStation.WorkingStates.Slowed) {
             spriteRenderer.sprite = HappyFace;
-            animator.SetTrigger(SlowedWorkingString);
+            animator.SetBool(WorkingString, false);
+            animator.SetBool(SlowedWorkingString, true);
+            animator.SetBool(IdleString, false);
         }
         else if (e.state == ObjectMakeStation.WorkingStates.Waiting) {
             spriteRenderer.sprite = WaitFace;
-            animator.SetTrigger(IdleString);
+            animator.SetBool(WorkingString, false);
+            animator.SetBool(SlowedWorkingString, false);
+            animator.SetBool(IdleString, true);
         }
 
     }

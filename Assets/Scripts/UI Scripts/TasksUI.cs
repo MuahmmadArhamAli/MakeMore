@@ -67,11 +67,9 @@ public class TasksUI : MonoBehaviour{
     private void Start() {
         StartCoroutine(HideDelay());
 
-        MainCanvasUI.Instance.OnTasksButtonClick += MainCanvas_OnTasksButtonClick;
-        MainCanvasUI.Instance.OnGoToNormalGameplayClick += MainCanvas_OnGoToNormalGameplayClick;
-        MainCanvasUI.Instance.OnGoToUpgradeClick += MainCanvas_OnGoToUpgradeClick;
-        MainCanvasUI.Instance.OnUpgradeCashButtonClick += MainCanvas_OnUpgradeCashButtonClick;
-        
+        SettingsUI.Instance.OnTasksButtonClick += Settings_OnTasksButtonClick;
+        SettingsUI.Instance.OnAudioSettingsButtonClick += Settings_OnAudioSettingsButtonClick;
+
         tasks.OnTaskComplete += Tasks_OnTaskComplete;
         tasks.OnTaskCompletionChange += Tasks_OnTaskCompletionChange;
         tasks.OnTaskTimerChange += Tasks_OnTaskTimerChange;
@@ -85,6 +83,23 @@ public class TasksUI : MonoBehaviour{
         TapTaskText.text = tasks.GetTaskText(Tasks.DifferentTasks.TapTask);
         UpgradeWorkingObjectTaskText.text = tasks.GetTaskText(Tasks.DifferentTasks.UpgradeObjectTask);
         UpgradeWorkStationTaskText.text = tasks.GetTaskText(Tasks.DifferentTasks.UpgradeStationTask);
+
+        MainCanvasUI.Instance.OnGoToNormalGameplayClick += MainCanvas_OnAnyButtonClick;
+        MainCanvasUI.Instance.OnGoToUpgradeClick += MainCanvas_OnAnyButtonClick;
+        MainCanvasUI.Instance.OnSettigsButtonClick += MainCanvas_OnAnyButtonClick;
+        MainCanvasUI.Instance.OnUpgradeCashButtonClick += MainCanvas_OnAnyButtonClick;
+    }
+
+    private void Settings_OnAudioSettingsButtonClick(object sender, EventArgs e) {
+        Hide();
+    }
+
+    private void MainCanvas_OnAnyButtonClick(object sender, EventArgs e) {
+        Hide();
+    }
+
+    private void Settings_OnTasksButtonClick(object sender, EventArgs e) {
+        Show();
     }
 
     private void Tasks_OnTaskTimerChange(object sender, Tasks.OnTaskTimerChangeEventArgs e) {
@@ -193,22 +208,7 @@ public class TasksUI : MonoBehaviour{
             GetMoneyTaskButton.interactable = true;
         }
     }
-    private void MainCanvas_OnUpgradeCashButtonClick(object sender, EventArgs e) {
-        Hide();
-    }
-
-    private void MainCanvas_OnGoToUpgradeClick(object sender, System.EventArgs e) {
-        Hide();
-    }
-
-    private void MainCanvas_OnGoToNormalGameplayClick(object sender, System.EventArgs e) {
-        Hide();
-    }
-
-    private void MainCanvas_OnTasksButtonClick(object sender, System.EventArgs e) {
-        Show();
-    }
-
+    
     private void Hide() {
         gameObject.SetActive(false);
     }
@@ -224,14 +224,18 @@ public class TasksUI : MonoBehaviour{
     }
 
     private void OnDestroy() {
-        MainCanvasUI.Instance.OnTasksButtonClick -= MainCanvas_OnTasksButtonClick;
-        MainCanvasUI.Instance.OnGoToNormalGameplayClick -= MainCanvas_OnGoToNormalGameplayClick;
-        MainCanvasUI.Instance.OnGoToUpgradeClick -= MainCanvas_OnGoToUpgradeClick;
-        MainCanvasUI.Instance.OnUpgradeCashButtonClick -= MainCanvas_OnUpgradeCashButtonClick;
 
         tasks.OnTaskComplete -= Tasks_OnTaskComplete;
         tasks.OnTaskCompletionChange -= Tasks_OnTaskCompletionChange;
         tasks.OnTaskTimerChange -= Tasks_OnTaskTimerChange;
+
+        MainCanvasUI.Instance.OnGoToNormalGameplayClick -= MainCanvas_OnAnyButtonClick;
+        MainCanvasUI.Instance.OnGoToUpgradeClick -= MainCanvas_OnAnyButtonClick;
+        MainCanvasUI.Instance.OnSettigsButtonClick -= MainCanvas_OnAnyButtonClick;
+        MainCanvasUI.Instance.OnUpgradeCashButtonClick -= MainCanvas_OnAnyButtonClick;
+
+        SettingsUI.Instance.OnTasksButtonClick -= Settings_OnTasksButtonClick;
+        SettingsUI.Instance.OnAudioSettingsButtonClick -= Settings_OnAudioSettingsButtonClick;
 
     }
 

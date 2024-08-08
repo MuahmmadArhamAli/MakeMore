@@ -108,7 +108,7 @@ public class AddNewStation : MonoBehaviour{
 
         MainCanvasUI.Instance.OnGoToUpgradeClick += MianCanvas_OnGoToUpgradeClick;
         MainCanvasUI.Instance.OnGoToNormalGameplayClick += MainCanvas_OnGoToNormalGameplayClick;
-        MainCanvasUI.Instance.OnTasksButtonClick += MainCanvas_OnTasksButtonClick;
+        MainCanvasUI.Instance.OnSettigsButtonClick += MainCanvas_OnTasksButtonClick;
         MainCanvasUI.Instance.OnUpgradeCashButtonClick += MianCanvas_OnUpgradeCashButtonClick;
 
         OnPriceChanged += AddNewStation_OnPriceChanged;
@@ -159,7 +159,7 @@ public class AddNewStation : MonoBehaviour{
     private void OnDestroy() {
         MainCanvasUI.Instance.OnGoToUpgradeClick -= MianCanvas_OnGoToUpgradeClick;
         MainCanvasUI.Instance.OnGoToNormalGameplayClick -= MainCanvas_OnGoToNormalGameplayClick;
-        MainCanvasUI.Instance.OnTasksButtonClick -= MainCanvas_OnTasksButtonClick;
+        MainCanvasUI.Instance.OnSettigsButtonClick -= MainCanvas_OnTasksButtonClick;
         MainCanvasUI.Instance.OnUpgradeCashButtonClick -= MianCanvas_OnUpgradeCashButtonClick;
 
         OnPriceChanged -= AddNewStation_OnPriceChanged;

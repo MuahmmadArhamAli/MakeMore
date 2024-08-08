@@ -15,19 +15,17 @@ public class MainCanvasUI : MonoBehaviour{
     //Upgrade button
     [SerializeField] private Button GoToUpgradeButton;
     [SerializeField] private Button GoToNormalGameplayButton;
-    [SerializeField] private Button TasksButton;
+    [SerializeField] private Button SettingsButton;
     [SerializeField] private Button UpgradeWithCashButton;
 
 
     [SerializeField] private Button UpgradeHoldLimitButton;
 
-    [SerializeField] private GameObject ExperienceGameObject;
-
     //event for make stations to show upgrade 
     public event EventHandler OnGoToUpgradeClick;
     public event EventHandler OnGoToNormalGameplayClick;
     public event EventHandler OnMaxHoldLimitUpgradeClick;
-    public event EventHandler OnTasksButtonClick;
+    public event EventHandler OnSettigsButtonClick;
     public event EventHandler OnUpgradeCashButtonClick;
 
     [SerializeField] private TextMeshProUGUI MaxHoldObjectsQuantityText;
@@ -41,30 +39,26 @@ public class MainCanvasUI : MonoBehaviour{
         GoToUpgradeButton.onClick.AddListener(() => {
             OnGoToUpgradeClick?.Invoke(this, EventArgs.Empty);
             ShowUpgradeButtons();
-            HideXP();
 
         });
 
         GoToNormalGameplayButton.onClick.AddListener(() => {
             OnGoToNormalGameplayClick?.Invoke(this, EventArgs.Empty);
             HideUpgradeButtons();
-            ShowXP();
         });
 
         UpgradeHoldLimitButton.onClick.AddListener(() => {
             OnMaxHoldLimitUpgradeClick?.Invoke(this, EventArgs.Empty);
         });
-        TasksButton.onClick.AddListener(() => {
-            OnTasksButtonClick?.Invoke(this, EventArgs.Empty);
+        SettingsButton.onClick.AddListener(() => {
+            OnSettigsButtonClick?.Invoke(this, EventArgs.Empty);
 
             HideUpgradeButtons();
-            HideXP();
         });
         UpgradeWithCashButton.onClick.AddListener(() => {
             OnUpgradeCashButtonClick?.Invoke(this, EventArgs.Empty);
 
             HideUpgradeButtons();
-            HideXP();
         });
 
 
@@ -74,8 +68,7 @@ public class MainCanvasUI : MonoBehaviour{
         isFirstUpdate = true;
 
         HideUpgradeButtons();
-        ShowXP();
-
+        
         NormalMoney.Instance.OnMoneyChanged += NormalMoney_OnMoneyChanged;
         CashMoney.Instance.OnCashChanged += CashMoney_OnCashChanged;
 
@@ -114,13 +107,6 @@ public class MainCanvasUI : MonoBehaviour{
     }
     private void ShowUpgradeButtons() {
         UpgradeHoldLimitButton.gameObject.SetActive(true);
-    }
-
-    private void ShowXP() {
-        ExperienceGameObject.SetActive(true);
-    }
-    private void HideXP() {
-        ExperienceGameObject.SetActive(false);
     }
 
     private void Update() {

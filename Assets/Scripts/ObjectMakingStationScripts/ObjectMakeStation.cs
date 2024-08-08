@@ -97,6 +97,7 @@ public class ObjectMakeStation : MonoBehaviour,IHasProgress{
     }
 
     private void Start() {
+
         fillImage.color = Color.green;
 
         MaxObjectHold = MaxHoldObjectUpgrade.Instance.GetMaxObjectHold();
@@ -121,7 +122,7 @@ public class ObjectMakeStation : MonoBehaviour,IHasProgress{
 
         MainCanvasUI.Instance.OnGoToUpgradeClick += MainCanvasUI_OnGoToUpgradeClick;
         MainCanvasUI.Instance.OnGoToNormalGameplayClick += MainCanvasUI_OnGoToNormalGameplayClick;
-        MainCanvasUI.Instance.OnTasksButtonClick += MainCanvas_OnTasksButtonClick;
+        MainCanvasUI.Instance.OnSettigsButtonClick += MainCanvas_OnTasksButtonClick;
         MainCanvasUI.Instance.OnUpgradeCashButtonClick += MainCanvas_OnUpgradeCashButtonClick;
 
         MaxHoldObjectUpgrade.Instance.OnMaxHoldUpgrade += MaxHoldUpgrade_OnMaxHoldUpgrade;
@@ -133,11 +134,11 @@ public class ObjectMakeStation : MonoBehaviour,IHasProgress{
 
         SpawnNewInputModel();
 
-        if (isSlowed) {
-            OnStateChanged?.Invoke(this, new OnStateChagedEventArgs { state = WorkingStates.Slowed});
-        }
-        else if (isSleeping) {
+        if (isSleeping) {
             OnStateChanged?.Invoke(this, new OnStateChagedEventArgs { state = WorkingStates.Sleeping });
+        }
+        else if (isSlowed) {
+            OnStateChanged?.Invoke(this, new OnStateChagedEventArgs { state = WorkingStates.Slowed});
         }
         else {
             OnStateChanged?.Invoke(this, new OnStateChagedEventArgs { state = WorkingStates.Working });
@@ -190,6 +191,13 @@ public class ObjectMakeStation : MonoBehaviour,IHasProgress{
 
     private void TradeStation_OnTrade(object sender, EventArgs e) {
         DestroyOutputModels();
+
+        if (!isSleeping && !isSlowed) {
+            OnStateChanged?.Invoke(this, new OnStateChagedEventArgs { state = WorkingStates.Working });
+            Debug.Log("Work Event");
+        }
+        else if (!isSleeping)
+            OnStateChanged?.Invoke(this, new OnStateChagedEventArgs { state = WorkingStates.Slowed });
     }
 
 
@@ -217,7 +225,7 @@ public class ObjectMakeStation : MonoBehaviour,IHasProgress{
             PlayerPrefs.SetInt(isSlowedString,1);
             PlayerPrefs.Save();
 
-            OnStateChanged?.Invoke(this, new OnStateChagedEventArgs { state = WorkingStates.Slowed });
+            OnStateChanged?.Invoke(this, new OnStateChagedEventArgs { state = WorkingStates.Slowed }); Debug.Log("Slow Event");
         }
         else if(!isSleeping && SlowDownSleepTimer >= MaxSleepingTime) {
             isSleeping = true;
@@ -319,7 +327,7 @@ public class ObjectMakeStation : MonoBehaviour,IHasProgress{
 
         MainCanvasUI.Instance.OnGoToUpgradeClick -= MainCanvasUI_OnGoToUpgradeClick;
         MainCanvasUI.Instance.OnGoToNormalGameplayClick -= MainCanvasUI_OnGoToNormalGameplayClick;
-        MainCanvasUI.Instance.OnTasksButtonClick -= MainCanvas_OnTasksButtonClick;
+        MainCanvasUI.Instance.OnSettigsButtonClick -= MainCanvas_OnTasksButtonClick;
         MainCanvasUI.Instance.OnUpgradeCashButtonClick -= MainCanvas_OnUpgradeCashButtonClick;
 
         MaxHoldObjectUpgrade.Instance.OnMaxHoldUpgrade -= MaxHoldUpgrade_OnMaxHoldUpgrade;
