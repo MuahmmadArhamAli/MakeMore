@@ -3,20 +3,33 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
 
 public class AudioSettingsUI : MonoBehaviour {
+    private const string MusicValueString = "MusicValue";
+    private const string SFXValueString = "SFXValue";
+
     [SerializeField] private Slider MusicSlider;
     [SerializeField] private Slider SFXSlider;
 
     [SerializeField] private TextMeshProUGUI MusicPercent;
     [SerializeField] private TextMeshProUGUI SFXPercent;
 
+    public class OnSoundValueChangedEventArgs: EventArgs { public float value; }
+    public static event EventHandler<OnSoundValueChangedEventArgs> OnMusicValueChanged;
+    public static event EventHandler<OnSoundValueChangedEventArgs> OnSFXValueChanged;
+
     private void Awake() {
+        MusicSlider.value = PlayerPrefs.GetFloat(MusicValueString,1f);
+        SFXSlider.value = PlayerPrefs.GetFloat(SFXValueString,1f);
+
         MusicSlider.onValueChanged.AddListener(newValue => {
             MusicPercent.text = (Mathf.FloorToInt(newValue * 100f)).ToString() + "%";
+            OnMusicValueChanged?.Invoke(this, new OnSoundValueChangedEventArgs { value = newValue});
         });
         SFXSlider.onValueChanged.AddListener(newValue => {
             SFXPercent.text = (Mathf.FloorToInt(newValue * 100f)).ToString() + "%";
+            OnSFXValueChanged?.Invoke(this, new OnSoundValueChangedEventArgs { value = newValue });
         });
     }
 
