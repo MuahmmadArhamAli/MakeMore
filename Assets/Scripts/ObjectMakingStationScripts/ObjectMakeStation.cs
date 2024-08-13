@@ -142,6 +142,7 @@ public class ObjectMakeStation : MonoBehaviour,IHasProgress{
         }
         else if(ObjectHoldCurrently >= MaxObjectHold){
             OnStateChanged?.Invoke(this, new OnStateChagedEventArgs { state = WorkingStates.Waiting });
+            OnAnyLimitReached?.Invoke(this, EventArgs.Empty);
         }
         else {
             OnStateChanged?.Invoke(this, new OnStateChagedEventArgs { state = WorkingStates.Working });
@@ -197,6 +198,8 @@ public class ObjectMakeStation : MonoBehaviour,IHasProgress{
 
         if (!isSleeping && !isSlowed) {
             OnStateChanged?.Invoke(this, new OnStateChagedEventArgs { state = WorkingStates.Working });
+
+
             Debug.Log("Work Event");
         }
         else if (!isSleeping)
@@ -257,6 +260,7 @@ public class ObjectMakeStation : MonoBehaviour,IHasProgress{
                 OnAnyObjectMade?.Invoke(this, EventArgs.Empty);
 
                 ObjectHoldCurrently++;
+
                 OnNewObjectMade?.Invoke(this, new OnNewObjectMadeEventArgs { Objects = ObjectHoldCurrently });
 
                 UpdateVisual();
@@ -279,6 +283,7 @@ public class ObjectMakeStation : MonoBehaviour,IHasProgress{
             fillImage.color = Color.red;
 
             OnStateChanged?.Invoke(this, new OnStateChagedEventArgs { state = WorkingStates.Waiting });
+            OnAnyLimitReached?.Invoke(this, EventArgs.Empty);
         }
         else if (isSleeping && ObjectHoldCurrently < MaxObjectHold) {
             fillImage.fillAmount = 0f;
