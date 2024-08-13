@@ -31,10 +31,10 @@ public class WorkerSounds : MonoBehaviour{
 
 
     private void Start() {
-        NormalWorkMaxTime = 0.5f;
-        SlowWorkMaxTime = 0.5f;
-        SleepMaxTime = 0.5f;
-        WaitingMaxTime = 0.5f;
+        NormalWorkMaxTime = 1.5f;
+        SlowWorkMaxTime = 4f;
+        SleepMaxTime = 3.5f;
+        WaitingMaxTime = 7f;
         Timer = 0f;
 
         objectMakeStation.OnStateChanged += ObjectMakeStation_OnStateChanged;

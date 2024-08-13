@@ -1,6 +1,9 @@
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 using UnityEngine;
 
+#if UNITY_EDITOR
 [ExecuteInEditMode]
 public class PlayerPrefDelete : EditorWindow{
 
@@ -11,3 +14,5 @@ public class PlayerPrefDelete : EditorWindow{
         Debug.Log("Player data removed.");
     }
 }
+
+#endif
