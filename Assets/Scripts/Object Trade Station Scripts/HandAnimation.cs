@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,6 +10,8 @@ public class HandAnimation : MonoBehaviour{
 
     //reference of Animator
     private Animator animator;
+
+    public static event EventHandler OnTapSoundPlay;
 
     //bool to see if animation should play
     private bool ShouldPlayAnimation;
@@ -35,7 +38,7 @@ public class HandAnimation : MonoBehaviour{
 
     private void Player_OnNonInteractableObjectClick(object sender, System.EventArgs e) {
         if (ShouldPlayAnimation) {
-            bool isLeftHand = Random.Range(0, 2) <= 0.5f ? true : false;
+            bool isLeftHand = UnityEngine.Random.Range(0, 2) <= 0.5f ? true : false;
 
             if (isLeftHand) {
                 animator.SetTrigger(LeftHandTriger);
@@ -43,6 +46,8 @@ public class HandAnimation : MonoBehaviour{
             else {
                 animator.SetTrigger(RightHandTriger);
             }
+
+            OnTapSoundPlay?.Invoke(this, EventArgs.Empty);
         }
     }
 

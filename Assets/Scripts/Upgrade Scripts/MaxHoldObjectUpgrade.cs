@@ -47,6 +47,8 @@ public class MaxHoldObjectUpgrade : MonoBehaviour{
             PlayerPrefs.Save();
 
             OnMaxHoldUpgrade?.Invoke(this, new OnMaxHoldUpgradeEventArgs { HoldObjects = MaxHoldObjects, cost = Cost });
+
+            SoundManager.Instance.PlayUpgradeSound();
         }
     }
 

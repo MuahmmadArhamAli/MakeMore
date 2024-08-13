@@ -11,6 +11,7 @@ public class AudioSettingsUI : MonoBehaviour {
 
     [SerializeField] private Slider MusicSlider;
     [SerializeField] private Slider SFXSlider;
+    [SerializeField] private Button ResetButton;
 
     [SerializeField] private TextMeshProUGUI MusicPercent;
     [SerializeField] private TextMeshProUGUI SFXPercent;
@@ -30,6 +31,15 @@ public class AudioSettingsUI : MonoBehaviour {
         SFXSlider.onValueChanged.AddListener(newValue => {
             SFXPercent.text = (Mathf.FloorToInt(newValue * 100f)).ToString() + "%";
             OnSFXValueChanged?.Invoke(this, new OnSoundValueChangedEventArgs { value = newValue });
+        });
+        ResetButton.onClick.AddListener(() => {
+            MusicPercent.text = "100%";
+            OnMusicValueChanged?.Invoke(this, new OnSoundValueChangedEventArgs { value = 1f });
+            SFXPercent.text = "100%";
+            OnSFXValueChanged?.Invoke(this, new OnSoundValueChangedEventArgs { value = 1f });
+
+            MusicSlider.value = 1;
+            SFXSlider.value = 1;
         });
     }
 

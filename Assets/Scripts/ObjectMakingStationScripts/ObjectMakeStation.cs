@@ -21,10 +21,10 @@ public class ObjectMakeStation : MonoBehaviour,IHasProgress{
     public class OnStateChagedEventArgs : EventArgs { public WorkingStates state; }
     public event EventHandler<OnStateChagedEventArgs> OnStateChanged;
 
-    //static event for sending TradeStation to increase Total Numbers
+    //static event for sending TradeStation to increase Total Numbers and for sound manager
     public static event EventHandler OnAnyObjectMade;
-
     public static event EventHandler OnAnyUpgrade;
+    public static event EventHandler OnAnyLimitReached;
 
     //strings for isSlowed and isSleeping
     private const string isSlowedString = "isSlowed";
@@ -139,6 +139,9 @@ public class ObjectMakeStation : MonoBehaviour,IHasProgress{
         }
         else if (isSlowed) {
             OnStateChanged?.Invoke(this, new OnStateChagedEventArgs { state = WorkingStates.Slowed});
+        }
+        else if(ObjectHoldCurrently >= MaxObjectHold){
+            OnStateChanged?.Invoke(this, new OnStateChagedEventArgs { state = WorkingStates.Waiting });
         }
         else {
             OnStateChanged?.Invoke(this, new OnStateChagedEventArgs { state = WorkingStates.Working });

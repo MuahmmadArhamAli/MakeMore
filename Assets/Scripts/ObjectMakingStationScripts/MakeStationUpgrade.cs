@@ -35,6 +35,8 @@ public class MakeStationUpgrade : MonoBehaviour{
                 UpdateVisual();
 
                 OnUpgraded?.Invoke(this, new OnUpgradedEventArgs { cost = UpgradeCost });
+
+                SoundManager.Instance.PlayUpgradeSound();
             }
         });
     }

@@ -58,6 +58,8 @@ public class UpgradeWithCashUI : MonoBehaviour{
             OnCashMultiplierIncrease?.Invoke(this, new OnMultiplierIncreaseEventArgs { Multiplier = CashMultiplier });
 
             CashMoney.Instance.DecreaseMoney(UpgradePrice);
+
+            SoundManager.Instance.PlayUpgradeSound();
         });
         UpgradeClickMultiplierButton.onClick.AddListener(() => {
             ClickMultiplier += 0.1f;
@@ -70,6 +72,8 @@ public class UpgradeWithCashUI : MonoBehaviour{
             OnClickMultiplierIncrease?.Invoke(this, new OnMultiplierIncreaseEventArgs { Multiplier = ClickMultiplier});
             
             CashMoney.Instance.DecreaseMoney(UpgradePrice);
+
+            SoundManager.Instance.PlayUpgradeSound();
         });
         UpgradeMakeTime.onClick.AddListener(() => {
             TimeMultiplier += 0.1f;
@@ -82,6 +86,8 @@ public class UpgradeWithCashUI : MonoBehaviour{
             OnMakeTimeIncrease?.Invoke(this, new OnMultiplierIncreaseEventArgs { Multiplier = TimeMultiplier });
 
             CashMoney.Instance.DecreaseMoney(UpgradePrice);
+
+            SoundManager.Instance.PlayUpgradeSound();
         });
     }
 

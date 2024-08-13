@@ -88,7 +88,7 @@ public class AddNewStation : MonoBehaviour{
 
                     HideCanvas();
 
-
+                    SoundManager.Instance.PlayUpgradeSound();
                 }
             }
         });
