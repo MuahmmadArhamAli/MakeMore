@@ -91,12 +91,15 @@ public class ObjectMakeStation : MonoBehaviour,IHasProgress{
     private bool isSlowed;
     private bool isSleeping;
 
+    private bool isWaitEventSent;
+
     private void Awake() {
         isSlowed = PlayerPrefs.GetInt(isSlowedString,0) == 1;
         isSleeping = PlayerPrefs.GetInt(isSleepingString,0) == 1;
     }
 
     private void Start() {
+        isWaitEventSent = false;
 
         fillImage.color = Color.green;
 
@@ -215,7 +218,10 @@ public class ObjectMakeStation : MonoBehaviour,IHasProgress{
         isSlowed = false;
         isSleeping = false;
 
-        OnStateChanged?.Invoke(this, new OnStateChagedEventArgs { state = WorkingStates.Working });
+        if (ObjectHoldCurrently < MaxObjectHold) {
+            isWaitEventSent = false;
+            OnStateChanged?.Invoke(this, new OnStateChagedEventArgs { state = WorkingStates.Working });
+        }
 
         PlayerPrefs.SetInt(isSlowedString,0);
         PlayerPrefs.SetInt(isSleepingString,0);
@@ -244,7 +250,6 @@ public class ObjectMakeStation : MonoBehaviour,IHasProgress{
 
         if (!isSleeping && ObjectHoldCurrently < MaxObjectHold) {
             //if it can hold more objects and is not sleeping
-
 
             fillImage.color = Color.green;
 
@@ -283,7 +288,11 @@ public class ObjectMakeStation : MonoBehaviour,IHasProgress{
             fillImage.color = Color.red;
 
             OnStateChanged?.Invoke(this, new OnStateChagedEventArgs { state = WorkingStates.Waiting });
-            OnAnyLimitReached?.Invoke(this, EventArgs.Empty);
+
+            if (!isWaitEventSent) {
+                isWaitEventSent = true;
+                OnAnyLimitReached?.Invoke(this, EventArgs.Empty);
+            }
         }
         else if (isSleeping && ObjectHoldCurrently < MaxObjectHold) {
             fillImage.fillAmount = 0f;

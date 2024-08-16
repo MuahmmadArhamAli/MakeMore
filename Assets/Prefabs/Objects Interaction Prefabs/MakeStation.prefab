@@ -1494,6 +1494,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2420570184073578512}
   - component: {fileID: 1619840843988827877}
+  - component: {fileID: 6415487422873188288}
   m_Layer: 0
   m_Name: MakeStation
   m_TagString: Untagged
@@ -1536,6 +1537,19 @@ MonoBehaviour:
   ObjectsHoldText: {fileID: 857469572595527043}
   fillImage: {fileID: 6788558758687206609}
   makeStationUpgrade: {fileID: 7121300357916940666}
+--- !u!114 &6415487422873188288
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7048162052164895113}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3be0880860b07f2418cb17002cd353bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectMakeStation: {fileID: 1619840843988827877}
 --- !u!1 &7184580322957178756
 GameObject:
   m_ObjectHideFlags: 0

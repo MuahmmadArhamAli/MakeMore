@@ -6,8 +6,6 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class MakeStationUpgrade : MonoBehaviour{
-    //reference of IMoney to get what type of money required for this
-    private IMoney MoneyInterface;
 
     [SerializeField] private Button UpgradeButton;
     [SerializeField] private TextMeshProUGUI UpgradeCostText;
@@ -26,8 +24,13 @@ public class MakeStationUpgrade : MonoBehaviour{
 
     private void OnEnable() {
         UpgradeButton.onClick.AddListener(() => {
-            if (MoneyInterface.GetMoney() >= UpgradeCost) {
-                MoneyInterface.DecreaseMoney(UpgradeCost);
+            Debug.Log(UpgradeCost);
+
+            if (NormalMoney.Instance.GetMoney() >= UpgradeCost) {
+                Debug.Log("Click");
+
+
+                NormalMoney.Instance.DecreaseMoney(UpgradeCost);
 
                 UpgradeCost += (CostMultiplier * UpgradeCost);
                 Mathf.CeilToInt(UpgradeCost);
@@ -42,9 +45,6 @@ public class MakeStationUpgrade : MonoBehaviour{
     }
 
     private void Start() {
-
-        MoneyInterface = NormalMoney.Instance;
-
         UpgradeCost = 100f;
         CostMultiplier = 1.5f;
 
@@ -96,6 +96,8 @@ public class MakeStationUpgrade : MonoBehaviour{
         UpgradeCost = cost;
 
         Mathf.CeilToInt(UpgradeCost);
+
+        UpdateVisual();
     }
 
 }
